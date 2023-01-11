@@ -27,9 +27,20 @@ export interface StatusObject {
     title?: string;
     children: React.ReactNode;
 }
+export interface SnackbarObject {
+    uniqueId: string;
+    open: boolean;
+    source: string;
+    actions: any;
+    message: string;
+    code: string;
+    autoHideDuration: number;
+    severity: 'success' | 'info' | 'warning' | 'error';
+}
 export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
+    justifyContent: string;
     position: any;
     expand: any;
     upperBar: boolean;
@@ -38,6 +49,8 @@ export interface SettingsObject {
     isConsoleOpen?: boolean;
     isConsoleFixed?: boolean;
     consoleActiveId?: string;
+    width: string;
+    hasBorder: boolean;
 }
 export declare enum StatusType {
     SIMPLE = "simple",
