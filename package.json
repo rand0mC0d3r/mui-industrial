@@ -1,5 +1,5 @@
 {
-  "name": "mui-status",
+  "name": "mui-industrial",
   "version": "0.0.53",
   "exDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -65,7 +65,7 @@
     "clean": "rm -rf node_modules && npm cache clean --force",
     "list": "npm list | grep '\\.\\/\\.\\.'"
   },
-  "description": "<MuiStatus> / <MuiIndustrial> VSCode like status auto-managed component system with MUI5 interface",
+  "description": "<MuiIndustrial> VSCode like toolchain auto-managed component system with MUI5 interface",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
@@ -82,7 +82,7 @@
     "self managed status",
     "status-bar",
     "status manager",
-    "mui-status"
+    "mui-industrial"
   ],
   "engines": {
     "node": ">=14.0.0",
@@ -90,12 +90,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rand0mC0d3r/mui-status.git"
+    "url": "git+https://github.com/rand0mC0d3r/mui-industrial.git"
   },
   "bugs": {
-    "url": "https://github.com/rand0mC0d3r/mui-status/issues"
+    "url": "https://github.com/rand0mC0d3r/mui-industrial/issues"
   },
-  "homepage": "https://github.com/rand0mC0d3r/mui-status/blob/master/README.md",
+  "homepage": "https://github.com/rand0mC0d3r/mui-industrial/blob/master/README.md",
   "browserslist": {
     "production": [
       ">0.2%",
