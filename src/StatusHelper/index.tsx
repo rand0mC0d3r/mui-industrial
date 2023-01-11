@@ -92,7 +92,7 @@ export default function ({
     {icon && <SIcon {...{ id: 'sh.icon', reverse: reverseIcon.toString() }}>{icon}</SIcon>}
     {children && <>{childrenIndex ? <SChildren {...{ index: childrenIndex }}>{children}</SChildren> : children}</>}
     {image && <SImg {...{ id: 'sh.image', alt: '', mask: mask.toString(), src: image }} />}
-    {notifications && <SNotifications {...{ id: 'sh.notifications' }}>{notifications}</SNotifications>}
+    {!!notifications && <SNotifications {...{ id: 'sh.notifications' }}>{String(notifications)}</SNotifications>}
     {text && <SText {...{ id: 'sh.text', variant: 'caption' }}>{text}</SText>}
   </SStack>
 }

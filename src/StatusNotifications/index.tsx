@@ -1,7 +1,5 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined'
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -81,7 +79,7 @@ export default function ({
       tooltip: 'Notifications',
       hasArrow: open,
       highlight: open ? 'primary' : 'default',
-      secondary: true,
+      secondary: false,
       onClick: handleOnClick,
     }}
     >
@@ -96,9 +94,6 @@ export default function ({
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation: 0 }}>
-          <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
-            <ArrowDropUpOutlinedIcon color="primary" />
-          </div>
           {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
             <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))}
           <InternalHeader {...{ id }} />

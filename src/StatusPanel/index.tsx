@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
@@ -10,7 +9,7 @@ import Status from '../Status'
 import DataProvider from '../Store'
 
 const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
-  zIndex: '99991',
+  zIndex: '101',
   marginTop: `${(toggled === 'true' ? 1 : -1) * 4}px !important`,
 }))
 
@@ -123,9 +122,6 @@ export default function ({
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
         <StyledContainer {...{ elevation }}>
-          {/* <div style={{ position: 'absolute', top: '-17px', left: '0px', right: '0px', display: 'flex', justifyContent: 'center' }}>
-            <ArrowDropUpOutlinedIcon color="primary" />
-          </div> */}
           {popover}
           <InternalHeader {...{ id, keepOpen, setKeepOpen, popoverActions, popoverTitle }} />
         </StyledContainer>

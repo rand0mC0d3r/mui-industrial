@@ -55,10 +55,10 @@ const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ po
   top: position === 'top' ? '-10px' : 'unset',
 }))
 
-const SArrowUp = styled(ArrowDropUpOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
+const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
   position: 'absolute',
-  bottom: position !== 'top' ? '-10px' : 'unset',
-  top: position === 'top' ? '-10px' : 'unset',
+  bottom: 'unset',
+  top: '-14px',
 }))
 
 const SDiv = styled('div')<{
@@ -232,7 +232,7 @@ export default function ({
       >
         {hasArrow && <>
           {position === PlacementPosition.Bottom
-            ? <SArrowUp position={position.toString()} color="primary" />
+            ? <SArrowUp color="primary" />
             : <SArrowDown position={position.toString()} color="primary" />}
         </>}
         {tooltip
