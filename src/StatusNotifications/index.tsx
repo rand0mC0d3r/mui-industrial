@@ -1,41 +1,23 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined'
-import { alpha, ClickAwayListener, Popper } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
 import { SnackbarObject, StatusObject } from '../index.types'
 import InternalAlert from '../internal/InternalAlert'
-import InternalHeader from '../internal/InternalHeader'
-import Status from '../Status'
 import StatusHelper from '../StatusHelper'
+import StatusPanel from '../StatusPanel'
 import DataProvider from '../Store'
-
-const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
-  zIndex: '99991',
-  marginTop: `${(toggled === 'true' ? 1 : -1) * 4}px !important`,
-}))
-
-const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation } : {theme: any, elevation: number}) => ({
-  display: 'flex',
-  width: '650px',
-  gap: '8px',
-  alignItems: 'stretch',
-  position: 'relative',
-  flexDirection: 'column',
-  backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
-  backdropFilter: 'blur(8px)',
-  borderRadius: `${theme.shape.borderRadius}px`,
-  margin: `${theme.spacing(0.5)} 0px`,
-  padding: theme.spacing(0.5),
-  border: `3px solid ${theme.palette.primary.main}`,
-  boxShadow: theme.shadows[elevation]
-}))
 
 export default function ({
   id = 'notificationsPanel',
+  variant = 'default',
 } : {
   id?: string,
+	variant?: string,
 }) {
   const {
     status,
@@ -46,26 +28,6 @@ export default function ({
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [isToggled, setIsToggled] = useState(false)
-  const open = Boolean(anchorEl)
-
-  const handleOnClick = (e: any) => {
-    if (anchorEl) {
-      setAnchorEl(null)
-    } else {
-      setAnchorEl(e.currentTarget)
-    }
-
-    setIsToggled(e.pageY < screen.height / 2)
-  }
-
-  const handleOnClose = () => {
-    // if (!settings.hasLock) {
-    //   setAnchorEl(null)
-    // }
-  }
-
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
     if (statusObject === null && foundObject) {
@@ -74,31 +36,24 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
-    <Status {...{
-      id,
-      tooltip: 'Notifications',
-      hasArrow: open,
-      highlight: open ? 'primary' : 'default',
-      secondary: false,
-      onClick: handleOnClick,
-    }}
+    <StatusPanel
+      variant={variant || 'default'}
+      hasDecoration={false}
+      id={id}
+      popoverActions={<>
+        <DeleteSweepOutlinedIcon />
+        <DeleteForeverOutlinedIcon />
+        <LockOpenOutlinedIcon />
+        <LockOutlinedIcon />
+      </>}
+      popoverTitle="Notifications"
+      tooltip="Notifications"
+      popover={<div style={{ width: '500px', height: '650px', overflow: 'scroll' }}>
+        {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
+          <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))}
+      </div>}
     >
       <StatusHelper text="Notifications" icon={<NotificationsOutlinedIcon />} notifications={snackbar.length} />
-    </Status>
-    <StyledPopper {...{
-      open,
-      anchorEl,
-      id: `mui-status-panel-popover-${id}`,
-      toggled: isToggled.toString(),
-    }}
-    >
-      <ClickAwayListener onClickAway={() => handleOnClose()}>
-        <StyledContainer {...{ elevation: 0 }}>
-          {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
-            <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))}
-          <InternalHeader {...{ id }} />
-        </StyledContainer>
-      </ClickAwayListener>
-    </StyledPopper>
+    </StatusPanel>
   </>
 }

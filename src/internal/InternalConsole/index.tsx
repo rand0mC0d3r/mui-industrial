@@ -32,7 +32,7 @@ const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => (
   left: '0px',
   alignItems: 'center',
   right: '0px',
-  zIndex: 999,
+  zIndex: 99,
 
   '& > div > div:nth-child(2) > div:not(:first-child)': {
     display: 'none',

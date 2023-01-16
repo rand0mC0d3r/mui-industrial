@@ -1,9 +1,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { Tooltip, Typography } from '@mui/material'
+import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
 import { SettingsObject, StatusObject } from '../../index.types'
@@ -33,39 +32,39 @@ export default function ({
   id,
   popoverTitle,
   popoverActions,
-  keepOpen,
-  setKeepOpen
 } : {
   id: string,
   popoverTitle?: string,
   popoverActions?: any,
-  keepOpen?: boolean,
-  setKeepOpen?: any
 }) {
   const {
     status,
     settings,
+    handleStatusKeepOpenToggle,
   } : {
     status: StatusObject[],
     settings: SettingsObject,
+		handleStatusKeepOpenToggle: any,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
-    if (statusObject === null && foundObject) {
+    if (foundObject) {
       setStatusObject(foundObject)
     }
-  }, [status, id, statusObject])
+  }, [status, id])
 
   return <StyledActionsWrapper>
-    <StyledTypography variant="caption" color="textSecondary">{popoverTitle}</StyledTypography>
+    <StyledTypography variant="subtitle2" color="textSecondary">{popoverTitle}</StyledTypography>
     <StyledActions>
       {popoverActions}
       {settings.hasLock && <Tooltip title="Toggle keep-open">
-        {keepOpen
-          ? <LockOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} color="primary" style={{ fontSize: 14 }} />
-          : <LockOpenOutlinedIcon onClick={() => setKeepOpen(!keepOpen)} style={{ fontSize: 14 }} />}
+        <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
+          {statusObject?.keepOpen
+            ? <LockOutlinedIcon color="primary" />
+            : <LockOpenOutlinedIcon />}
+        </IconButton>
       </Tooltip>}
     </StyledActions>
   </StyledActionsWrapper>

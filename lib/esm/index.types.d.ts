@@ -22,6 +22,7 @@ export interface StatusObject {
     type: StatusTypes;
     secondary: boolean;
     index: number;
+    keepOpen: boolean;
     uniqueId: string;
     ownId: string;
     title?: string;

@@ -8,12 +8,22 @@ import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'
 import DataProvider from '../Store'
 
-const StyledPopper = styled(Popper)<{ toggled: string}>(({ toggled }) => ({
+const StyledPopper = styled(Popper)<{ toggled: string }>(({ toggled }) => ({
   zIndex: '101',
   marginTop: `${(toggled === 'true' ? 1 : -1) * 4}px !important`,
 }))
 
-const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation } : {theme: any, elevation: number}) => ({
+const StyledContainer = styled('div')<{elevation: number, variant: string, decoration: string }>(({
+  theme,
+  elevation,
+  variant,
+  decoration
+} : {
+	theme: any,
+	elevation: number,
+	variant: string,
+	decoration: string
+}) => ({
   display: 'flex',
   alignItems: 'stretch',
   position: 'relative',
@@ -21,9 +31,9 @@ const StyledContainer = styled('div')<{elevation: number}>(({ theme, elevation }
   backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
-  margin: `${theme.spacing(2)} 0px`,
-  padding: theme.spacing(0.5),
-  border: `3px solid ${theme.palette.primary.main}`,
+  margin: decoration === 'true' ? `${theme.spacing(2)} 0px` : `${theme.spacing(0.5)} 0px`,
+  padding: decoration === 'true' ? theme.spacing(0.5) : 0,
+  border: variant === 'default' ? 'none' : `3px solid ${theme.palette[variant].main}`,
   boxShadow: theme.shadows[elevation]
 }))
 
@@ -40,6 +50,11 @@ export default function ({
   popover,
   popoverTitle,
   popoverActions,
+  hasToolbar = true,
+  hasDecoration = true,
+  variant = 'default',
+  endSeparator = false,
+  startSeparator = false,
 } : {
   id: string,
   secondary?: boolean,
@@ -52,7 +67,12 @@ export default function ({
   children?: ReactNode,
   popover?: any,
   popoverTitle?: string,
-  popoverActions?: any
+  popoverActions?: any,
+	hasToolbar?: boolean,
+	hasDecoration?: boolean,
+	variant?: 'default' | 'primary' | 'secondary',
+	endSeparator?: boolean,
+  startSeparator?: boolean,
 }) {
   const {
     status,
@@ -63,16 +83,16 @@ export default function ({
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
-  const [keepOpen, setKeepOpen] = useState(false)
+  // const [keepOpen, setKeepOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [isToggled, setIsToggled] = useState(false)
   const open = Boolean(anchorEl)
 
   const handleOnClick = (e: any) => {
-    if (onClick && !keepOpen) {
+    if (onClick && !statusObject?.keepOpen) {
       onClick()
     }
-    if (anchorEl && !keepOpen) {
+    if (anchorEl && !statusObject?.keepOpen) {
       setAnchorEl(null)
     } else {
       setAnchorEl(e.currentTarget)
@@ -82,36 +102,38 @@ export default function ({
   }
 
   const handleOnClose = () => {
-    if (onClose && !keepOpen) {
+    if (onClose && !statusObject?.keepOpen) {
       onClose()
     }
-    if (!keepOpen || !settings.hasLock) {
+    if (!statusObject?.keepOpen || !settings.hasLock) {
       setAnchorEl(null)
     }
   }
 
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
-    if (statusObject === null && foundObject) {
+    if (foundObject) {
       setStatusObject(foundObject)
     }
-  }, [status, id, statusObject])
+  }, [status, id])
 
   return <>
     <Status {...{
       id,
       tooltip,
-      hasArrow: open,
-      highlight: (keepOpen || open) ? 'primary' : highlight,
+      endSeparator,
+      startSeparator,
+      hasArrow: open && hasDecoration,
+      highlight: (statusObject?.keepOpen || open) ? 'primary' : highlight,
       secondary,
       onClick: handleOnClick,
-      style: { ...style, cursor: 'context-menu', minWidth: '24px' }
+      style: { ...style, cursor: 'context-menu', minWidth: '24px' },
     }}
     >
       {children}
     </Status>
     <StyledPopper {...{
-      keepMounted: keepOpen,
+      keepMounted: statusObject?.keepOpen,
       open,
       anchorEl,
       onClose,
@@ -121,9 +143,9 @@ export default function ({
     }}
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
-        <StyledContainer {...{ elevation }}>
+        <StyledContainer {...{ elevation, variant: variant.toString(), decoration: hasDecoration.toString() }}>
           {popover}
-          <InternalHeader {...{ id, keepOpen, setKeepOpen, popoverActions, popoverTitle }} />
+          {hasToolbar && <InternalHeader {...{ id, popoverActions, popoverTitle }} />}
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>

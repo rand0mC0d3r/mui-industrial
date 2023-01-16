@@ -1,4 +1,5 @@
 /// <reference types="react" />
-export default function ({ id, }: {
+export default function ({ id, variant, }: {
     id?: string;
+    variant?: string;
 }): JSX.Element;

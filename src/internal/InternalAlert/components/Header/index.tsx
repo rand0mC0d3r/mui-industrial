@@ -5,6 +5,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import CloseIcon from '@mui/icons-material/Close'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import SubtitlesOutlinedIcon from '@mui/icons-material/SubtitlesOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
@@ -22,36 +23,46 @@ const SHeader = styled('div')<{ expanded: string }>(({ expanded }) => ({
 const SActionButtons = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
+  gap: '8px',
+  alignItems: 'center',
 }))
 
-const STitle = styled(Typography)(() => ({
+const STitle = styled(Typography)<{ actions: any}>(({ actions } : {actions: any}) => ({
   userSelect: 'none',
   textTransform: 'capitalize',
   fontWeight: 'bold',
+  cursor: actions ? 'initial' : 'cursor',
 }))
 
 const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
+  width: '375px',
   whiteSpace: ellipsis === 'true' ? 'nowrap' : 'normal',
   overflow: ellipsis === 'true' ? 'hidden' : 'unset',
   textOverflow: ellipsis === 'true' ? 'ellipsis' : 'unset',
   lineHeight: ellipsis === 'true' ? 'initial' : '1.65',
+  cursor: 'pointer',
 }))
 
 export default function ({
+  code,
   uniqueId,
   actions,
   severity,
   message,
   isRemoveFlag = false,
+  isExpanded,
+  setIsExpanded,
 }: {
+	code?: string,
   uniqueId: string,
   actions?: any,
   severity: any,
   message: string,
   isRemoveFlag?: boolean,
+	isExpanded: boolean,
+	setIsExpanded: any,
 }) {
   const { handleSnackbarDestroy } = useContext(DataProvider)
-  const [isExpanded, setIsExpanded] = useState(false)
 
   const toggleExpanded = () => {
     if (actions?.length > 0) return
@@ -74,13 +85,16 @@ export default function ({
 
   return <SHeader expanded={isExpanded.toString()}>
     {(isExpanded)
-      ? <STitle onDoubleClick={toggleExpanded} variant="subtitle1" color="inherit">{severity}</STitle>
+      ? <STitle actions={actions} onDoubleClick={toggleExpanded} variant="subtitle1" color="inherit">{severity}</STitle>
       : <>
         {!actions
           ? <>{getMessage(true)}</>
-          : <STitle onDoubleClick={toggleExpanded} variant="subtitle1" color="inherit">{severity}</STitle>}
+          : <STitle actions={actions} onDoubleClick={toggleExpanded} variant="subtitle1" color="inherit">{severity}</STitle>}
       </>}
     <SActionButtons>
+      {!isExpanded && code && <Tooltip arrow title="It contains additional console details">
+        <SubtitlesOutlinedIcon color="disabled" />
+      </Tooltip>}
       {!actions && <Tooltip arrow title="Expand/Collapse alert">
         <IconButton color="inherit" size="small" onClick={toggleExpanded}>
           {!isExpanded

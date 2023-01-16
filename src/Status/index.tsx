@@ -236,7 +236,7 @@ export default function ({
             : <SArrowDown position={position.toString()} color="primary" />}
         </>}
         {tooltip
-          ? <Tooltip title={tooltip} arrow><SSpan>{children}</SSpan></Tooltip>
+          ? <Tooltip title={<div style={{ fontSize: '14px', maxHeight: '300px', overflow: 'scroll' }}>{tooltip}</div>} arrow><SSpan>{children}</SSpan></Tooltip>
           : <SSpan>{children}</SSpan>}
       </SDiv>,
       elementFound

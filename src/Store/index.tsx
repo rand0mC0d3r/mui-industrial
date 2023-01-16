@@ -24,7 +24,6 @@ const initialSettings = {
   allowRightClick: true,
   debug: false,
   hasLock: true,
-  width: '100%',
   hasBorder: true,
   isConsoleFixed: false,
   isConsoleOpen: false,
@@ -52,6 +51,7 @@ interface DataContextInterface {
   handleStatusTypeUpdate: any;
   handleStatusConsoleTypeUpdate: any;
   handleStatusVisibilityToggle: any;
+  handleStatusKeepOpenToggle: any;
   triggerStatusBarAnnounced: any;
   logDebug: any,
 }
@@ -64,20 +64,21 @@ function StatusProvider({
   position = PlacementPosition.Top,
   allowRightClick,
   hasBorder = true,
-  width = '100%',
   justifyContent = 'space-between',
   debug,
   children,
+  style,
+  ...rest
 } : {
   expand?: boolean,
   hasLock?: boolean,
   position?: 'top' | 'bottom',
   allowRightClick?: boolean,
   hasBorder?: boolean,
-  width?: string,
   justifyContent?: string,
   debug?: boolean,
   children?: React.ReactNode,
+	style: any,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
   const [snackbar, setSnackbar] = useState<SnackbarObject[]>([])
@@ -105,6 +106,7 @@ function StatusProvider({
           index: status.length,
           uniqueId: id,
           ownId,
+          keepOpen: false,
           visible: true,
           secondary,
           children
@@ -171,6 +173,10 @@ function StatusProvider({
     setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
   }
 
+  const handleStatusKeepOpenToggle = ({ id }: { id: string }) => {
+    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, keepOpen: !lo.keepOpen } : lo)))
+  }
+
   const handleSnackbarDestroy = ({ uniqueId }: { uniqueId: string }) => {
     setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)])
   }
@@ -233,13 +239,12 @@ function StatusProvider({
       expand: expand || initialSettings.expand,
       position,
       justifyContent,
-      width: width || initialSettings.width,
       hasBorder,
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
     }))
-  }, [allowRightClick, hasBorder, justifyContent, width, expand, position, debug, hasLock])
+  }, [allowRightClick, hasBorder, justifyContent, expand, position, debug, hasLock])
 
   // useEffect(() => {
   //   if (settings.debug) {
@@ -283,6 +288,7 @@ function StatusProvider({
       // status state + crud
       status,
       handleStatusVisibilityToggle,
+      handleStatusKeepOpenToggle,
       handleStatusTypeUpdate,
       handleStatusConsoleTypeUpdate,
       handleStatusUpdate,
@@ -293,7 +299,7 @@ function StatusProvider({
       logDebug,
     }}
   >
-    <Wrapper {...{ children }} />
+    <Wrapper {...{ children, style }} />
   </DataContext.Provider>
 }
 

@@ -7,7 +7,7 @@ import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { Alert, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useEffect, useState } from 'react'
+import { cloneElement, DetailedReactHTMLElement, useEffect, useState } from 'react'
 import Footer from './components/Footer'
 import Header from './components/Header'
 
@@ -25,6 +25,13 @@ const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
   borderRadius: '4px',
   color: 'inherit',
 
+  '&::selection': {
+    backgroundColor: `${theme.palette.divider}`,
+    textDecoration: 'underline',
+    textDecorationStyle: 'dotted',
+    textDecorationColor: `${theme.palette.divider}`,
+  },
+
   '&:focus-visible': {
     outline: '0px',
   },
@@ -35,6 +42,14 @@ const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
   overflow: ellipsis === 'true' ? 'hidden' : 'unset',
   textOverflow: ellipsis === 'true' ? 'ellipsis' : 'unset',
   lineHeight: ellipsis === 'true' ? 'initial' : '1.65',
+}))
+
+const SWrapper = styled('div')(() => ({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  justifyContent: 'center',
 }))
 
 const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded, actions }) => ({
@@ -76,31 +91,39 @@ export default function ({
     {message}
   </SMessage>
 
+  const getIcon = (icon: any) => <Tooltip placement="left" arrow title={`${severity.toUpperCase()}${source ? ` - Source: ${source}` : ''}`}>
+    {cloneElement(icon, { style: { fontSize: 'inherit' } })}
+  </Tooltip>
+
   return <SAlert
     expanded={isExpanded.toString()}
     actions={(actions?.length > 0).toString()}
     key={uniqueId}
-    icon={<Tooltip arrow title={severity}>
+    onDoubleClick={() => !actions && setIsExpanded(!isExpanded)}
+    icon={
       <span style={{ lineHeight: '0px' }}>
-        {severity === 'info' && <PriorityHighOutlinedIcon fontSize="inherit" />}
-        {severity === 'success' && <CheckIcon fontSize="inherit" />}
-        {severity === 'warning' && <WarningAmberIcon fontSize="inherit" />}
-        {severity === 'error' && <ErrorOutlineOutlinedIcon fontSize="inherit" />}
+        {severity === 'info' && getIcon(<PriorityHighOutlinedIcon />)}
+        {severity === 'success' && getIcon(<CheckIcon />)}
+        {severity === 'warning' && getIcon(<WarningAmberIcon />)}
+        {severity === 'error' && getIcon(<ErrorOutlineOutlinedIcon />)}
       </span>
-    </Tooltip>}
+}
     {...{ severity }}
   >
-    <Header {...{ uniqueId, actions, severity, message, isRemoveFlag }} />
+    <SWrapper>
+      <Header {...{ uniqueId, code, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded }} />
 
-    {(isExpanded || actions) && getMessage()}
+      {(isExpanded || actions) && getMessage()}
 
-    {isExpanded && code && <SCode
-      defaultValue={code}
-      height={Math.min(10, code.split('\n').length)}
-    />}
+      {isExpanded && code && <SCode
+        defaultValue={code}
+        spellCheck="false"
+        height={Math.min(10, code.split('\n').length)}
+      />}
 
-    {(isExpanded || actions) && <>
-      {(source || actions) && <Footer {...{ actions, severity, source }} />}
-    </>}
+      {(isExpanded || actions) && <>
+        {(source || actions) && <Footer {...{ actions, severity, source }} />}
+      </>}
+    </SWrapper>
   </SAlert>
 }

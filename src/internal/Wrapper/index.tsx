@@ -3,7 +3,7 @@ import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlin
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import { Popover, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { MouseEvent, ReactNode, useContext, useState } from 'react'
+import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'react'
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
 import DataProvider from '../../Store'
 import InternalConsole from '../InternalConsole'
@@ -82,13 +82,21 @@ const SStatusWrapper = styled('div')<{
    backgroundColor: theme.palette.mode === 'light'
      ? theme.palette.background.default
      : theme.palette.background.paper,
-   boxShadow: hasBorder === 'true' ? `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}` : 'none',
+   boxShadow: hasBorder === 'true'
+     ? [
+       `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
+       `inset -3px 0px 0px -2px ${theme.palette.divider}`,
+       `inset 3px 0px 0px -2px ${theme.palette.divider}`
+     ].join(',')
+     : 'none',
  }))
 
 export default function ({
-  children
+  children,
+  style,
 } : {
-  children: ReactNode
+  children: ReactNode,
+	style?: CSSProperties
 }) {
   const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
   const { position, upperBar, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
@@ -119,7 +127,7 @@ export default function ({
         {children}
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
-      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ justifyContent, width, hasBorder: hasBorder.toString(), position, onContextMenu }}>
+      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ justifyContent, width, hasBorder: hasBorder.toString(), position, onContextMenu, style }}>
         <InternalStatus />
       </SStatusWrapper>}
       <SNotifications {...{ column: position }}>
