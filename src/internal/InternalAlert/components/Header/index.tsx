@@ -9,7 +9,9 @@ import SubtitlesOutlinedIcon from '@mui/icons-material/SubtitlesOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
-import DataProvider from '../../../../Store'
+import DataProvider, { composeDomId } from '../../../../Store'
+
+const componentId = 'snackBar'
 
 const SHeader = styled('div')<{ expanded: string }>(({ expanded }) => ({
   display: 'flex',
@@ -27,6 +29,10 @@ const SActionButtons = styled('div')(() => ({
   alignItems: 'center',
 }))
 
+const SCustomAction = styled('div')(() => ({
+  lineHeight: '0px',
+}))
+
 const STitle = styled(Typography)<{ actions: any}>(({ actions } : {actions: any}) => ({
   userSelect: 'none',
   textTransform: 'capitalize',
@@ -35,7 +41,7 @@ const STitle = styled(Typography)<{ actions: any}>(({ actions } : {actions: any}
 }))
 
 const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
-  width: '375px',
+  width: '300px',
   whiteSpace: ellipsis === 'true' ? 'nowrap' : 'normal',
   overflow: ellipsis === 'true' ? 'hidden' : 'unset',
   textOverflow: ellipsis === 'true' ? 'ellipsis' : 'unset',
@@ -95,6 +101,7 @@ export default function ({
       {!isExpanded && code && <Tooltip arrow title="It contains additional console details">
         <SubtitlesOutlinedIcon color="disabled" />
       </Tooltip>}
+      <SCustomAction id={composeDomId(componentId, [uniqueId, 'customAction'])} />
       {!actions && <Tooltip arrow title="Expand/Collapse alert">
         <IconButton color="inherit" size="small" onClick={toggleExpanded}>
           {!isExpanded

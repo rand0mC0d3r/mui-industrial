@@ -9,7 +9,7 @@ import { SettingsObject, StatusObject } from '../../index.types'
 import DataProvider from '../../Store'
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
-  padding: '8px',
+  padding: '4px 8px',
   display: 'flex',
   justifyContent: 'space-between',
   borderTop: `1px solid ${theme.palette.divider}`,
@@ -62,7 +62,7 @@ export default function ({
       {settings.hasLock && <Tooltip title="Toggle keep-open">
         <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
           {statusObject?.keepOpen
-            ? <LockOutlinedIcon color="primary" />
+            ? <LockOutlinedIcon />
             : <LockOpenOutlinedIcon />}
         </IconButton>
       </Tooltip>}

@@ -25,7 +25,8 @@ const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => (
   display: 'flex',
   flexDirection: 'column',
   position: 'absolute',
-  borderTop: `1px solid ${theme.palette.divider}`,
+  borderTop: bottom === 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
+  borderBottom: bottom !== 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
   backgroundColor: theme.palette.background.default,
   bottom: bottom === 'true' ? '0px' : 'unset',
   top: bottom !== 'true' ? '0px' : 'unset',
@@ -34,9 +35,24 @@ const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => (
   right: '0px',
   zIndex: 99,
 
-  '& > div > div:nth-child(2) > div:not(:first-child)': {
+  // (bottom === 'true'
+  // 	? '& > div > div:nth-child(2) > div:not(:first-child)'
+  // 	: '& > div > div:nth-child(2) > div:not(:nth-child(3))'): {
+  // 	display: 'none',
+  // }
+  '& > div > div:nth-child(2) > div': {
     display: 'none',
-  }
+  },
+  '& > div > div:nth-child(2) > div:nth-child(1)': {
+    display: bottom === 'true' ? 'block' : 'none',
+  },
+  '& > div > div:nth-child(2) > div:nth-child(3)': {
+    display: bottom === 'true' ? 'none' : 'block',
+  },
+
+  // '& > div > div:nth-child(2) > div:not(nth-child(3))': {
+  //   display: bottom === 'true' ? 'block' : 'none',
+  // }
 }))
 
 const StyledEmptyWrapper = styled('div')(() => ({
@@ -61,6 +77,7 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
 const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
   padding: '4px 12px',
   cursor: 'pointer',
+  userSelect: 'none',
   backgroundColor: activated === 'true' ? theme.palette.primary.main : 'transparent',
   color: activated === 'true' ? theme.palette.background.default : theme.palette.text.secondary,
 
@@ -100,7 +117,10 @@ export default function () {
 
   return <>
     {(isConsoleOpen) && <>
-      {status.some(({ type }) => type === relevantType) && <StyledWrapper {...{ id: domIdWrapper }} bottom={String(position === PlacementPosition.Bottom)}>
+      {status.some(({ type }) => type === relevantType) && <StyledWrapper
+        {...{ id: domIdWrapper }}
+        bottom={String(position === PlacementPosition.Bottom)}
+      >
         <Resizable
           onResizeStop={(_e, _direction, _ref, d) => {
             const computedHeight = Number(height.replace('px', '')) + d.height
@@ -118,7 +138,12 @@ export default function () {
         >
           <StyledResizable>
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
-              ? <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column' }}>
+              ? <div style={{
+                flex: '1 1 auto',
+                display: 'flex',
+                flexDirection: position === PlacementPosition.Bottom ? 'column' : 'column-reverse'
+              }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <StyledTabs>
                     {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{

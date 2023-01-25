@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { useCallback, useContext, useEffect, useState } from 'react'
+import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
+import { IconButton, Tooltip } from '@mui/material'
+import { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { SnackbarObject } from '../index.types'
-import DataProvider from '../Store'
+import DataProvider, { composeDomId } from '../Store'
+
+const componentId = 'snackBar'
 
 export default function ({
   severity,
@@ -26,6 +31,7 @@ export default function ({
   const [ownId, setOwnId] = useState<string | null>()
   const [announced, setAnnounced] = useState<boolean>(false)
   const [snackbarObject, setSnackbarObject] = useState<SnackbarObject | null>(null)
+  const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
   const callbackHandleStatusAnnouncement = useCallback(
     () => {
@@ -33,6 +39,12 @@ export default function ({
     },
     [severity, ownId, message, actions, source, code, autoHideDuration, handleSnackbarAnnouncement]
   )
+
+  useLayoutEffect(() => {
+    if (snackbarObject !== null && ownId) {
+      setElementFound(document.getElementById(composeDomId(componentId, [ownId, 'customAction'])))
+    }
+  }, [snackbarObject, ownId])
 
   useEffect(() => {
     if (ownId && !announced && snackbarObject === null) {
@@ -52,5 +64,13 @@ export default function ({
 
   useEffect(() => { setOwnId((Math.random() + 1).toString(36).substring(7)) }, [])
 
-  return <></>
+  return <>
+    {snackbarObject !== null && onClick && !!ownId && elementFound && createPortal(<>
+      <Tooltip title="Take action ...">
+        <IconButton onClick={onClick} color="inherit" size="small">
+          <MyLocationOutlinedIcon color="inherit" />
+        </IconButton>
+      </Tooltip>
+    </>, elementFound)}
+  </>
 }

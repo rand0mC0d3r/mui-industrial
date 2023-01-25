@@ -52,7 +52,7 @@ const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
 const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
   position: 'absolute',
   bottom: position !== 'top' ? '-10px' : 'unset',
-  top: position === 'top' ? '-10px' : 'unset',
+  top: position === 'top' ? '14px' : 'unset',
 }))
 
 const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
