@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SubtitlesOutlinedIcon from '@mui/icons-material/SubtitlesOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import DataProvider, { composeDomId } from '../../../../Store'
 
 const componentId = 'snackBar'

@@ -68,22 +68,37 @@ const SElementItem = styled('div')(({ theme }) => ({
   },
 }))
 
+const SStatusContainer = styled('div')<{
+	hasBorder?: string,
+	fullWidth?: string,
+ }>(({ theme, hasBorder, fullWidth }: any) => ({
+   alignSelf: 'stretch',
+   justifyContent: 'center',
+   display: 'flex',
+   boxShadow: fullWidth === 'true' && hasBorder === 'true'
+     ? [
+       `inset -3px 0px 0px 1px ${theme.palette.divider}`,
+     ].join(',')
+     : 'none',
+   backgroundColor: theme.palette.mode === 'light'
+     ? theme.palette.background.default
+     : theme.palette.background.paper,
+ }))
+
 const SStatusWrapper = styled('div')<{
 	justifyContent: string,
 	width: string,
 	hasBorder?: string,
+	fullWidth?: string,
 	position?: string
- }>(({ theme, justifyContent, hasBorder, position, width }: any) => ({
+ }>(({ theme, justifyContent, hasBorder, fullWidth, position, width }: any) => ({
    gap: '4px',
    display: 'flex',
    alignItems: 'stretch',
    width: `${width}`,
    alignSelf: 'center',
    justifyContent: `${justifyContent}`,
-   backgroundColor: theme.palette.mode === 'light'
-     ? theme.palette.background.default
-     : theme.palette.background.paper,
-   boxShadow: hasBorder === 'true'
+   boxShadow: fullWidth === 'false' && hasBorder === 'true'
      ? [
        `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
        `inset -3px 0px 0px -2px ${theme.palette.divider}`,
@@ -100,7 +115,7 @@ export default function ({
 	style?: CSSProperties
 }) {
   const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
-  const { position, upperBar, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
+  const { position, upperBar, fullWidth, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -128,9 +143,24 @@ export default function ({
         {children}
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
-      {status.some(({ visible }) => visible) && <SStatusWrapper {...{ justifyContent, width, hasBorder: hasBorder.toString(), position, onContextMenu, style }}>
-        <InternalStatus />
-      </SStatusWrapper>}
+      {status.some(({ visible }) => visible) && <SStatusContainer {...{
+        fullWidth: fullWidth.toString(),
+        hasBorder: hasBorder.toString()
+      }}
+      >
+        <SStatusWrapper {...{
+          justifyContent,
+          width,
+          fullWidth: fullWidth.toString(),
+          hasBorder: hasBorder.toString(),
+          position,
+          onContextMenu,
+          style
+        }}
+        >
+          <InternalStatus />
+        </SStatusWrapper>
+      </SStatusContainer>}
       <SNotifications {...{ column: position }}>
         <InternalNotifications />
       </SNotifications>

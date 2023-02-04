@@ -31,7 +31,7 @@ const StyledContainer = styled('div')<{elevation: number, variant: string, decor
   backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
-  margin: decoration === 'true' ? `${theme.spacing(2)} 0px` : `${theme.spacing(0.5)} 0px`,
+  margin: decoration === 'true' ? `${theme.spacing(0.5)} 0px` : `${theme.spacing(0.25)} 0px`,
   padding: decoration === 'true' ? theme.spacing(0.5) : 0,
   border: variant === 'default' ? 'none' : `3px solid ${theme.palette[variant].main}`,
   boxShadow: theme.shadows[elevation]
@@ -120,7 +120,7 @@ export default function ({
   return <>
     <Status {...{
       id,
-      tooltip,
+      tooltip: open ? null : tooltip,
       endSeparator,
       startSeparator,
       hasArrow: open && hasDecoration,

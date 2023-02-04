@@ -21,12 +21,13 @@ interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function StatusProvider({ expand, hasLock, position, allowRightClick, hasBorder, justifyContent, debug, children, style, ...rest }: {
+declare function StatusProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, ...rest }: {
     expand?: boolean;
     hasLock?: boolean;
     position?: 'top' | 'bottom';
     allowRightClick?: boolean;
     hasBorder?: boolean;
+    fullWidth?: boolean;
     justifyContent?: string;
     debug?: boolean;
     children?: React.ReactNode;

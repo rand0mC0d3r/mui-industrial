@@ -51,6 +51,7 @@ export interface SettingsObject {
   consoleActiveId?: string;
   width: string;
   hasBorder: boolean;
+  fullWidth: boolean;
 }
 
 export enum StatusType {

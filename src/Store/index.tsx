@@ -64,6 +64,7 @@ function StatusProvider({
   position = PlacementPosition.Top,
   allowRightClick,
   hasBorder = true,
+  fullWidth = false,
   justifyContent = 'space-between',
   debug,
   children,
@@ -75,6 +76,7 @@ function StatusProvider({
   position?: 'top' | 'bottom',
   allowRightClick?: boolean,
   hasBorder?: boolean,
+	fullWidth?: boolean,
   justifyContent?: string,
   debug?: boolean,
   children?: React.ReactNode,
@@ -233,18 +235,18 @@ function StatusProvider({
   useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
 
   useEffect(() => {
-    console.log('hasBorder', hasBorder)
     setSettings((settings: SettingsObject) => ({
       ...settings,
       expand: expand || initialSettings.expand,
       position,
       justifyContent,
       hasBorder,
+      fullWidth,
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
     }))
-  }, [allowRightClick, hasBorder, justifyContent, expand, position, debug, hasLock])
+  }, [allowRightClick, fullWidth, hasBorder, justifyContent, expand, position, debug, hasLock])
 
   // useEffect(() => {
   //   if (settings.debug) {
