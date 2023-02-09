@@ -69,6 +69,7 @@ function StatusProvider({
   debug,
   children,
   style,
+  size = 'small',
   ...rest
 } : {
   expand?: boolean,
@@ -80,6 +81,7 @@ function StatusProvider({
   justifyContent?: string,
   debug?: boolean,
   children?: React.ReactNode,
+	size?: 'small' | 'medium' | 'large',
 	style: any,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
@@ -241,12 +243,13 @@ function StatusProvider({
       position,
       justifyContent,
       hasBorder,
+      size,
       fullWidth,
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
     }))
-  }, [allowRightClick, fullWidth, hasBorder, justifyContent, expand, position, debug, hasLock])
+  }, [allowRightClick, fullWidth, hasBorder, size, justifyContent, expand, position, debug, hasLock])
 
   // useEffect(() => {
   //   if (settings.debug) {

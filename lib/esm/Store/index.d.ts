@@ -21,7 +21,7 @@ interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function StatusProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, ...rest }: {
+declare function StatusProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, ...rest }: {
     expand?: boolean;
     hasLock?: boolean;
     position?: 'top' | 'bottom';
@@ -31,6 +31,7 @@ declare function StatusProvider({ expand, hasLock, position, allowRightClick, ha
     justifyContent?: string;
     debug?: boolean;
     children?: React.ReactNode;
+    size?: 'small' | 'medium' | 'large';
     style: any;
 }): JSX.Element;
 export default DataContext;

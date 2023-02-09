@@ -35,6 +35,18 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
   }
 }
 
+const isStartSeparator = (
+  startSeparator: string,
+  endSeparator: string,
+  secondary: string
+) => (secondary === 'false' && startSeparator === 'true') || (secondary === 'true' && endSeparator === 'true')
+
+const isEndSeparator = (
+  startSeparator: string,
+  endSeparator: string,
+  secondary: string
+) => (secondary === 'false' && endSeparator === 'true') || (secondary === 'true' && startSeparator === 'true')
+
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
   padding: '0px 10px',
   display: 'flex',
@@ -62,12 +74,13 @@ const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
 }))
 
 const SDiv = styled('div')<{
+	secondary: string,
 	endSeparator: string,
 	startSeparator: string,
 	hasclick?: string,
 	highlight?: string,
 	isdisabled?: string
- }>(({ theme, hasclick, highlight, startSeparator, endSeparator, isdisabled }) => ({
+ }>(({ theme, secondary, hasclick, highlight, startSeparator, endSeparator, isdisabled }) => ({
    WebkitFontSmoothing: 'auto',
    height: '100%',
    display: 'flex',
@@ -78,8 +91,8 @@ const SDiv = styled('div')<{
    alignSelf: 'center',
    position: 'relative',
 
-   borderLeft: startSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
-   borderRight: endSeparator === 'true' ? `1px solid ${theme.palette.divider}` : 'none',
+   borderLeft: isStartSeparator(startSeparator, endSeparator, secondary) ? `1px solid ${theme.palette.divider}` : 'none',
+   borderRight: isEndSeparator(startSeparator, endSeparator, secondary) ? `1px solid ${theme.palette.divider}` : 'none',
 
    cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
    backgroundColor: backgroundColor(theme, highlight),
@@ -224,6 +237,7 @@ export default function ({
         style: { ...style, order: statusObject.index },
 
         highlight,
+        secondary: secondary.toString(),
         startSeparator: startSeparator.toString(),
         endSeparator: endSeparator.toString(),
         hasclick: (!!onClick).toString(),

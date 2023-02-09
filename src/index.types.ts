@@ -50,6 +50,7 @@ export interface SettingsObject {
   isConsoleFixed?: boolean;
   consoleActiveId?: string;
   width: string;
+	size: 'small' | 'medium' | 'large';
   hasBorder: boolean;
   fullWidth: boolean;
 }

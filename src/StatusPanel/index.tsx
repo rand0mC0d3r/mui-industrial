@@ -32,7 +32,7 @@ const StyledContainer = styled('div')<{elevation: number, variant: string, decor
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: decoration === 'true' ? `${theme.spacing(0.5)} 0px` : `${theme.spacing(0.25)} 0px`,
-  padding: decoration === 'true' ? theme.spacing(0.5) : 0,
+  padding: 0,
   border: variant === 'default' ? 'none' : `3px solid ${theme.palette[variant].main}`,
   boxShadow: theme.shadows[elevation]
 }))

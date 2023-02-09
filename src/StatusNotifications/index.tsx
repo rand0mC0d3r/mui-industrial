@@ -37,7 +37,7 @@ export default function ({
 
   return <>
     <StatusPanel
-      variant={variant || 'default'}
+      variant="default"
       hasDecoration={false}
       id={id}
       popoverActions={<>
