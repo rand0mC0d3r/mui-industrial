@@ -1,21 +1,6 @@
 {
   "name": "mui-industrial",
   "version": "0.0.54",
-  "exDependencies": {
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^8.3.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-import-resolver-webpack": "^0.13.2",
-    "rollup": "^2.60.0",
-    "rollup-plugin-dts": "^4.0.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^5.8.3",
-    "terser-folder": "^2.0.0",
-    "npm": "^8.18.0"
-  },
   "dependencies": {
     "re-resizable": "^6.9.9",
     "react-resizable": "^3.0.4",

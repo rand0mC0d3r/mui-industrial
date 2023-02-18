@@ -4,7 +4,7 @@ import StatusHelper from './StatusHelper'
 import StatusNotifications from './StatusNotifications'
 import StatusPanel from './StatusPanel'
 import StatusSnackbar from './StatusSnackbar'
-import { StatusProvider } from './Store'
+import { IndustrialProvider } from './Store'
 
 export {
   StatusHelper,
@@ -12,6 +12,6 @@ export {
   StatusSnackbar,
   StatusPanel,
   StatusConsole,
-  StatusProvider,
+  IndustrialProvider,
   StatusNotifications,
 }

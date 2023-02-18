@@ -59,7 +59,7 @@ export interface DataContextInterface {
 
 const DataContext = createContext({} as DataContextInterface)
 
-function StatusProvider({
+function IndustrialProvider({
   expand,
   hasLock,
   position = PlacementPosition.Top,
@@ -312,4 +312,4 @@ function StatusProvider({
 }
 
 export default DataContext
-export { StatusProvider }
+export { IndustrialProvider }

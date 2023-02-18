@@ -1,91 +1,76 @@
 # 📑 mui-industrial
 
-run - npm run clean && npm install && npm run dev
-
-### Beta2 version (https://materal-ui-panel.herokuapp.com/)
-
-##### Documentation: https://rand0mc0d3r.github.io/mui-status/
-
 <br />
-
-![/media/preview.png](/media/main1.png)
-**Hint**: Combined panels ✅ , both sides panels ✅ , Splitted sections ✅ , Panel insertion into section ✅
-
-<br />
-
-![/media/preview.png](/media/main2.png)
-**Hint**: Alerts in status-bar ✅ , Alerts in sides panels ✅ , Splitted sections template selector ✅ , Embedded web-views ✅
-
-
-![/media/preview.png](/media/main3.png)
-**Hint**: Dark-Mode ✅ , Upper bar ✅ , Menu capabilities ✅
 
 A zero-maintenance/batteries-included panel manager inspired by VSCode style/aspect that adds via Material-UI elements a self populating/managed and state keeping organization of generated children panels.
 
-
-#### Current limitations
-
-- **StatusBar**
-  - Cannot display 2 status bars, 1 up and 1 down
-  - Status items cannot be ordered
-  - Status items are not draggable
-  - Status items don't have a pre-defined size
-  - Status items require a unique id
-
-<br/>
-<br/>
-<br/>
-
-**NOTE:** comes bundled with ```prop-types```. No **Typescript** support. Help me by creating a *PR* 💌 .
+A root level ContextAPI driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a self organizing manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
 
 ---
-## 🪄 Installation
+## Dependencies expected (peerDependencies)
 
-**Minimal version** for mandatory dependencies. Up to the user to provide **React 16.0+** and **Material UI 4.0**
+The library is built on top of the following dependencies:
+ - **React && ReactDOM 17.0+**
+ - **MUI 5.0+**
+ - **MUI Icons-Material 5.0+**
+ - **MUI Styles 5.0+**
+ - **Emotion React 11.0+**
+ - **Emotion Styled 11.0+**
+
+ and related @types
+
+ ## Package dependencies
+
+  - **Re-Resizable 6.9.9+**
+  - **React-Resizable 3.0.4**
+
+
+## 🪄 Installation
 
 Install the latest version with your favorite package manager.
 
 
 ```
-npm install @kadarka/mui-status --save
+npm install @rand0mC0d3r/mui-industrial --save
 ```
 
 ```
-yarn i @kadarka/mui-status
+yarn i @rand0mC0d3r/mui-industrial
 ```
 
 ---
 ## 🎛️ Architecture & Structure
 
-### 📑 - < MuiPanelProvider >
+### 📑 - < IndustrialProvider >
 
-The ```<MuiPanelProvider>``` is a HOC Context driven manager suggested to be added close the the root of the document, preferably outside the ±```<Router>``` but inside the ```<MuiTheme>```
+The ```<IndustrialProvider>``` is a HOC Context driven manager, which we suggest to be added close the the root of the document, preferably outside the ±```<Router>``` but inside the ```<MuiTheme/MaterialUITheme>```
 
-The **MuiPanelProvider** constitutes of a wrapper around the **Context API** that acts as a store, with a few methods exposed to the user for managing the states, along with some internal methods that allow the panels to announce themselves, broadcast state changes and react to events. Communication is duplex and the panels themselves are in a dual-binding open chat with the **Provider**.
+The **IndustrialProvider** constitutes of a wrapper around the **Context API** that acts as a store, with an API of methods exposed to the developer for managing it's elements, along with some internal methods that allow the elements to announce themselves, broadcast state changes and react to events. Communication is duplex and the elements themselves are in a dual-binding open chat with the **Provider**.
 
 ```
 import { createTheme, ThemeOptions, ThemeProvider } from '@material-ui/core/styles'
-// import { useMemo } from 'react'
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-// import routes from './routes'
+...
+import { IndustrialProvider } from 'mui-industrial'
 
 export default (): JSX.Element => {
   const theme = useMemo(() => createTheme({ palette: { type: 'dark' } } as ThemeOptions), [])
 
-  return <ThemeProvider {...{ theme }}>
-	{/* ... */}
-	<MuiPanelProvider>
-	{/* notification?... */}
-	{/* login/modals/errors?... */}
-	{/* ... */}
-	<Router>
-	   {/* ... */}
-	   <Switch>
-	     {routes.map(({ path, exact, component }) => <Route key={path} {...{ exact, path, component }} />)}
-	   </Switch>
-	</Router>
-	{/* ... */}
-  </ThemeProvider>
+  return <...>
+    <ThemeProvider {...{ theme }}>
+      <IndustrialProvider>
+
+        {/* notification?... */}
+        {/* login/modals/errors?... */}
+        {/* ... */}
+
+        <Router>
+          {/* ... */}
+        </Router>
+
+        {/* ... */}
+      </IndustrialProvider>
+    </ThemeProvider>
+  </...>
 }
 ```
 
@@ -98,39 +83,6 @@ export default (): JSX.Element => {
 
 ---
 
-## < MuiPanelManager >
-
-Self organizing manager wrapper that renders all children given
-
-##### Available API's
-
-| Argument | Default | Description |
-|-----|----|--------|
-| allowRightClick | false | Determines if the panel allows opening the default browser context menu on right click |
-
-##### Code sample
-
-```
-<MuiPanelManager>
-	<MuiDivider tooltip="Default separator" />
-
-	<NotificationPanel />
-
-	<MupPanel title="Lorem Ipsum Panel" icon={<FormatIndentIncreaseIcon />}>
-		{`Lorem ipsum dolor sit amet, ...`}
-	</MupPanel>
-
-	<MupPanel title="Sample Panel" icon={<FormatAlignLeftIcon />}>
-		<Skeleton animation="wave" height={10} style={{ marginBottom: 6 }} />
-	</MupPanel>
-</MuiPanelManager>
-```
----
-
-## ```<MuiWrapper>``` - 🤖 Status + Children Wrapper
-
-Wrapper for instantiating the status wrapper and a pass-thru for the children.
-It is a HOC that renders the children and the status wrapper.
 
 ## ```<MupStatus>``` - 📟 Status Bar Component
 
