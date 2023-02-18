@@ -3,23 +3,23 @@ import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes } from 'react'
 
 const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
+  gap: `${theme.spacing(0.5)}`,
+  flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
+
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   flexWrap: 'nowrap',
   userSelect: 'none',
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
-
-  gap: `${theme.spacing(0.5)}`,
-  flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
 }))
 
 const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
+  transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
+
   width: '17px',
   flex: '0 0 auto',
-
-  transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 }))
 
 const SText = styled(Typography)(() => ({
@@ -30,20 +30,21 @@ const SText = styled(Typography)(() => ({
 }))
 
 const SNotifications = styled(Typography)(({ theme }) => ({
-  padding: '0px 6px',
-  lineHeight: 'inherit',
-  fontSize: '12px',
-
   color: theme.palette.text.primary,
   borderRadius: `${theme.shape.borderRadius * 2}px`,
   backgroundColor: theme.palette.divider,
   border: `0.5px solid ${theme.palette.divider}`,
+
+  padding: '0px 6px',
+  lineHeight: 'inherit',
+  fontSize: '12px',
 }))
 
 const SImg = styled('img')<{ mask: string }>(({ mask }) => ({
+  borderRadius: mask === 'true' ? '50%' : '0px',
+
   width: '18px',
   height: '18px',
-  borderRadius: mask === 'true' ? '50%' : '0px',
 }))
 
 const SChildren = styled('div')<{ index: number }>(({ index }) => ({

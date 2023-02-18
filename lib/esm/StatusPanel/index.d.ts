@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
-export default function ({ id, secondary, elevation, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, variant, endSeparator, startSeparator, }: {
+import { PopoverAction } from '../index.types';
+export default function ({ id, secondary, elevation, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, endSeparator, startSeparator, }: {
     id: string;
     secondary?: boolean;
     elevation?: number;
@@ -11,10 +12,9 @@ export default function ({ id, secondary, elevation, style, onClick, onClose, hi
     children?: ReactNode;
     popover?: any;
     popoverTitle?: string;
-    popoverActions?: any;
+    popoverActions?: PopoverAction[];
     hasToolbar?: boolean;
     hasDecoration?: boolean;
-    variant?: 'default' | 'primary' | 'secondary';
     endSeparator?: boolean;
     startSeparator?: boolean;
 }): JSX.Element;

@@ -17,6 +17,12 @@ export interface ThemeShape {
         };
     };
 }
+export interface PopoverAction {
+    icon: any;
+    title: string;
+    onClick: () => void;
+    disabled?: boolean;
+}
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
@@ -42,6 +48,7 @@ export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
     justifyContent: string;
+    variant: 'default' | 'outlined';
     position: any;
     expand: any;
     upperBar: boolean;

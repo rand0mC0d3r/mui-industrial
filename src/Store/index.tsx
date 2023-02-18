@@ -25,6 +25,7 @@ const initialSettings = {
   debug: false,
   hasLock: true,
   hasBorder: true,
+  variant: 'default',
   isConsoleFixed: false,
   isConsoleOpen: false,
 } as SettingsObject
@@ -36,7 +37,7 @@ const valOrDefault = (val: any, def: any) => {
   return val
 }
 
-interface DataContextInterface {
+export interface DataContextInterface {
   settings: any;
   status: StatusObject[];
   snackbar: SnackbarObject[];
@@ -51,7 +52,7 @@ interface DataContextInterface {
   handleStatusTypeUpdate: any;
   handleStatusConsoleTypeUpdate: any;
   handleStatusVisibilityToggle: any;
-  handleStatusKeepOpenToggle: any;
+  handleStatusKeepOpenToggle: ({ id }: { id: string }) => void;
   triggerStatusBarAnnounced: any;
   logDebug: any,
 }
@@ -70,7 +71,7 @@ function StatusProvider({
   children,
   style,
   size = 'small',
-  ...rest
+  variant = 'default',
 } : {
   expand?: boolean,
   hasLock?: boolean,
@@ -82,6 +83,7 @@ function StatusProvider({
   debug?: boolean,
   children?: React.ReactNode,
 	size?: 'small' | 'medium' | 'large',
+	variant?: 'default' | 'outlined',
 	style: any,
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
@@ -244,12 +246,13 @@ function StatusProvider({
       justifyContent,
       hasBorder,
       size,
+      variant,
       fullWidth,
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
     }))
-  }, [allowRightClick, fullWidth, hasBorder, size, justifyContent, expand, position, debug, hasLock])
+  }, [allowRightClick, fullWidth, variant, hasBorder, size, justifyContent, expand, position, debug, hasLock])
 
   // useEffect(() => {
   //   if (settings.debug) {

@@ -3,24 +3,25 @@
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
-import { SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, PopoverAction, SettingsObject, StatusObject } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'
 import DataProvider from '../Store'
 
-const StyledPopper = styled(Popper)<{ toggled: string }>(({ toggled }) => ({
+const StyledPopper = styled(Popper)(() => ({
   zIndex: '101',
-  marginTop: `${(toggled === 'true' ? 1 : -1) * 4}px !important`,
 }))
 
-const StyledContainer = styled('div')<{elevation: number, variant: string, decoration: string }>(({
+const StyledContainer = styled('div')<{elevation: number, highlight: string, variant: string, decoration: string }>(({
   theme,
   elevation,
+  highlight,
   variant,
   decoration
 } : {
 	theme: any,
 	elevation: number,
+	highlight: string
 	variant: string,
 	decoration: string
 }) => ({
@@ -33,7 +34,9 @@ const StyledContainer = styled('div')<{elevation: number, variant: string, decor
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: decoration === 'true' ? `${theme.spacing(0.5)} 0px` : `${theme.spacing(0.25)} 0px`,
   padding: 0,
-  border: variant === 'default' ? 'none' : `3px solid ${theme.palette[variant].main}`,
+  border: variant === 'default'
+    ? '2px solid transparent'
+    : `2px solid ${highlight !== 'default' ? theme.palette[highlight].main : 'transparent'}`,
   boxShadow: theme.shadows[elevation]
 }))
 
@@ -44,7 +47,7 @@ export default function ({
   style,
   onClick,
   onClose,
-  highlight,
+  highlight = 'default',
   tooltip = '',
   children,
   popover,
@@ -52,7 +55,6 @@ export default function ({
   popoverActions,
   hasToolbar = true,
   hasDecoration = true,
-  variant = 'default',
   endSeparator = false,
   startSeparator = false,
 } : {
@@ -67,10 +69,9 @@ export default function ({
   children?: ReactNode,
   popover?: any,
   popoverTitle?: string,
-  popoverActions?: any,
+  popoverActions?: PopoverAction[],
 	hasToolbar?: boolean,
 	hasDecoration?: boolean,
-	variant?: 'default' | 'primary' | 'secondary',
 	endSeparator?: boolean,
   startSeparator?: boolean,
 }) {
@@ -82,10 +83,7 @@ export default function ({
     settings: SettingsObject,
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
-
-  // const [keepOpen, setKeepOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [isToggled, setIsToggled] = useState(false)
   const open = Boolean(anchorEl)
 
   const handleOnClick = (e: any) => {
@@ -97,8 +95,6 @@ export default function ({
     } else {
       setAnchorEl(e.currentTarget)
     }
-
-    setIsToggled(e.pageY < screen.height / 2)
   }
 
   const handleOnClose = () => {
@@ -117,6 +113,8 @@ export default function ({
     }
   }, [status, id])
 
+  const determineHighlight = () => (statusObject?.keepOpen || open) ? 'primary' : highlight
+
   return <>
     <Status {...{
       id,
@@ -124,7 +122,7 @@ export default function ({
       endSeparator,
       startSeparator,
       hasArrow: open && hasDecoration,
-      highlight: (statusObject?.keepOpen || open) ? 'primary' : highlight,
+      highlight: determineHighlight(),
       secondary,
       onClick: handleOnClick,
       style: { ...style, cursor: 'context-menu', minWidth: '24px' },
@@ -138,12 +136,18 @@ export default function ({
       anchorEl,
       onClose,
       elevation,
+      placement: `${settings.position === PlacementPosition.Top ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
       id: `mui-status-panel-popover-${id}`,
-      toggled: isToggled.toString(),
     }}
     >
       <ClickAwayListener onClickAway={() => handleOnClose()}>
-        <StyledContainer {...{ elevation, variant: variant.toString(), decoration: hasDecoration.toString() }}>
+        <StyledContainer {...{
+          elevation,
+          highlight: determineHighlight().toString(),
+          variant: settings.variant.toString(),
+          decoration: hasDecoration.toString()
+        }}
+        >
           {popover}
           {hasToolbar && <InternalHeader {...{ id, popoverActions, popoverTitle }} />}
         </StyledContainer>

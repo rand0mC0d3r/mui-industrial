@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
@@ -14,10 +15,8 @@ import DataProvider from '../Store'
 
 export default function ({
   id = 'notificationsPanel',
-  variant = 'default',
 } : {
   id?: string,
-	variant?: string,
 }) {
   const {
     status,
@@ -37,15 +36,14 @@ export default function ({
 
   return <>
     <StatusPanel
-      variant="default"
       hasDecoration={false}
       id={id}
-      popoverActions={<>
-        <DeleteSweepOutlinedIcon />
-        <DeleteForeverOutlinedIcon />
-        <LockOpenOutlinedIcon />
-        <LockOutlinedIcon />
-      </>}
+      // popoverActions={<>
+      //   <DeleteSweepOutlinedIcon />
+      //   <DeleteForeverOutlinedIcon />
+      //   <LockOpenOutlinedIcon />
+      //   <LockOutlinedIcon />
+      // </>}
       popoverTitle="Notifications"
       tooltip="Notifications"
       popover={<div style={{ width: '500px', height: '650px', overflow: 'scroll' }}>

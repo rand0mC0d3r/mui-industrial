@@ -48,7 +48,7 @@ const isEndSeparator = (
 ) => (secondary === 'false' && endSeparator === 'true') || (secondary === 'true' && startSeparator === 'true')
 
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
-  padding: '0px 10px',
+  padding: '1px 10px',
   display: 'flex',
   flexWrap: 'nowrap',
   alignItems: 'stretch',
@@ -64,7 +64,7 @@ const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
 const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
   position: 'absolute',
   bottom: position !== 'top' ? '-10px' : 'unset',
-  top: position === 'top' ? '14px' : 'unset',
+  top: position === 'top' ? '16px' : 'unset',
 }))
 
 const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({

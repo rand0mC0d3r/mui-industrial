@@ -1,25 +1,25 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
-import { SettingsObject, StatusObject } from '../../index.types'
-import DataProvider from '../../Store'
+import { PopoverAction, SettingsObject, StatusObject } from '../../index.types'
+import DataProvider, { DataContextInterface } from '../../Store'
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
-  padding: '4px 8px',
+  padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
+  borderTop: `1px solid ${theme.palette.divider}`,
+
   display: 'flex',
   justifyContent: 'space-between',
-  borderTop: `1px solid ${theme.palette.divider}`,
   userSelect: 'none',
   alignItems: 'center'
 }))
 
 const StyledActions = styled('div')(({ theme }) => ({
-  display: 'flex',
   gap: `${theme.shape.borderRadius}px`,
+
+  display: 'flex',
   justifyContent: 'flex-end',
   alignItems: 'center'
 }))
@@ -35,7 +35,7 @@ export default function ({
 } : {
   id: string,
   popoverTitle?: string,
-  popoverActions?: any,
+  popoverActions?: PopoverAction[],
 }) {
   const {
     status,
@@ -44,26 +44,28 @@ export default function ({
   } : {
     status: StatusObject[],
     settings: SettingsObject,
-		handleStatusKeepOpenToggle: any,
+		handleStatusKeepOpenToggle: DataContextInterface['handleStatusKeepOpenToggle'],
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
   useEffect(() => {
-    const foundObject = status.find(item => item.uniqueId === id)
-    if (foundObject) {
-      setStatusObject(foundObject)
-    }
+    if (!status || !id) return
+    setStatusObject(status.find(({ uniqueId }: StatusObject) => uniqueId === id) || null)
   }, [status, id])
 
   return <StyledActionsWrapper>
     <StyledTypography variant="subtitle2" color="textSecondary">{popoverTitle}</StyledTypography>
     <StyledActions>
-      {popoverActions}
+      {popoverActions?.map(({ title, onClick, disabled, icon }: PopoverAction) => <Tooltip key={title} {...{ title }}>
+        <span>
+          <IconButton size="small" {...{ onClick, disabled }}>
+            {icon}
+          </IconButton>
+        </span>
+      </Tooltip>)}
       {settings.hasLock && <Tooltip title="Toggle keep-open">
         <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
-          {statusObject?.keepOpen
-            ? <LockOutlinedIcon />
-            : <LockOpenOutlinedIcon />}
+          {statusObject?.keepOpen ? <LockOutlinedIcon color="primary" /> : <LockOpenOutlinedIcon />}
         </IconButton>
       </Tooltip>}
     </StyledActions>

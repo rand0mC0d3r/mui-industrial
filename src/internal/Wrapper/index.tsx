@@ -77,7 +77,7 @@ const SStatusContainer = styled('div')<{
    display: 'flex',
    boxShadow: fullWidth === 'true' && hasBorder === 'true'
      ? [
-       `inset -3px 0px 0px 1px ${theme.palette.divider}`,
+       `inset 0px 0px 0px 1px ${theme.palette.divider}`,
      ].join(',')
      : 'none',
    backgroundColor: theme.palette.mode === 'light'
