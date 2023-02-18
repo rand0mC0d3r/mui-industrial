@@ -18,11 +18,15 @@ const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
 const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
   transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 
+  display: 'flex',
+  order: 0,
   width: '17px',
   flex: '0 0 auto',
 }))
 
 const SText = styled(Typography)(() => ({
+  display: 'flex',
+  order: 4,
   whiteSpace: 'nowrap',
   userSelect: 'none',
   fontSize: '15px',
@@ -35,6 +39,8 @@ const SNotifications = styled(Typography)(({ theme }) => ({
   backgroundColor: theme.palette.divider,
   border: `0.5px solid ${theme.palette.divider}`,
 
+  display: 'flex',
+  order: 3,
   padding: '0px 6px',
   lineHeight: 'inherit',
   fontSize: '12px',
@@ -43,12 +49,19 @@ const SNotifications = styled(Typography)(({ theme }) => ({
 const SImg = styled('img')<{ mask: string }>(({ mask }) => ({
   borderRadius: mask === 'true' ? '50%' : '0px',
 
+  display: 'flex',
+  order: 2,
   width: '18px',
   height: '18px',
 }))
 
-const SChildren = styled('div')<{ index: number }>(({ index }) => ({
-  flexOrder: index,
+const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
+  order: index,
+  gap: `${theme.spacing(0.5)}`,
+
+  display: 'flex',
+  alignItems: 'center',
+  flexWrap: 'nowrap',
 }))
 
 /**
@@ -85,7 +98,7 @@ export default function ({
   reverse?: boolean,
   reverseIcon?: boolean,
   children?: JSX.Element,
-  childrenIndex?: number,
+  childrenIndex?: -1 | 1 | 2 | 3 | 4 | 5,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
 }) {

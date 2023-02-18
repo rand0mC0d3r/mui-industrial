@@ -1,7 +1,7 @@
 /// <reference types="react" />
-import { PopoverAction } from '../../index.types';
+import { PopoverActions } from '../../index.types';
 export default function ({ id, popoverTitle, popoverActions, }: {
     id: string;
     popoverTitle?: string;
-    popoverActions?: PopoverAction[];
+    popoverActions?: PopoverActions;
 }): JSX.Element;

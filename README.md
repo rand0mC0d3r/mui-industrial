@@ -1,4 +1,4 @@
-# 📑 mui-status
+# 📑 mui-industrial
 
 run - npm run clean && npm install && npm run dev
 

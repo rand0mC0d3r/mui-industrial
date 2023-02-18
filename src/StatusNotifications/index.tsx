@@ -35,6 +35,10 @@ export default function ({
   }, [status, id, statusObject])
 
   return <>
+    <DeleteSweepOutlinedIcon />
+    <DeleteForeverOutlinedIcon />
+    <LockOpenOutlinedIcon />
+    <LockOutlinedIcon />
     <StatusPanel
       hasDecoration={false}
       id={id}

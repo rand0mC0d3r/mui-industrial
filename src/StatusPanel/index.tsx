@@ -3,7 +3,7 @@
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
-import { PlacementPosition, PopoverAction, SettingsObject, StatusObject } from '../index.types'
+import { PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import Status from '../Status'
 import DataProvider from '../Store'
@@ -32,7 +32,7 @@ const StyledContainer = styled('div')<{elevation: number, highlight: string, var
   backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   backdropFilter: 'blur(8px)',
   borderRadius: `${theme.shape.borderRadius}px`,
-  margin: decoration === 'true' ? `${theme.spacing(0.5)} 0px` : `${theme.spacing(0.25)} 0px`,
+  margin: decoration === 'true' ? `${theme.spacing(0.75)} 0px` : `${theme.spacing(0.25)} 0px`,
   padding: 0,
   border: variant === 'default'
     ? '2px solid transparent'
@@ -69,7 +69,7 @@ export default function ({
   children?: ReactNode,
   popover?: any,
   popoverTitle?: string,
-  popoverActions?: PopoverAction[],
+  popoverActions?: PopoverActions,
 	hasToolbar?: boolean,
 	hasDecoration?: boolean,
 	endSeparator?: boolean,

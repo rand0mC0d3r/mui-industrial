@@ -3,7 +3,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
-import { PopoverAction, SettingsObject, StatusObject } from '../../index.types'
+import { PopoverActions, SettingsObject, StatusObject } from '../../index.types'
 import DataProvider, { DataContextInterface } from '../../Store'
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
@@ -25,7 +25,11 @@ const StyledActions = styled('div')(({ theme }) => ({
 }))
 
 const StyledTypography = styled(Typography)(() => ({
-  lineHeight: 1
+  lineHeight: 1,
+  textOverflow: 'ellipsis',
+  maxWidth: '225px',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap'
 }))
 
 export default function ({
@@ -35,7 +39,7 @@ export default function ({
 } : {
   id: string,
   popoverTitle?: string,
-  popoverActions?: PopoverAction[],
+  popoverActions?: PopoverActions,
 }) {
   const {
     status,
@@ -56,13 +60,15 @@ export default function ({
   return <StyledActionsWrapper>
     <StyledTypography variant="subtitle2" color="textSecondary">{popoverTitle}</StyledTypography>
     <StyledActions>
-      {popoverActions?.map(({ title, onClick, disabled, icon }: PopoverAction) => <Tooltip key={title} {...{ title }}>
-        <span>
-          <IconButton size="small" {...{ onClick, disabled }}>
-            {icon}
-          </IconButton>
-        </span>
-      </Tooltip>)}
+      {popoverActions && popoverActions
+        .filter((_, i) => i < 3)
+        .map(popoverAction => <Tooltip key={popoverAction?.title} {...{ title: popoverAction?.title }}>
+          <span>
+            <IconButton size="small" {...{ onClick: () => popoverAction?.onClick(), disabled: popoverAction?.disabled }}>
+              {popoverAction?.icon}
+            </IconButton>
+          </span>
+        </Tooltip>)}
       {settings.hasLock && <Tooltip title="Toggle keep-open">
         <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
           {statusObject?.keepOpen ? <LockOutlinedIcon color="primary" /> : <LockOpenOutlinedIcon />}

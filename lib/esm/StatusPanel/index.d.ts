@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-import { PopoverAction } from '../index.types';
+import { PopoverActions } from '../index.types';
 export default function ({ id, secondary, elevation, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, endSeparator, startSeparator, }: {
     id: string;
     secondary?: boolean;
@@ -12,7 +12,7 @@ export default function ({ id, secondary, elevation, style, onClick, onClose, hi
     children?: ReactNode;
     popover?: any;
     popoverTitle?: string;
-    popoverActions?: PopoverAction[];
+    popoverActions?: PopoverActions;
     hasToolbar?: boolean;
     hasDecoration?: boolean;
     endSeparator?: boolean;

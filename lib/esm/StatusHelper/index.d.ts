@@ -21,7 +21,7 @@ export default function ({ icon, text, notifications, image, mask, reverse, reve
     reverse?: boolean;
     reverseIcon?: boolean;
     children?: JSX.Element;
-    childrenIndex?: number;
+    childrenIndex?: -1 | 1 | 2 | 3 | 4 | 5;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     style?: CSSProperties;
 }): JSX.Element;

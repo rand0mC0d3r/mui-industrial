@@ -23,6 +23,7 @@ export interface PopoverAction {
     onClick: () => void;
     disabled?: boolean;
 }
+export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
