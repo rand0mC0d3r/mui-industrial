@@ -22,7 +22,7 @@ export default function ({ id, hasArrow, secondary, style, onClick, onContextMen
     disabled?: boolean;
     highlight?: 'default' | 'primary' | 'secondary';
     tooltip?: ReactNode | string;
-    children?: ReactNode;
+    children?: any;
     endSeparator?: boolean;
     startSeparator?: boolean;
 }): JSX.Element;

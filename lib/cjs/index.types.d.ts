@@ -17,11 +17,19 @@ export interface ThemeShape {
         };
     };
 }
+export interface PopoverAction {
+    icon: any;
+    title: string;
+    onClick: () => void;
+    disabled?: boolean;
+}
+export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
     secondary: boolean;
     index: number;
+    keepOpen: boolean;
     uniqueId: string;
     ownId: string;
     title?: string;
@@ -41,6 +49,7 @@ export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
     justifyContent: string;
+    variant: 'default' | 'outlined';
     position: any;
     expand: any;
     upperBar: boolean;
@@ -50,7 +59,9 @@ export interface SettingsObject {
     isConsoleFixed?: boolean;
     consoleActiveId?: string;
     width: string;
+    size: 'small' | 'medium' | 'large';
     hasBorder: boolean;
+    fullWidth: boolean;
 }
 export declare enum StatusType {
     SIMPLE = "simple",

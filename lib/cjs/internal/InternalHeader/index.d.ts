@@ -1,8 +1,7 @@
 /// <reference types="react" />
-export default function ({ id, popoverTitle, popoverActions, keepOpen, setKeepOpen }: {
+import { PopoverActions } from '../../index.types';
+export default function ({ id, popoverTitle, popoverActions, }: {
     id: string;
     popoverTitle?: string;
-    popoverActions?: any;
-    keepOpen?: boolean;
-    setKeepOpen?: any;
+    popoverActions?: PopoverActions;
 }): JSX.Element;
