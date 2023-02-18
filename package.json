@@ -1,6 +1,6 @@
 {
   "name": "mui-industrial",
-  "version": "0.0.54",
+  "version": "0.0.55",
   "dependencies": {
     "re-resizable": "^6.9.9",
     "react-resizable": "^3.0.4",
