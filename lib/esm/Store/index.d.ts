@@ -23,7 +23,7 @@ export interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function StatusProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
+declare function IndustrialProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
     expand?: boolean;
     hasLock?: boolean;
     position?: 'top' | 'bottom';
@@ -38,4 +38,4 @@ declare function StatusProvider({ expand, hasLock, position, allowRightClick, ha
     style: any;
 }): JSX.Element;
 export default DataContext;
-export { StatusProvider };
+export { IndustrialProvider };
