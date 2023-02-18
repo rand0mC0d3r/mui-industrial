@@ -1,6 +1,6 @@
 {
   "name": "mui-industrial",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "exDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
