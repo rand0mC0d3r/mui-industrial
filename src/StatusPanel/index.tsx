@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles'
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
-import Status from '../Status'
+import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
 
 const StyledPopper = styled(Popper)(() => ({
@@ -116,7 +116,7 @@ export default function ({
   const determineHighlight = () => (statusObject?.keepOpen || open) ? 'primary' : highlight
 
   return <>
-    <Status {...{
+    <StatusCore {...{
       id,
       tooltip: open ? null : tooltip,
       endSeparator,
@@ -129,7 +129,7 @@ export default function ({
     }}
     >
       {children}
-    </Status>
+    </StatusCore>
     <StyledPopper {...{
       keepMounted: statusObject?.keepOpen,
       open,

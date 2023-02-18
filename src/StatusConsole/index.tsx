@@ -4,7 +4,7 @@
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { SettingsObject, StatusObject } from '../index.types'
-import Status from '../Status'
+import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
 
 export default function ({
@@ -19,13 +19,10 @@ export default function ({
 } : {
   id: string,
   secondary?: boolean,
-  elevation?: number,
   style?: CSSProperties,
   onClick?: any,
   tooltip?: ReactNode | string,
   children?: ReactNode,
-  popoverStyle?: any,
-  popoverClassName?: any,
   console?: any,
   consoleTitle?: string,
 }) {
@@ -74,7 +71,7 @@ export default function ({
   }, [statusObject, id, consoleTitle])
 
   return <>
-    <Status {...{
+    <StatusCore {...{
       id,
       tooltip,
       secondary,
@@ -84,7 +81,7 @@ export default function ({
     }}
     >
       {children}
-    </Status>
+    </StatusCore>
     {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(console, elementFound)}
   </>
 }

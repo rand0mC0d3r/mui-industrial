@@ -22,6 +22,8 @@ export interface PopoverAction {
   disabled?: boolean,
 }
 
+export type asType = 'simple' | 'panel' | 'console'
+
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?]
 export interface StatusObject {
   visible: boolean;
@@ -45,6 +47,20 @@ export interface SnackbarObject {
   severity: 'success' | 'info' | 'warning' | 'error',
 }
 
+export interface StatusPanelProps {
+  elevation?: number,
+  onClose?: any,
+  children?: any,
+  title?: string,
+  actions?: PopoverActions,
+	hasToolbar?: boolean,
+	hasDecoration?: boolean,
+}
+export interface StatusConsoleProps {
+  children: React.ReactNode;
+  title: string;
+}
+
 export interface SettingsObject {
   statusBarAnnounced: boolean;
   allowRightClick: boolean;
@@ -62,6 +78,12 @@ export interface SettingsObject {
 	size: 'small' | 'medium' | 'large';
   hasBorder: boolean;
   fullWidth: boolean;
+}
+
+export enum Highlight {
+  DEFAULT = 'default',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
 }
 
 export enum StatusType {

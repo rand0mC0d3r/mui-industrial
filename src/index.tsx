@@ -1,5 +1,5 @@
-import Status from './Status'
 import StatusConsole from './StatusConsole'
+import Status from './StatusCore'
 import StatusHelper from './StatusHelper'
 import StatusNotifications from './StatusNotifications'
 import StatusPanel from './StatusPanel'
