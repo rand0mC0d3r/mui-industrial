@@ -29,11 +29,12 @@ const StyledContainer = styled('div')<{elevation: number, highlight: string, var
   alignItems: 'stretch',
   position: 'relative',
   flexDirection: 'column',
-  backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
+  padding: 0,
   backdropFilter: 'blur(8px)',
+
+  backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
   borderRadius: `${theme.shape.borderRadius}px`,
   margin: decoration === 'true' ? `${theme.spacing(0.75)} 0px` : `${theme.spacing(0.25)} 0px`,
-  padding: 0,
   border: variant === 'default'
     ? '2px solid transparent'
     : `2px solid ${highlight !== 'default' ? theme.palette[highlight].main : 'transparent'}`,
@@ -128,7 +129,7 @@ export default function ({
       anchorEl,
       onClose,
       elevation,
-      placement: `${settings.position === PlacementPosition.Top ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
+      placement: `${settings.position === PlacementPosition.TOP ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
       id: `mui-status-panel-popover-${id}`,
     }}
     >

@@ -18,7 +18,7 @@ const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
 
 const initialSettings = {
-  position: PlacementPosition.Top,
+  position: PlacementPosition.TOP,
   expand: true,
   statusBarAnnounced: false,
   allowRightClick: true,
@@ -62,7 +62,7 @@ const DataContext = createContext({} as DataContextInterface)
 function IndustrialProvider({
   expand,
   hasLock,
-  position = PlacementPosition.Top,
+  position = PlacementPosition.TOP,
   allowRightClick,
   hasBorder = true,
   fullWidth = false,
@@ -75,7 +75,7 @@ function IndustrialProvider({
 } : {
   expand?: boolean,
   hasLock?: boolean,
-  position?: 'top' | 'bottom',
+  position?: PlacementPosition,
   allowRightClick?: boolean,
   hasBorder?: boolean,
 	fullWidth?: boolean,

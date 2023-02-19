@@ -64,9 +64,8 @@ export interface SettingsObject {
     allowRightClick: boolean;
     justifyContent: string;
     variant: 'default' | 'outlined';
-    position: any;
+    position: PlacementPosition;
     expand: any;
-    upperBar: boolean;
     debug: boolean;
     hasLock: boolean;
     isConsoleOpen?: boolean;
@@ -88,8 +87,8 @@ export declare enum StatusType {
     CONSOLE = "console"
 }
 export declare enum PlacementPosition {
-    Top = "top",
-    Bottom = "bottom"
+    TOP = "top",
+    BOTTOM = "bottom"
 }
 export declare const Direction: {
     Top: string;

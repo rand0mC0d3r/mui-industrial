@@ -20,18 +20,20 @@ const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   bottom: '0px',
   left: '0px',
   right: '0px',
-  flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
+
+  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column'
 }))
 
 const SNotifications = styled('div')<{ column?: string }>(({ column }) => ({
   gap: '0px',
   position: 'absolute',
   display: 'flex',
-  bottom: column !== PlacementPosition.Top ? 'unset' : '32px',
-  top: column !== PlacementPosition.Top ? '32px' : 'unset',
   right: '16px',
   zIndex: 112,
-  flexDirection: column === PlacementPosition.Top ? 'column-reverse' : 'column'
+
+  bottom: column !== PlacementPosition.TOP ? 'unset' : '32px',
+  top: column !== PlacementPosition.TOP ? '32px' : 'unset',
+  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column'
 }))
 
 const SChildren = styled('div')(() => ({
@@ -75,6 +77,7 @@ const SStatusContainer = styled('div')<{
    alignSelf: 'stretch',
    justifyContent: 'center',
    display: 'flex',
+
    boxShadow: fullWidth === 'true' && hasBorder === 'true'
      ? [
        `inset 0px 0px 0px 1px ${theme.palette.divider}`,
@@ -95,8 +98,9 @@ const SStatusWrapper = styled('div')<{
    gap: '4px',
    display: 'flex',
    alignItems: 'stretch',
-   width: `${width}`,
    alignSelf: 'center',
+
+   width: `${width}`,
    justifyContent: `${justifyContent}`,
    boxShadow: fullWidth === 'false' && hasBorder === 'true'
      ? [
@@ -115,7 +119,7 @@ export default function ({
 	style?: CSSProperties
 }) {
   const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
-  const { position, upperBar, fullWidth, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
+  const { position, fullWidth, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -131,9 +135,7 @@ export default function ({
     {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>}
   </SElementItem>
 
-  const entryWrapper = (statusItem: StatusObject) => <Tooltip
-    {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}
-  >
+  const entryWrapper = (statusItem: StatusObject) => <Tooltip {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}>
     {statusEntry(statusItem)}
   </Tooltip>
 
@@ -168,9 +170,9 @@ export default function ({
     <Popover
       id="toggle-status-popover"
       {...{ open, anchorEl, onClose, elevation: 1 }}
-      anchorOrigin={{ vertical: upperBar ? 'top' : 'bottom', horizontal: 'center' }}
-      transformOrigin={{ vertical: !upperBar ? 'bottom' : 'top', horizontal: 'center' }}
-      style={{ marginTop: `${(upperBar ? 1 : -1) * 12}px` }}
+      anchorOrigin={{ vertical: position === PlacementPosition.TOP ? 'top' : 'bottom', horizontal: 'center' }}
+      transformOrigin={{ vertical: position === PlacementPosition.BOTTOM ? 'bottom' : 'top', horizontal: 'center' }}
+      style={{ marginTop: `${(position === PlacementPosition.TOP ? 1 : -1) * 12}px` }}
     >
       <SElement {...{ onContextMenu: e => { e.preventDefault() } }}>
         {[false, true].map((state: boolean) => <div key={state.toString()}>

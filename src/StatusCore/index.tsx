@@ -239,7 +239,7 @@ export default function ({
       }}
       >
         {hasArrow && <>
-          {position === PlacementPosition.Bottom
+          {position === PlacementPosition.BOTTOM
             ? <SArrowUp color="primary" />
             : <SArrowDown position={position.toString()} color="primary" />}
         </>}

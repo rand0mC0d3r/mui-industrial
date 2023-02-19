@@ -1,5 +1,5 @@
 import React from 'react';
-import { SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { PlacementPosition, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
@@ -34,7 +34,7 @@ declare const DataContext: React.Context<DataContextInterface>;
 declare function IndustrialProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
     expand?: boolean;
     hasLock?: boolean;
-    position?: 'top' | 'bottom';
+    position?: PlacementPosition;
     allowRightClick?: boolean;
     hasBorder?: boolean;
     fullWidth?: boolean;

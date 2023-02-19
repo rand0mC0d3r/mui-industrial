@@ -119,7 +119,7 @@ export default function () {
     {(isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper
         {...{ id: domIdWrapper }}
-        bottom={String(position === PlacementPosition.Bottom)}
+        bottom={String(position === PlacementPosition.BOTTOM)}
       >
         <Resizable
           onResizeStop={(_e, _direction, _ref, d) => {
@@ -141,7 +141,7 @@ export default function () {
               ? <div style={{
                 flex: '1 1 auto',
                 display: 'flex',
-                flexDirection: position === PlacementPosition.Bottom ? 'column' : 'column-reverse'
+                flexDirection: position === PlacementPosition.BOTTOM ? 'column' : 'column-reverse'
               }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
