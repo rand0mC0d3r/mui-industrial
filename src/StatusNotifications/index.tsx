@@ -55,7 +55,7 @@ export default function ({
           <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />))}
       </div>}
     >
-      <StatusHelper text="Notifications" icon={<NotificationsOutlinedIcon />} notifications={snackbar.length} />
+      <StatusHelper text="Notifications" icon={<NotificationsOutlinedIcon />} badge={snackbar.length} />
     </StatusPanel>
   </>
 }

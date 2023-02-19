@@ -1,11 +1,13 @@
 import React from 'react';
-import { SnackbarObject, StatusObject } from '../index.types';
+import { SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
     status: StatusObject[];
     snackbar: SnackbarObject[];
-    updateConsoleActiveId: any;
+    updateConsoleActiveId: ({ id }: {
+        id?: string;
+    }) => void;
     updateIsConsoleOpen: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
@@ -13,8 +15,14 @@ export interface DataContextInterface {
     handleSnackbarAnnouncement: any;
     handleStatusDestroy: any;
     handleSnackbarDestroy: any;
-    handleStatusTypeUpdate: any;
-    handleStatusConsoleTypeUpdate: any;
+    handleStatusTypeUpdate: ({ id, type }: {
+        id: string;
+        type: StatusType;
+    }) => void;
+    handleStatusConsoleTitleUpdate: ({ id, title }: {
+        id: string;
+        title?: string;
+    }) => void;
     handleStatusVisibilityToggle: any;
     handleStatusKeepOpenToggle: ({ id }: {
         id: string;

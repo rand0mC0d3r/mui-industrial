@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, MouseEvent, ReactNode } from 'react'
-import { Highlight, StatusConsoleProps, StatusPanelProps, StatusType } from '../index.types'
+import { Highlight, StatusOptionsProps, StatusType } from '../index.types'
 import StatusConsole from '../StatusConsole'
 import StatusCore from '../StatusCore'
 import StatusPanel from '../StatusPanel'
@@ -19,10 +19,10 @@ import StatusPanel from '../StatusPanel'
  * @returns (JSX.Element) Status element
  */
 export default function ({
-  as = StatusType.SIMPLE,
   id,
-  console,
-  panel,
+  options = {
+    as: StatusType.SIMPLE,
+  },
   secondary = false,
   style,
   onClick,
@@ -34,10 +34,8 @@ export default function ({
   endSeparator = false,
   startSeparator = false,
 } : {
-  as?: StatusType,
   id: string,
-  console?: StatusConsoleProps,
-  panel?: StatusPanelProps,
+  options?: StatusOptionsProps,
   secondary?: boolean,
   style?: CSSProperties,
   onClick?: (e: MouseEvent<HTMLDivElement>) => void,
@@ -49,8 +47,9 @@ export default function ({
   endSeparator?: boolean,
   startSeparator?: boolean,
 }) {
+  const { panel, content, title } = options
   return <>
-    {as === StatusType.SIMPLE && <StatusCore {...{
+    {options?.as === StatusType.SIMPLE && <StatusCore {...{
       id,
       secondary,
       style,
@@ -64,7 +63,7 @@ export default function ({
       children
     }}
     />}
-    {as === StatusType.PANEL && <StatusPanel {...{
+    {options?.as === StatusType.PANEL && <StatusPanel {...{
       id,
       secondary,
       style,
@@ -75,24 +74,27 @@ export default function ({
       endSeparator,
       startSeparator,
 
-      elevation: panel?.elevation,
+      elevation: options?.panel?.elevation,
       onClose: panel?.onClose,
-      popover: panel?.children,
-      popoverTitle: panel?.title,
+      popover: content,
+      popoverTitle: title,
       popoverActions: panel?.actions,
       hasToolbar: panel?.hasToolbar,
       hasDecoration: panel?.hasDecoration,
     }}
     />}
-    {as === StatusType.CONSOLE && <StatusConsole {...{
+    {options?.as === StatusType.CONSOLE && <StatusConsole {...{
       id,
       secondary,
       style,
       onClick,
       tooltip,
       children,
-      console: console?.children,
-      consoleTitle: console?.title,
+      endSeparator,
+      startSeparator,
+
+      content,
+      title,
     }}
     />}
   </>

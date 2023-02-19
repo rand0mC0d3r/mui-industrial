@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, SnackbarObject, StatusObject } from '../index.types'
+import { PlacementPosition, SettingsObject, SnackbarObject, StatusObject, StatusType } from '../index.types'
 import Wrapper from '../internal/Wrapper'
 
 const domIdBase = 'mui-status'
@@ -41,7 +41,7 @@ export interface DataContextInterface {
   settings: any;
   status: StatusObject[];
   snackbar: SnackbarObject[];
-  updateConsoleActiveId: any;
+  updateConsoleActiveId: ({ id }: { id?: string }) => void;
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
@@ -49,8 +49,8 @@ export interface DataContextInterface {
   handleSnackbarAnnouncement: any;
   handleStatusDestroy: any;
   handleSnackbarDestroy: any;
-  handleStatusTypeUpdate: any;
-  handleStatusConsoleTypeUpdate: any;
+  handleStatusTypeUpdate: ({ id, type }: { id: string, type: StatusType }) => void;
+  handleStatusConsoleTitleUpdate: ({ id, title }: { id: string, title?: string }) => void;
   handleStatusVisibilityToggle: any;
   handleStatusKeepOpenToggle: ({ id }: { id: string }) => void;
   triggerStatusBarAnnounced: any;
@@ -166,7 +166,7 @@ function IndustrialProvider({
       : lo)))
   }
 
-  const handleStatusConsoleTypeUpdate = ({ id, title }: { id: string, title: string }) => {
+  const handleStatusConsoleTitleUpdate = ({ id, title }: { id: string, title?: string }) => {
     if (settings.debug) {
       console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`)
     }
@@ -193,7 +193,7 @@ function IndustrialProvider({
     }
   }
 
-  const updateConsoleActiveId = ({ id } : { id?: string }) => {
+  const updateConsoleActiveId = ({ id } : { id?: string}) => {
     setSettings((settings: SettingsObject) => ({
       ...settings,
       consoleActiveId: id || undefined,
@@ -298,7 +298,7 @@ function IndustrialProvider({
       handleStatusVisibilityToggle,
       handleStatusKeepOpenToggle,
       handleStatusTypeUpdate,
-      handleStatusConsoleTypeUpdate,
+      handleStatusConsoleTitleUpdate,
       handleStatusUpdate,
       handleStatusAnnouncement,
       handleSnackbarAnnouncement,

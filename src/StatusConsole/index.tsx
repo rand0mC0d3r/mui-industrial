@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
+import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SettingsObject, StatusObject } from '../index.types'
+import { Highlight, SettingsObject, StatusObject, StatusType } from '../index.types'
 import StatusCore from '../StatusCore'
-import DataProvider from '../Store'
+import DataProvider, { DataContextInterface } from '../Store'
 
 export default function ({
   id,
@@ -14,42 +12,45 @@ export default function ({
   onClick,
   tooltip = '',
   children,
-  console,
-  consoleTitle,
+  endSeparator = false,
+  startSeparator = false,
+
+  content,
+  title,
 } : {
   id: string,
   secondary?: boolean,
   style?: CSSProperties,
-  onClick?: any,
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
   tooltip?: ReactNode | string,
   children?: ReactNode,
-  console?: any,
-  consoleTitle?: string,
+  endSeparator?: boolean,
+  startSeparator?: boolean,
+
+  content: ReactNode,
+  title?: string,
 }) {
   const {
     status,
     handleStatusTypeUpdate,
-    handleStatusConsoleTypeUpdate,
+    handleStatusConsoleTitleUpdate,
     updateConsoleActiveId
   } : {
     status: StatusObject[],
-    handleStatusTypeUpdate: any,
-    handleStatusConsoleTypeUpdate: any,
-    updateConsoleActiveId: any,
+    handleStatusTypeUpdate: DataContextInterface['handleStatusTypeUpdate'],
+    handleStatusConsoleTitleUpdate: DataContextInterface['handleStatusConsoleTitleUpdate'],
+    updateConsoleActiveId: DataContextInterface['updateConsoleActiveId'],
   } = useContext(DataProvider)
   const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
-  const handleOnClick = () => {
-    if (onClick) {
-      onClick()
-    }
-    if (!isConsoleOpen) {
-      updateConsoleActiveId({ id: statusObject?.uniqueId })
-    } else {
-      updateConsoleActiveId(consoleActiveId === id ? { } : { id: statusObject?.uniqueId })
-    }
+  const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId) ? Highlight.PRIMARY : Highlight.DEFAULT
+
+  const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (onClick) onClick(event)
+    if (!statusObject) return
+    if (!isConsoleOpen || consoleActiveId !== id) updateConsoleActiveId({ id: statusObject?.uniqueId })
   }
 
   useEffect(() => {
@@ -60,28 +61,28 @@ export default function ({
     const foundObject = status.find(({ uniqueId }) => uniqueId === id)
     if (statusObject === null && foundObject) {
       setStatusObject(foundObject)
-      handleStatusTypeUpdate({ id, type: 'console' })
+      handleStatusTypeUpdate({ id, type: StatusType.CONSOLE })
     }
   }, [status, id, statusObject])
 
   useEffect(() => {
-    if (statusObject) {
-      handleStatusConsoleTypeUpdate({ id, title: consoleTitle })
-    }
-  }, [statusObject, id, consoleTitle])
+    if (statusObject) handleStatusConsoleTitleUpdate({ id, title })
+  }, [statusObject, id, title])
 
   return <>
     <StatusCore {...{
       id,
+      endSeparator,
+      startSeparator,
       tooltip,
       secondary,
-      highlight: (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId) ? 'primary' : 'default',
-      onClick: () => handleOnClick(),
+      highlight: computeHightlight,
+      onClick: handleOnClick,
       style: { ...style, cursor: 'context-menu', minWidth: '24px' }
     }}
     >
       {children}
     </StatusCore>
-    {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(console, elementFound)}
+    {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(content, elementFound)}
   </>
 }

@@ -1,9 +1,9 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
 import { alpha, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react'
-import { PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
+import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
+import { Highlight, PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
@@ -47,7 +47,7 @@ export default function ({
   style,
   onClick,
   onClose,
-  highlight = 'default',
+  highlight = Highlight.DEFAULT,
   tooltip = '',
   children,
   popover,
@@ -62,9 +62,9 @@ export default function ({
   secondary?: boolean,
   elevation?: number,
   style?: CSSProperties,
-  onClick?: any,
-  onClose?: any,
-  highlight?: 'default' | 'primary' | 'secondary',
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
+  onClose?: (event: MouseEvent<HTMLDivElement>) => void,
+  highlight?: Highlight,
   tooltip?: ReactNode | string,
   children?: ReactNode,
   popover?: any,
@@ -86,24 +86,16 @@ export default function ({
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
-  const handleOnClick = (e: any) => {
-    if (onClick && !statusObject?.keepOpen) {
-      onClick()
-    }
-    if (anchorEl && !statusObject?.keepOpen) {
-      setAnchorEl(null)
-    } else {
-      setAnchorEl(e.currentTarget)
-    }
+  const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (statusObject?.keepOpen) return
+
+    if (onClick) onClick(event)
+    setAnchorEl(anchorEl ? null : event?.currentTarget as any)
   }
 
-  const handleOnClose = () => {
-    if (onClose && !statusObject?.keepOpen) {
-      onClose()
-    }
-    if (!statusObject?.keepOpen || !settings.hasLock) {
-      setAnchorEl(null)
-    }
+  const handleOnClose = (event: any) => {
+    if (onClose && !statusObject?.keepOpen) onClose(event)
+    if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null)
   }
 
   useEffect(() => {
@@ -113,7 +105,7 @@ export default function ({
     }
   }, [status, id])
 
-  const determineHighlight = () => (statusObject?.keepOpen || open) ? 'primary' : highlight
+  const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight
 
   return <>
     <StatusCore {...{
@@ -140,7 +132,7 @@ export default function ({
       id: `mui-status-panel-popover-${id}`,
     }}
     >
-      <ClickAwayListener onClickAway={() => handleOnClose()}>
+      <ClickAwayListener onClickAway={event => handleOnClose(event)}>
         <StyledContainer {...{
           elevation,
           highlight: determineHighlight().toString(),

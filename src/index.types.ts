@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -50,15 +50,17 @@ export interface SnackbarObject {
 export interface StatusPanelProps {
   elevation?: number,
   onClose?: any,
-  children?: any,
-  title?: string,
   actions?: PopoverActions,
 	hasToolbar?: boolean,
 	hasDecoration?: boolean,
 }
-export interface StatusConsoleProps {
-  children: React.ReactNode;
-  title: string;
+
+export interface StatusOptionsProps {
+  as?: StatusType,
+  panel?: StatusPanelProps,
+
+  content?: ReactNode,
+  title?: string,
 }
 
 export interface SettingsObject {

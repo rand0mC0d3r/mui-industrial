@@ -33,7 +33,7 @@ const SText = styled(Typography)(() => ({
   lineHeight: '0px',
 }))
 
-const SNotifications = styled(Typography)(({ theme }) => ({
+const SBadge = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
   borderRadius: `${theme.shape.borderRadius * 2}px`,
   backgroundColor: theme.palette.divider,
@@ -67,7 +67,7 @@ const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
 /**
  * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
- * @param notifications - (string | number) Badge to display relevant notifications.
+ * @param badge - (string | number) Badge to display relevant notifications.
  * @param image - (string) Image to display for status element. Expects a valid image path.
  * @param mask - (boolean) If needs to be applied a circular mask to the image.
  * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
@@ -80,7 +80,7 @@ const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
 export default function ({
   icon,
   text,
-  notifications,
+  badge,
   image,
   mask = false,
   reverse = false,
@@ -92,7 +92,7 @@ export default function ({
 } : {
   icon?: JSX.Element,
   text?: string,
-  notifications?: string | number,
+  badge?: string | number,
   image?: string,
   mask?: boolean,
   reverse?: boolean,
@@ -106,7 +106,7 @@ export default function ({
     {icon && <SIcon {...{ id: 'sh.icon', reverse: reverseIcon.toString() }}>{icon}</SIcon>}
     {children && <>{childrenIndex ? <SChildren {...{ index: childrenIndex }}>{children}</SChildren> : children}</>}
     {image && <SImg {...{ id: 'sh.image', alt: '', mask: mask.toString(), src: image }} />}
-    {!!notifications && <SNotifications {...{ id: 'sh.notifications' }}>{String(notifications)}</SNotifications>}
+    {!!badge && <SBadge {...{ id: 'sh.badge' }}>{String(badge)}</SBadge>}
     {text && <SText {...{ id: 'sh.text', variant: 'caption' }}>{text}</SText>}
   </SStack>
 }

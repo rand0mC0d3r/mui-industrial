@@ -1,6 +1,4 @@
-/* eslint-disable no-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
@@ -8,7 +6,7 @@ import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { PlacementPosition, SettingsObject, StatusObject, ThemeShape } from '../index.types'
+import { Highlight, PlacementPosition, SettingsObject, StatusObject, ThemeShape } from '../index.types'
 import DataProvider, { composeDomId } from '../Store'
 
 const componentId = 'statusBar'
@@ -67,6 +65,12 @@ const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ po
   top: position === 'top' ? '16px' : 'unset',
 }))
 
+const STooltip = styled('div')(() => ({
+  fontSize: '14px',
+  maxHeight: '300px',
+  overflow: 'scroll'
+}))
+
 const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
   position: 'absolute',
   bottom: 'unset',
@@ -85,6 +89,7 @@ const SDiv = styled('div')<{
    height: '100%',
    display: 'flex',
    flex: '0 0 auto',
+   flexDirection: 'row',
    alignItems: 'stretch',
    gap: '16px',
    justifyContent: 'center',
@@ -130,28 +135,31 @@ const SDiv = styled('div')<{
  */
 export default function ({
   id,
-  hasArrow = false,
-  secondary = false,
   style,
   onClick,
   onContextMenu,
   disabled = false,
-  highlight = 'default',
+  highlight = Highlight.DEFAULT,
   tooltip,
   children,
+
+  hasArrow = false,
+  secondary = false,
   endSeparator = false,
   startSeparator = false,
 } : {
   id: string,
-  hasArrow?: boolean,
-  secondary?: boolean,
+
   style?: CSSProperties,
   onClick?: (e: MouseEvent<HTMLDivElement>) => void,
   onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
   disabled?: boolean,
-  highlight?: 'default' | 'primary' | 'secondary',
+  highlight?: Highlight,
   tooltip?: ReactNode | string,
-  children?: any,
+  children?: ReactNode,
+
+  hasArrow?: boolean,
+  secondary?: boolean,
   endSeparator?: boolean,
   startSeparator?: boolean,
 }) {
@@ -166,10 +174,7 @@ export default function ({
     [id, secondary, ownId, children, handleStatusAnnouncement]
   )
 
-  const callbackHandleStatusDestroy = useCallback(
-    () => { handleStatusDestroy({ id }) },
-    [id]
-  )
+  const callbackHandleStatusDestroy = useCallback(() => { handleStatusDestroy({ id }) }, [id])
 
   const handleOnClick = (e: MouseEvent<HTMLDivElement>) => {
     if (onClick !== undefined && !disabled) {
@@ -186,16 +191,8 @@ export default function ({
     }
   }
 
-  // useEffect(() => {
-  //   if (ownId && statusObject !== null) {
-  //     console.log('announcing status update', id)
-  //     handleStatusUpdate({ id, ownId, children })
-  //   }
-  // }, [id, ownId, statusObject, children])
-
   useEffect(() => {
     if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
-      console.log('announcing status', id)
       callbackHandleStatusAnnouncement()
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement])
@@ -214,14 +211,12 @@ export default function ({
   }, [secondary, statusObject])
 
   useEffect(() => {
-    console.log('generate ownId', ownId, id)
     setOwnId((Math.random() + 1).toString(36).substring(7))
   }, [])
 
-  // validation
+  // eslint-disable-next-line no-console
   useEffect(() => { if (!id) { console.error('Please define an id for the status bar item') } }, [id])
 
-  // teardown
   useEffect(() => () => { callbackHandleStatusDestroy() }, [callbackHandleStatusDestroy])
 
   return <>
@@ -229,7 +224,6 @@ export default function ({
     && createPortal(
       (statusObject.visible && children) && <SDiv {...{
         id,
-        direction: 'row',
         key: `mui-status-${id}`,
         onClick: handleOnClick,
         onContextMenu: handleOnContextMenu,
@@ -250,7 +244,7 @@ export default function ({
             : <SArrowDown position={position.toString()} color="primary" />}
         </>}
         {tooltip
-          ? <Tooltip title={<div style={{ fontSize: '14px', maxHeight: '300px', overflow: 'scroll' }}>{tooltip}</div>} arrow>
+          ? <Tooltip title={<STooltip>{tooltip}</STooltip>} arrow>
             <SSpan>{children}</SSpan>
           </Tooltip>
           : <SSpan>{children}</SSpan>}

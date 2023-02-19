@@ -125,7 +125,7 @@ export default function () {
           onResizeStop={(_e, _direction, _ref, d) => {
             const computedHeight = Number(height.replace('px', '')) + d.height
             if (computedHeight < 125) {
-              updateConsoleActiveId({})
+              updateConsoleActiveId({ id: undefined })
             } else {
               setHeight(`${computedHeight}px`)
               setWidth('100%')

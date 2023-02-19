@@ -1,13 +1,13 @@
-import { CSSProperties, ReactNode } from 'react';
-import { PopoverActions } from '../index.types';
+import { CSSProperties, MouseEvent, ReactNode } from 'react';
+import { Highlight, PopoverActions } from '../index.types';
 export default function ({ id, secondary, elevation, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, endSeparator, startSeparator, }: {
     id: string;
     secondary?: boolean;
     elevation?: number;
     style?: CSSProperties;
-    onClick?: any;
-    onClose?: any;
-    highlight?: 'default' | 'primary' | 'secondary';
+    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+    onClose?: (event: MouseEvent<HTMLDivElement>) => void;
+    highlight?: Highlight;
     tooltip?: ReactNode | string;
     children?: ReactNode;
     popover?: any;
