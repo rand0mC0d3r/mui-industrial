@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
-import { alpha, ClickAwayListener, Popper } from '@mui/material'
+import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { Highlight, PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
+import { Highlight, PanelWidth, PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
+
+const StyledBox = styled(Box)<{width?: PanelWidth }>(({ theme, width } : { theme: any, width?: PanelWidth}) => ({
+  width: `${width ? `${theme.breakpoints.values[width] / 1.42}px` : 'auto'}`,
+  height: `${width ? `${theme.breakpoints.values[width] / 1.24}px` : 'auto'}`,
+}))
 
 const StyledPopper = styled(Popper)(() => ({
   zIndex: '101',
@@ -45,6 +50,7 @@ export default function ({
   id,
   secondary = false,
   elevation = 2,
+  width,
   style,
   onClick,
   onClose,
@@ -62,6 +68,7 @@ export default function ({
   id: string,
   secondary?: boolean,
   elevation?: number,
+  width?: PanelWidth,
   style?: CSSProperties,
   onClick?: (event: MouseEvent<HTMLDivElement>) => void,
   onClose?: (event: MouseEvent<HTMLDivElement>) => void,
@@ -141,7 +148,15 @@ export default function ({
           decoration: hasDecoration.toString()
         }}
         >
-          {popover}
+          <StyledBox
+            display="flex"
+            alignItems="stretch"
+            justifyContent="space-between"
+            flexDirection="column"
+            width={width}
+          >
+            {popover}
+          </StyledBox>
           {hasToolbar && <InternalHeader {...{ id, popoverActions, popoverTitle }} />}
         </StyledContainer>
       </ClickAwayListener>

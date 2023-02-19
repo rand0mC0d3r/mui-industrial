@@ -74,6 +74,7 @@ export default function ({
       endSeparator,
       startSeparator,
 
+      width: options?.panel?.width,
       elevation: options?.panel?.elevation,
       onClose: panel?.onClose,
       popover: content,

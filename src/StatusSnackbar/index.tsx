@@ -27,7 +27,13 @@ export default function ({
   source?: string,
   code?: string,
 }) {
-  const { snackbar, handleSnackbarAnnouncement } : { snackbar: SnackbarObject[], handleSnackbarAnnouncement: any } = useContext(DataProvider)
+  const {
+    snackbar,
+    handleSnackbarAnnouncement
+  } : {
+    snackbar: SnackbarObject[],
+    handleSnackbarAnnouncement: any
+   } = useContext(DataProvider)
   const [ownId, setOwnId] = useState<string | null>()
   const [announced, setAnnounced] = useState<boolean>(false)
   const [snackbarObject, setSnackbarObject] = useState<SnackbarObject | null>(null)

@@ -1,9 +1,10 @@
 import { CSSProperties, MouseEvent, ReactNode } from 'react';
-import { Highlight, PopoverActions } from '../index.types';
-export default function ({ id, secondary, elevation, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, endSeparator, startSeparator, }: {
+import { Highlight, PanelWidth, PopoverActions } from '../index.types';
+export default function ({ id, secondary, elevation, width, style, onClick, onClose, highlight, tooltip, children, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, endSeparator, startSeparator, }: {
     id: string;
     secondary?: boolean;
     elevation?: number;
+    width?: PanelWidth;
     style?: CSSProperties;
     onClick?: (event: MouseEvent<HTMLDivElement>) => void;
     onClose?: (event: MouseEvent<HTMLDivElement>) => void;

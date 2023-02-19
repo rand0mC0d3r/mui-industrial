@@ -49,6 +49,7 @@ export interface SnackbarObject {
 
 export interface StatusPanelProps {
   elevation?: number,
+  width?: PanelWidth,
   onClose?: any,
   actions?: PopoverActions,
 	hasToolbar?: boolean,
@@ -96,6 +97,13 @@ export enum StatusType {
 export enum PlacementPosition {
   TOP = 'top',
   BOTTOM = 'bottom',
+}
+
+export enum PanelWidth {
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
 }
 
 export const Direction = {
