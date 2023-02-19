@@ -7,13 +7,13 @@ import DataProvider, { DataContextInterface } from '../Store'
 
 export default function ({
   id,
-  secondary = false,
+  secondary,
   style,
   onClick,
-  tooltip = '',
+  tooltip,
   children,
-  endSeparator = false,
-  startSeparator = false,
+  endSeparator,
+  startSeparator,
 
   content,
   title,
@@ -45,7 +45,9 @@ export default function ({
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
-  const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId) ? Highlight.PRIMARY : Highlight.DEFAULT
+  const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId)
+    ? Highlight.PRIMARY
+    : Highlight.DEFAULT
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (onClick) onClick(event)
@@ -78,7 +80,7 @@ export default function ({
       secondary,
       highlight: computeHightlight,
       onClick: handleOnClick,
-      style: { ...style, cursor: 'context-menu', minWidth: '24px' }
+      style: { ...style }
     }}
     >
       {children}

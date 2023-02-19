@@ -118,7 +118,7 @@ export default function ({
       highlight: determineHighlight(),
       secondary,
       onClick: handleOnClick,
-      style: { ...style, cursor: 'context-menu', minWidth: '24px' },
+      style: { ...style },
     }}
     >
       {children}
