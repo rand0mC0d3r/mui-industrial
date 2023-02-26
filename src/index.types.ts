@@ -36,6 +36,14 @@ export interface StatusObject {
   title?: string;
   children: React.ReactNode;
 }
+export interface ShortcutObject {
+  capsLock: boolean;
+  shiftKey: boolean;
+  ctrlKey: string;
+  commandAltKey: any;
+  char: string;
+  insensitive?: boolean;
+}
 export interface SnackbarObject {
   uniqueId: string;
   open: boolean;
@@ -44,7 +52,7 @@ export interface SnackbarObject {
   message: string;
   code: string;
   autoHideDuration: number;
-  severity: 'success' | 'info' | 'warning' | 'error',
+  severity: Severity,
 }
 
 export interface StatusPanelProps {
@@ -104,6 +112,13 @@ export enum PanelWidth {
   MD = 'md',
   LG = 'lg',
   XL = 'xl',
+}
+
+export enum Severity {
+  SUCCESS = 'success',
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
 }
 
 export const Direction = {

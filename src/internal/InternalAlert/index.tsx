@@ -8,12 +8,12 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { Alert, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { cloneElement, useEffect, useState } from 'react'
+import { Severity } from '../../index.types'
 import Footer from './components/Footer'
 import Header from './components/Header'
 
 const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
   fontFamily: 'monospace',
-  backgroundColor: `${theme.palette.divider}`,
   padding: '8px',
   resize: 'vertical',
   whiteSpace: 'nowrap',
@@ -21,9 +21,11 @@ const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
   marginBottom: '8px',
   borderColor: 'inherit',
   maxHeight: '300px',
-  minHeight: `${(height * 20) + 10}px`,
   borderRadius: '4px',
   color: 'inherit',
+
+  backgroundColor: `${theme.palette.divider}`,
+  minHeight: `${(height * 20) + 10}px`,
 
   '&::selection': {
     backgroundColor: `${theme.palette.divider}`,
@@ -56,8 +58,9 @@ const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded,
   '.MuiAlert-message': {
     minWidth: 'unset',
     width: '100%',
-    padding: expanded === 'true' ? '8px 0px' : '0px',
     display: 'flex',
+
+    padding: expanded === 'true' ? '8px 0px' : '0px',
     flexDirection: (actions === 'true' || expanded === 'true') ? 'column' : 'row',
   },
 }))
@@ -74,7 +77,7 @@ export default function ({
   uniqueId: string,
   actions?: any,
   source?: string,
-  severity: any,
+  severity: Severity,
   message: string,
   code: string,
   isRemoveFlag?: boolean,
@@ -82,14 +85,10 @@ export default function ({
   const [isExpanded, setIsExpanded] = useState(false)
 
   useEffect(() => {
-    if (actions) {
-      setIsExpanded(true)
-    }
+    if (actions) setIsExpanded(true)
   }, [actions])
 
-  const getMessage = (ellipsis = false) => <SMessage ellipsis={ellipsis.toString()}>
-    {message}
-  </SMessage>
+  const getMessage = (ellipsis = false) => <SMessage ellipsis={ellipsis.toString()}>{message}</SMessage>
 
   const getIcon = (icon: any) => <Tooltip placement="left" arrow title={`${severity.toUpperCase()}${source ? ` - Source: ${source}` : ''}`}>
     {cloneElement(icon, { style: { fontSize: 'inherit' } })}
@@ -102,25 +101,18 @@ export default function ({
     onDoubleClick={() => !actions && setIsExpanded(!isExpanded)}
     icon={
       <span style={{ lineHeight: '0px' }}>
-        {severity === 'info' && getIcon(<PriorityHighOutlinedIcon />)}
-        {severity === 'success' && getIcon(<CheckIcon />)}
-        {severity === 'warning' && getIcon(<WarningAmberIcon />)}
-        {severity === 'error' && getIcon(<ErrorOutlineOutlinedIcon />)}
+        {severity === Severity.INFO && getIcon(<PriorityHighOutlinedIcon />)}
+        {severity === Severity.SUCCESS && getIcon(<CheckIcon />)}
+        {severity === Severity.WARNING && getIcon(<WarningAmberIcon />)}
+        {severity === Severity.ERROR && getIcon(<ErrorOutlineOutlinedIcon />)}
       </span>
 }
     {...{ severity }}
   >
     <SWrapper>
       <Header {...{ uniqueId, code, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded }} />
-
       {(isExpanded || actions) && getMessage()}
-
-      {isExpanded && code && <SCode
-        defaultValue={code}
-        spellCheck="false"
-        height={Math.min(10, code.split('\n').length)}
-      />}
-
+      {isExpanded && code && <SCode defaultValue={code} spellCheck="false" height={Math.min(10, code.split('\n').length)} />}
       {(isExpanded || actions) && <>
         {(source || actions) && <Footer {...{ actions, severity, source }} />}
       </>}

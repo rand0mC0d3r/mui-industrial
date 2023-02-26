@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlacementPosition, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { PlacementPosition, Severity, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
@@ -12,7 +12,15 @@ export interface DataContextInterface {
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
     handleStatusAnnouncement: any;
-    handleSnackbarAnnouncement: any;
+    handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration }: {
+        ownId: string;
+        actions: any;
+        source?: string;
+        severity: Severity;
+        message: any;
+        code?: string;
+        autoHideDuration: number;
+    }) => void;
     handleStatusDestroy: any;
     handleSnackbarDestroy: any;
     handleStatusTypeUpdate: ({ id, type }: {

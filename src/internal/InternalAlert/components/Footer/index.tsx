@@ -4,13 +4,7 @@
 import { Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { cloneElement, Fragment } from 'react'
-
-const buttonColors = {
-  error: 'error',
-  warning: 'warning',
-  info: 'info',
-  success: 'success',
-}
+import { Severity } from '../../../../index.types'
 
 const SFooter = styled('div')(() => ({
   display: 'flex',
@@ -39,19 +33,16 @@ export default function ({
 }: {
   actions?: any,
   source?: string,
-  severity: any,
+  severity: Severity,
 }) {
   return <SFooter>
-    {source && <SSource variant="caption" color="textSecondary">
-      Source:
-      {source}
-    </SSource>}
+    {source && <SSource variant="caption" color="textSecondary">{`Source: ${source}`}</SSource>}
     <SActions>
       {actions && actions.map((action: any, i: number) => <Fragment key={`generative_${i}`}>
         {cloneElement(
           action,
           {
-            color: i === 0 ? buttonColors[severity] : 'inherit',
+            color: i === 0 ? severity : 'inherit',
             size: 'small',
             style: i === 0 ? { } : { borderStyle: 'dotted' },
             variant: i === 0 ? 'contained' : 'outlined',

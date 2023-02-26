@@ -5,8 +5,8 @@ import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined'
 import { IconButton, Tooltip } from '@mui/material'
 import { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SnackbarObject } from '../index.types'
-import DataProvider, { composeDomId } from '../Store'
+import { Severity, SnackbarObject } from '../index.types'
+import DataProvider, { composeDomId, DataContextInterface } from '../Store'
 
 const componentId = 'snackBar'
 
@@ -19,7 +19,7 @@ export default function ({
   source,
   code,
 } : {
-  severity: 'success' | 'info' | 'warning' | 'error',
+  severity: Severity,
   message: string,
 	onClick?: any,
   autoHideDuration?: number,
@@ -32,19 +32,17 @@ export default function ({
     handleSnackbarAnnouncement
   } : {
     snackbar: SnackbarObject[],
-    handleSnackbarAnnouncement: any
+    handleSnackbarAnnouncement: DataContextInterface['handleSnackbarAnnouncement']
    } = useContext(DataProvider)
   const [ownId, setOwnId] = useState<string | null>()
   const [announced, setAnnounced] = useState<boolean>(false)
   const [snackbarObject, setSnackbarObject] = useState<SnackbarObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
 
-  const callbackHandleStatusAnnouncement = useCallback(
-    () => {
-      handleSnackbarAnnouncement({ ownId, actions, source, severity, message, code, autoHideDuration })
-    },
-    [severity, ownId, message, actions, source, code, autoHideDuration, handleSnackbarAnnouncement]
-  )
+  const callbackHandleStatusAnnouncement = useCallback(() => {
+    if (!ownId) return
+    handleSnackbarAnnouncement({ ownId, actions, source, severity, message, code, autoHideDuration })
+  }, [severity, ownId, message, actions, source, code, autoHideDuration, handleSnackbarAnnouncement])
 
   useLayoutEffect(() => {
     if (snackbarObject !== null && ownId) {

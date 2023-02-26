@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, SnackbarObject, StatusObject, StatusType } from '../index.types'
+import { PlacementPosition, SettingsObject, Severity, SnackbarObject, StatusObject, StatusType } from '../index.types'
 import Wrapper from '../internal/Wrapper'
 
 const domIdBase = 'mui-status'
@@ -46,7 +46,8 @@ export interface DataContextInterface {
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
   handleStatusAnnouncement: any;
-  handleSnackbarAnnouncement: any;
+  handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
+    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
   handleStatusDestroy: any;
   handleSnackbarDestroy: any;
   handleStatusTypeUpdate: ({ id, type }: { id: string, type: StatusType }) => void;
@@ -88,6 +89,7 @@ function IndustrialProvider({
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
   const [snackbar, setSnackbar] = useState<SnackbarObject[]>([])
+  // const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([])
   const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
   const logDebug = (message: string) => {
@@ -122,7 +124,7 @@ function IndustrialProvider({
   }
   const handleSnackbarAnnouncement = (
     { ownId, severity, actions, source, message, code, autoHideDuration } :
-    { ownId: string, actions: any, source: string, severity: string, message: any, code: string, autoHideDuration: number }
+    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }
   ) => {
     console.log('registed snackbar', ownId)
     setSnackbar((snackbar: SnackbarObject[]) => [

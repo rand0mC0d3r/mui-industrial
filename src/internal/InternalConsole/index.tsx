@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage'
@@ -74,6 +75,12 @@ const StyledCloseIcon = styled(CloseIcon)(() => ({
   fontSize: '20px'
 }))
 
+const StyledContainer = styled('div')<{ position: string }>(({ position }) => ({
+  flex: '1 1 auto',
+  display: 'flex !important',
+  flexDirection: position === PlacementPosition.BOTTOM ? 'column' : 'column-reverse'
+}))
+
 const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
   padding: '4px 12px',
   cursor: 'pointer',
@@ -90,6 +97,7 @@ const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated
 const domId = 'mui-status-console'
 const domIdWrapper = 'mui-status-console-wrapper'
 const relevantType = 'console'
+const localStorageKey = 'mui-industrial-console-height'
 
 export default function () {
   const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider)
@@ -98,13 +106,36 @@ export default function () {
   const isActivated = (uniqueId: string): boolean => uniqueId === consoleActiveId
   const relevantConsoles = status.filter(({ type }) => type === relevantType)
 
-  const [height, setHeight] = useState('300px')
+  const [height, setHeight] = useState<string | undefined>()
   const [width, setWidth] = useState('100%')
 
   const handleUserKeyPress = useCallback(event => {
     const { keyCode } = event
     if ((keyCode === 27)) {
       updateIsConsoleOpen()
+    }
+  }, [])
+
+  const computeHeight = useCallback((d: number) => {
+    const computedHeight = Number((height || '350px').replace('px', '')) + d
+    if (computedHeight < 125) {
+      updateConsoleActiveId({ id: undefined })
+    } else {
+      setHeight(`${computedHeight}px`)
+      setWidth('100%')
+    }
+  }, [height])
+
+  useEffect(() => {
+    if (height) {
+      localStorage.setItem(localStorageKey, height)
+    }
+  }, [height])
+
+  useEffect(() => {
+    const savedHeight = localStorage.getItem(localStorageKey)
+    if (savedHeight) {
+      setHeight(savedHeight)
     }
   }, [])
 
@@ -122,48 +153,40 @@ export default function () {
         bottom={String(position === PlacementPosition.BOTTOM)}
       >
         <Resizable
-          onResizeStop={(_e, _direction, _ref, d) => {
-            const computedHeight = Number(height.replace('px', '')) + d.height
-            if (computedHeight < 125) {
-              updateConsoleActiveId({ id: undefined })
-            } else {
-              setHeight(`${computedHeight}px`)
-              setWidth('100%')
-            }
-          }}
+          onResizeStop={(_e, _direction, _ref, d) => computeHeight(d.height)}
           style={{ display: 'flex', flexDirection: 'column' }}
           minHeight="75px"
           maxHeight="950px"
-          defaultSize={{ width, height }}
+          defaultSize={{ width, height: height || '350px' }}
         >
           <StyledResizable>
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
-              ? <div style={{
-                flex: '1 1 auto',
-                display: 'flex',
-                flexDirection: position === PlacementPosition.BOTTOM ? 'column' : 'column-reverse'
-              }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <StyledTabs>
-                    {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
-                      key: uniqueId,
-                      variant: 'caption',
-                      onClick: () => updateConsoleActiveId({ id: uniqueId }),
-                      activated: isActivated(uniqueId).toString()
-                    }}
-                    >
-                      {title || uniqueId}
-                    </StyledTab>)}
-                  </StyledTabs>
-                  <Tooltip {...{ title: 'Close console section' }}>
-                    <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
-                  </Tooltip>
-                </div>
-                <StyledStatusConsole {...{ id: domId }} />
-              </div>
+              ? <>
+                <StyledContainer position={position.toString()}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <StyledTabs>
+                      {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
+                        key: uniqueId,
+                        variant: 'caption',
+                        onClick: () => updateConsoleActiveId({ id: uniqueId }),
+                        activated: isActivated(uniqueId).toString()
+                      }}
+                      >
+                        {title || uniqueId}
+                      </StyledTab>)}
+                    </StyledTabs>
+                    <Tooltip {...{ title: 'Close console section' }}>
+                      <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
+                    </Tooltip>
+                  </div>
+                  <StyledStatusConsole {...{ id: domId }} />
+                </StyledContainer>
+              </>
               : <StyledEmptyWrapper>
                 <AppsOutageIcon />
+                {status.filter(({ type }) => type === relevantType).map(statusItem => <>
+                  {statusItem.children}
+                </>)}
                 <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
               </StyledEmptyWrapper>}
           </StyledResizable>

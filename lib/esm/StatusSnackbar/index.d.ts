@@ -1,6 +1,7 @@
 /// <reference types="react" />
+import { Severity } from '../index.types';
 export default function ({ severity, message, onClick, autoHideDuration, actions, source, code, }: {
-    severity: 'success' | 'info' | 'warning' | 'error';
+    severity: Severity;
     message: string;
     onClick?: any;
     autoHideDuration?: number;
