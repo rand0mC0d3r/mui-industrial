@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+export declare const domConsoleId = "mui-status-console";
 export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;
@@ -59,12 +60,17 @@ export interface StatusPanelProps {
     width?: PanelWidth;
     onClose?: any;
     actions?: PopoverActions;
+    hasArrow?: boolean;
     hasToolbar?: boolean;
     hasDecoration?: boolean;
 }
 export interface StatusOptionsProps {
     as?: StatusType;
     panel?: StatusPanelProps;
+    separators?: {
+        end?: boolean;
+        start?: boolean;
+    };
     content?: ReactNode;
     title?: string;
 }

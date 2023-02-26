@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react'
 
+export const domConsoleId = 'mui-status-console'
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -60,6 +62,7 @@ export interface StatusPanelProps {
   width?: PanelWidth,
   onClose?: any,
   actions?: PopoverActions,
+  hasArrow?: boolean,
 	hasToolbar?: boolean,
 	hasDecoration?: boolean,
 }
@@ -67,7 +70,10 @@ export interface StatusPanelProps {
 export interface StatusOptionsProps {
   as?: StatusType,
   panel?: StatusPanelProps,
-
+  separators?: {
+    end?: boolean,
+    start?: boolean,
+  }
   content?: ReactNode,
   title?: string,
 }

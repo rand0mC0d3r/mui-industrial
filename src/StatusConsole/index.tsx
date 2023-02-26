@@ -1,46 +1,69 @@
 /* eslint-disable no-unused-vars */
-import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
+import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Highlight, SettingsObject, StatusObject, StatusType } from '../index.types'
+import { domConsoleId, Highlight, SettingsObject, StatusObject, StatusOptionsProps, StatusType } from '../index.types'
 import StatusCore from '../StatusCore'
 import DataProvider, { DataContextInterface } from '../Store'
 
+/**
+ *
+ * Status Console component
+ *
+ * @description
+ * Status Console is a Status component that can be used to display a console
+ * with a title and content. It can be used to display a list of items, a table,
+ * or any other content.
+ *
+ * @param id - (string) Unique id of the Status Console
+ * @param disabled - (boolean) If true, the Status Console will be disabled
+ * @param options - (StatusOptionsProps) Options for the Status Console
+ * @param secondary - (boolean) If true, the Status Console will be rendered as a secondary status
+ * @param tooltip - (ReactNode | string) Tooltip to be displayed on hover
+ *
+ * @param onClick - (event: MouseEvent<HTMLDivElement>) => void) Callback fired when the Status Console is clicked
+ * @param onContextMenu - (event: MouseEvent<HTMLDivElement>) => void) Callback fired when the Status Console is right clicked
+ *
+ * @param style - (CSSProperties) Override or extend the styles applied to the component
+ * @param className - (HTMLAttributes<HTMLDivElement>['className']) Override or extend the styles applied to the component
+ *
+ * @param children - (ReactNode) Children to be rendered inside the Status Console
+ *
+ * @example
+ * <StatusConsole
+ *  id="statusConsole"
+ *  options={{
+ *    title: 'Status Console',
+ *    content: <div>Content</div>,
+ *    separators: { end: true},
+ *  }}
+ * />...
+ *
+ * @returns (JSX.Element) Status Console element
+ */
 export default function ({
   id,
+  disabled,
+  options,
   secondary,
-  style,
-  onClick,
   tooltip,
+  onClick,
+  onContextMenu,
+  style,
+  className,
   children,
-  endSeparator,
-  startSeparator,
-
-  content,
-  title,
 } : {
   id: string,
+  disabled?: boolean,
+  options?: StatusOptionsProps,
   secondary?: boolean,
-  style?: CSSProperties,
-  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
   tooltip?: ReactNode | string,
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void,
+  style?: CSSProperties,
+  className?: HTMLAttributes<HTMLDivElement>['className'],
   children?: ReactNode,
-  endSeparator?: boolean,
-  startSeparator?: boolean,
-
-  content: ReactNode,
-  title?: string,
 }) {
-  const {
-    status,
-    handleStatusTypeUpdate,
-    handleStatusConsoleTitleUpdate,
-    updateConsoleActiveId
-  } : {
-    status: StatusObject[],
-    handleStatusTypeUpdate: DataContextInterface['handleStatusTypeUpdate'],
-    handleStatusConsoleTitleUpdate: DataContextInterface['handleStatusConsoleTitleUpdate'],
-    updateConsoleActiveId: DataContextInterface['updateConsoleActiveId'],
-  } = useContext(DataProvider)
+  const { status, handleStatusTypeUpdate, handleStatusConsoleTitleUpdate, updateConsoleActiveId } = useContext(DataProvider) as DataContextInterface
   const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
@@ -56,35 +79,40 @@ export default function ({
   }
 
   useEffect(() => {
-    setElementFound(document.getElementById('mui-status-console') || null)
+    setElementFound(document.getElementById(domConsoleId) || null)
   }, [statusObject, consoleActiveId, isConsoleOpen])
 
   useEffect(() => {
+    if (statusObject !== null) return
     const foundObject = status.find(({ uniqueId }) => uniqueId === id)
-    if (statusObject === null && foundObject) {
-      setStatusObject(foundObject)
-      handleStatusTypeUpdate({ id, type: StatusType.CONSOLE })
-    }
+    if (!foundObject) return
+    setStatusObject(foundObject)
+    handleStatusTypeUpdate({ id, type: StatusType.CONSOLE })
   }, [status, id, statusObject])
 
   useEffect(() => {
-    if (statusObject) handleStatusConsoleTitleUpdate({ id, title })
-  }, [statusObject, id, title])
+    if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title })
+  }, [statusObject, id, options?.title])
 
   return <>
     <StatusCore {...{
       id,
-      endSeparator,
-      startSeparator,
+      style,
+      className,
       tooltip,
       secondary,
+      onContextMenu,
+      disabled,
+      options: { separators: options?.separators },
       highlight: computeHightlight,
       onClick: handleOnClick,
-      style: { ...style }
     }}
     >
       {children}
     </StatusCore>
-    {elementFound && statusObject && statusObject.uniqueId === consoleActiveId && createPortal(content, elementFound)}
+    {elementFound && options?.content
+    && statusObject
+    && statusObject.uniqueId === consoleActiveId
+    && createPortal(options?.content, elementFound)}
   </>
 }

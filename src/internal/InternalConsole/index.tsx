@@ -7,7 +7,7 @@ import { Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject } from '../../index.types'
+import { domConsoleId, PlacementPosition, SettingsObject } from '../../index.types'
 import DataProvider from '../../Store'
 
 const StyledStatusConsole = styled('div')(() => ({
@@ -94,7 +94,7 @@ const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated
   }
 }))
 
-const domId = 'mui-status-console'
+const domId = domConsoleId
 const domIdWrapper = 'mui-status-console-wrapper'
 const relevantType = 'console'
 const localStorageKey = 'mui-industrial-console-height'

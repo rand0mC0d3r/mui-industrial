@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEvent, ReactNode } from 'react';
-import { Highlight } from '../index.types';
+import { Highlight, StatusOptionsProps } from '../index.types';
 /**
  * @param id - (string) Unique identifier for the status element.
  * @param secondary - (boolean) If needs to be applied a secondary style to the status element.
@@ -13,17 +13,15 @@ import { Highlight } from '../index.types';
  *
  * @returns (JSX.Element) Status element
  */
-export default function ({ id, style, onClick, onContextMenu, disabled, highlight, tooltip, children, hasArrow, secondary, endSeparator, startSeparator, }: {
+export default function ({ id, style, onClick, onContextMenu, disabled, highlight, tooltip, children, options, secondary, }: {
     id: string;
+    options?: StatusOptionsProps;
     style?: CSSProperties;
-    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
+    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
     disabled?: boolean;
     highlight?: Highlight;
     tooltip?: ReactNode | string;
     children?: ReactNode;
-    hasArrow?: boolean;
     secondary?: boolean;
-    endSeparator?: boolean;
-    startSeparator?: boolean;
 }): JSX.Element;

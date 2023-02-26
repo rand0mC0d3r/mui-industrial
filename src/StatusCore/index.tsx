@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Highlight, PlacementPosition, SettingsObject, StatusObject, ThemeShape } from '../index.types'
+import { Highlight, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps, ThemeShape } from '../index.types'
 import DataProvider, { composeDomId } from '../Store'
 
 const componentId = 'statusBar'
@@ -34,15 +34,15 @@ const backgroundColorHover = (theme: ThemeShape, highlight?: string) => {
 }
 
 const isStartSeparator = (
-  startSeparator: string,
-  endSeparator: string,
-  secondary: string
+  startSeparator?: string,
+  endSeparator?: string,
+  secondary?: string
 ) => (secondary === 'false' && startSeparator === 'true') || (secondary === 'true' && endSeparator === 'true')
 
 const isEndSeparator = (
-  startSeparator: string,
-  endSeparator: string,
-  secondary: string
+  startSeparator?: string,
+  endSeparator?: string,
+  secondary?: string
 ) => (secondary === 'false' && endSeparator === 'true') || (secondary === 'true' && startSeparator === 'true')
 
 const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
@@ -79,8 +79,8 @@ const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
 
 const SDiv = styled('div')<{
 	secondary: string,
-	endSeparator: string,
-	startSeparator: string,
+	endSeparator?: string,
+	startSeparator?: string,
 	hasclick?: string,
 	highlight?: string,
 	isdisabled?: string
@@ -142,26 +142,24 @@ export default function ({
   highlight = Highlight.DEFAULT,
   tooltip,
   children,
-
-  hasArrow = false,
+  options = {
+    separators: {
+      start: false,
+      end: false,
+    }
+  },
   secondary = false,
-  endSeparator = false,
-  startSeparator = false,
 } : {
   id: string,
-
+  options?: StatusOptionsProps,
   style?: CSSProperties,
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
-  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void,
   disabled?: boolean,
   highlight?: Highlight,
   tooltip?: ReactNode | string,
   children?: ReactNode,
-
-  hasArrow?: boolean,
   secondary?: boolean,
-  endSeparator?: boolean,
-  startSeparator?: boolean,
 }) {
   const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
   const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject
@@ -232,13 +230,13 @@ export default function ({
 
         highlight,
         secondary: secondary.toString(),
-        startSeparator: startSeparator.toString(),
-        endSeparator: endSeparator.toString(),
+        startSeparator: options?.separators?.start?.toString(),
+        endSeparator: options?.separators?.end?.toString(),
         hasclick: (!!onClick).toString(),
         isdisabled: disabled.toString(),
       }}
       >
-        {hasArrow && <>
+        {options?.panel?.hasArrow && <>
           {position === PlacementPosition.BOTTOM
             ? <SArrowUp color="primary" />
             : <SArrowDown position={position.toString()} color="primary" />}

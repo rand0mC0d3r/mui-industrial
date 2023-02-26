@@ -3,7 +3,7 @@
 import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { Highlight, PanelWidth, PlacementPosition, PopoverActions, SettingsObject, StatusObject } from '../index.types'
+import { Highlight, PanelWidth, PlacementPosition, PopoverActions, SettingsObject, StatusObject, StatusOptionsProps } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
@@ -57,19 +57,24 @@ export default function ({
   highlight = Highlight.DEFAULT,
   tooltip = '',
   children,
+  options = {
+    separators: {
+      start: false,
+      end: false,
+    }
+  },
   popover,
   popoverTitle,
   popoverActions,
   hasToolbar = true,
   hasDecoration = true,
-  endSeparator = false,
-  startSeparator = false,
 } : {
   id: string,
   secondary?: boolean,
   elevation?: number,
   width?: PanelWidth,
   style?: CSSProperties,
+  options: StatusOptionsProps,
   onClick?: (event: MouseEvent<HTMLDivElement>) => void,
   onClose?: (event: MouseEvent<HTMLDivElement>) => void,
   highlight?: Highlight,
@@ -80,8 +85,6 @@ export default function ({
   popoverActions?: PopoverActions,
 	hasToolbar?: boolean,
 	hasDecoration?: boolean,
-	endSeparator?: boolean,
-  startSeparator?: boolean,
 }) {
   const {
     status,
@@ -119,8 +122,7 @@ export default function ({
     <StatusCore {...{
       id,
       tooltip: open ? null : tooltip,
-      endSeparator,
-      startSeparator,
+      options: { separators: options.separators },
       hasArrow: open && hasDecoration,
       highlight: determineHighlight(),
       secondary,
