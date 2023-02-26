@@ -3,7 +3,7 @@
 import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { Highlight, PanelWidth, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps } from '../index.types'
+import { Highlight, PanelWidth, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps, StatusPanelProps } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
@@ -85,16 +85,19 @@ const StyledContainer = styled('div')<{
  * @returns (JSX.Element) Status Panel component
  */
 
+const defaultPanel = {
+  elevation: 2,
+  hasToolbar: true,
+  onClose: () => {},
+  hasDecoration: true,
+} as StatusPanelProps
+
 export default function ({
   id,
   disabled,
   highlight = Highlight.DEFAULT,
   options = {
-    panel: {
-      elevation: 2,
-      hasToolbar: true,
-      hasDecoration: true,
-    },
+    panel: { ...defaultPanel },
     separators: {
       start: false,
       end: false,
@@ -130,6 +133,7 @@ export default function ({
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const enrichedPanel = { ...defaultPanel, ...options?.panel }
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return
@@ -158,7 +162,7 @@ export default function ({
       className,
       tooltip: open ? null : tooltip,
       options: { separators: options.separators },
-      hasArrow: open && options?.panel?.hasDecoration,
+      hasArrow: open && enrichedPanel?.hasDecoration,
       highlight: determineHighlight(),
       secondary,
       onClick: handleOnClick,
@@ -171,18 +175,18 @@ export default function ({
       keepMounted: statusObject?.keepOpen,
       open,
       anchorEl,
-      onClose: options?.panel?.onClose,
-      elevation: options?.panel?.elevation,
+      onClose: enrichedPanel.onClose,
+      elevation: enrichedPanel.elevation,
       placement: `${settings.position === PlacementPosition.TOP ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
       id: `mui-status-panel-popover-${id}`,
     }}
     >
       <ClickAwayListener onClickAway={event => handleOnClose(event)}>
         <StyledContainer {...{
-          elevation: options?.panel?.elevation,
+          elevation: enrichedPanel.elevation,
           highlight: determineHighlight().toString(),
           variant: settings.variant.toString(),
-          decoration: options?.panel?.hasDecoration?.toString()
+          decoration: enrichedPanel.hasDecoration?.toString()
         }}
         >
           <StyledBox
@@ -190,13 +194,13 @@ export default function ({
             alignItems="stretch"
             justifyContent="space-between"
             flexDirection="column"
-            width={options?.panel?.width}
+            width={enrichedPanel.width}
           >
             {options?.content}
           </StyledBox>
-          {options?.panel?.hasToolbar && <InternalHeader {...{
+          {enrichedPanel.hasToolbar && <InternalHeader {...{
             id,
-            actions: options?.panel?.actions,
+            actions: enrichedPanel.actions,
             title: options?.title
           }}
           />}

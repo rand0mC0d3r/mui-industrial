@@ -39,8 +39,7 @@ export interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function IndustrialProvider({ disabled, expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
-    disabled?: boolean;
+declare function IndustrialProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
     expand?: boolean;
     hasLock?: boolean;
     position?: PlacementPosition;

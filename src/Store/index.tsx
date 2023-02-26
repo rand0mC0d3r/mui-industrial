@@ -14,6 +14,7 @@ export const composeDomId = (component: string, detail: string[]) => {
   return `${domIdBase}-${component}-${id}`
 }
 
+const packageName = 'mui-industrial'
 const settingsStorageKey = 'mui-status.settings'
 const statusStorageKey = 'mui-status.status'
 
@@ -61,7 +62,6 @@ export interface DataContextInterface {
 const DataContext = createContext({} as DataContextInterface)
 
 function IndustrialProvider({
-  disabled = false,
   expand,
   hasLock,
   position = PlacementPosition.TOP,
@@ -75,7 +75,6 @@ function IndustrialProvider({
   size = 'small',
   variant = 'default',
 } : {
-  disabled?: boolean,
   expand?: boolean,
   hasLock?: boolean,
   position?: PlacementPosition,
@@ -258,29 +257,15 @@ function IndustrialProvider({
     }))
   }, [allowRightClick, fullWidth, variant, hasBorder, size, justifyContent, expand, position, debug, hasLock])
 
-  // useEffect(() => {
-  //   if (settings.debug) {
-  //     console.log('mui-status-store:', { ...settings, status, snackbar })
-  //   }
-  // }, [settings, status, snackbar])
-
   useEffect(() => {
     if (settings.debug) {
-      console.log('mui-status-settings:', { ...settings })
+      console.clear()
+      console.log('Debugging is enabled.')
+      console.table({ ...settings })
+      console.table({ ...status })
+      console.table({ ...snackbar })
     }
-  }, [settings])
-
-  useEffect(() => {
-    if (settings.debug) {
-      console.log('mui-status-status:', { ...status })
-    }
-  }, [status])
-
-  useEffect(() => {
-    if (settings.debug) {
-      console.log('mui-status-snackbar:', { ...snackbar })
-    }
-  }, [snackbar])
+  }, [settings, snackbar, status])
 
   return <DataContext.Provider
     value={{
@@ -311,7 +296,7 @@ function IndustrialProvider({
       logDebug,
     }}
   >
-    <Wrapper {...{ disabled, children, style }} />
+    <Wrapper {...{ children, style }} />
   </DataContext.Provider>
 }
 

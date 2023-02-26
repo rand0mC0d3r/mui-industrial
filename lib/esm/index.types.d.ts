@@ -78,6 +78,7 @@ export interface StatusOptionsProps {
 export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
+    isHidden: boolean;
     justifyContent: string;
     variant: 'default' | 'outlined';
     position: PlacementPosition;
