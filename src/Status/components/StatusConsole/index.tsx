@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { domConsoleId, Highlight, SettingsObject, StatusObject, StatusOptionsProps, StatusType } from '../index.types'
+import { domConsoleId, Highlight, SettingsObject, StatusObject, StatusOptionsProps, StatusType } from '../../../index.types'
+import DataProvider, { DataContextInterface } from '../../../Store'
 import StatusCore from '../StatusCore'
-import DataProvider, { DataContextInterface } from '../Store'
 
 /**
  *

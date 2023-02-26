@@ -3,12 +3,15 @@
 import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { Highlight, PanelWidth, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps, StatusPanelProps } from '../index.types'
-import InternalHeader from '../internal/InternalHeader'
+import {
+  Highlight, PlacementPosition, PopperWidth, SettingsObject, StatusObject,
+  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperProps
+} from '../../../index.types'
+import InternalHeader from '../../../internal/InternalHeader'
+import DataProvider from '../../../Store'
 import StatusCore from '../StatusCore'
-import DataProvider from '../Store'
 
-const StyledBox = styled(Box)<{width?: PanelWidth }>(({ theme, width } : { theme: any, width?: PanelWidth}) => ({
+const StyledBox = styled(Box)<{width?: PopperWidth }>(({ theme, width }) => ({
   width: `${width ? `${theme.breakpoints.values[width] / 1.42}px` : 'auto'}`,
   height: `${width ? `${theme.breakpoints.values[width] / 1.24}px` : 'auto'}`,
 }))
@@ -51,58 +54,24 @@ const StyledContainer = styled('div')<{
   boxShadow: theme.shadows[elevation || 2]
 }))
 
-/**
- *
- * Status Panel component
- * @description
- * Status Panel is a Status component that can be used to display a panel
- * with a title and content. It can be used to display a list of items, a table,
- * or any other content.
- *
- * @param id - (string) Unique id of the Status Panel
- * @param disabled - (boolean) If true, the Status Panel will be disabled
- * @param highlight - (Highlight) Highlight color of the Status Panel
- * @param options - (StatusOptionsProps) Options for the Status Panel
- * @param secondary - (boolean) If true, the Status Panel will be displayed as a secondary panel
- * @param tooltip - (ReactNode | string) Tooltip to display when hovering over the Status Panel
- * @param onClick - (event: MouseEvent<HTMLDivElement>) => void) Function to call when the Status Panel is clicked
- * @param onContextMenu - (event: MouseEvent<HTMLDivElement>) => void) Function to call when the Status Panel is right clicked
- * @param style - (CSSProperties) Style to apply to the Status Panel
- * @param className - (HTMLAttributes<HTMLDivElement>['className']) Class to apply to the Status Panel
- * @param children - (ReactNode) Children to display inside the Status Panel
- *
- * @example
- * <Status
- *  id="statusPanel"
- *  options={{
- *    as: StatusType.PANEL,
- *    title: 'Status Console',
- *    content: <div>Content</div>,
- *    ...
- *  }}
- * >...
- *
- * @returns (JSX.Element) Status Panel component
- */
-
-const defaultPanel = {
+const defaultPopperOptions = {
   elevation: 2,
   hasToolbar: true,
   onClose: () => {},
-  hasDecoration: true,
-} as StatusPanelProps
+  hasArrow: false,
+  hasDecoration: false,
+} as StatusPopperProps
+
+const defaultSeparatorOptions = {
+  start: false,
+  end: false,
+} as StatusOptionsSeparatorProps
 
 export default function ({
   id,
   disabled,
   highlight = Highlight.DEFAULT,
-  options = {
-    panel: { ...defaultPanel },
-    separators: {
-      start: false,
-      end: false,
-    }
-  } as StatusOptionsProps,
+  options,
   secondary = false,
   tooltip = '',
   onClick,
@@ -132,8 +101,11 @@ export default function ({
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [anchorEl, setAnchorEl] = useState(null)
+
+  const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps
+  const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps
+
   const open = Boolean(anchorEl)
-  const enrichedPanel = { ...defaultPanel, ...options?.panel }
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return
@@ -142,7 +114,7 @@ export default function ({
   }
 
   const handleOnClose = (event: any) => {
-    if (options?.panel?.onClose && !statusObject?.keepOpen) options?.panel?.onClose(event)
+    if (enrichedPopper.onClose && !statusObject?.keepOpen) enrichedPopper.onClose(event)
     if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null)
   }
 
@@ -161,8 +133,13 @@ export default function ({
       onContextMenu,
       className,
       tooltip: open ? null : tooltip,
-      options: { separators: options.separators },
-      hasArrow: open && enrichedPanel?.hasDecoration,
+      options: {
+        separators: enrichedSeparators,
+        popper: {
+          ...enrichedPopper,
+          hasArrow: open && enrichedPopper.hasArrow,
+        }
+      } as StatusOptionsProps,
       highlight: determineHighlight(),
       secondary,
       onClick: handleOnClick,
@@ -175,18 +152,18 @@ export default function ({
       keepMounted: statusObject?.keepOpen,
       open,
       anchorEl,
-      onClose: enrichedPanel.onClose,
-      elevation: enrichedPanel.elevation,
+      onClose: enrichedPopper.onClose,
+      elevation: enrichedPopper.elevation,
       placement: `${settings.position === PlacementPosition.TOP ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
       id: `mui-status-panel-popover-${id}`,
     }}
     >
       <ClickAwayListener onClickAway={event => handleOnClose(event)}>
         <StyledContainer {...{
-          elevation: enrichedPanel.elevation,
+          elevation: enrichedPopper.elevation,
           highlight: determineHighlight().toString(),
           variant: settings.variant.toString(),
-          decoration: enrichedPanel.hasDecoration?.toString()
+          decoration: enrichedPopper.hasDecoration?.toString()
         }}
         >
           <StyledBox
@@ -194,13 +171,13 @@ export default function ({
             alignItems="stretch"
             justifyContent="space-between"
             flexDirection="column"
-            width={enrichedPanel.width}
+            width={enrichedPopper.width}
           >
             {options?.content}
           </StyledBox>
-          {enrichedPanel.hasToolbar && <InternalHeader {...{
+          {enrichedPopper.hasToolbar && <InternalHeader {...{
             id,
-            actions: enrichedPanel.actions,
+            actions: enrichedPopper.actions,
             title: options?.title
           }}
           />}

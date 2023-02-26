@@ -1,5 +1,5 @@
 // import BlockNotifications from './BlockNotifications'
-import { Highlight, StatusOptionsProps, StatusPanelProps, StatusType } from './index.types'
+import { Highlight, StatusOptionsProps, StatusPopperProps, StatusType } from './index.types'
 import Status from './Status'
 import StatusHelper from './StatusHelper'
 // import StatusSnackbar from './StatusSnackbar'
@@ -15,5 +15,5 @@ export {
   StatusOptionsProps,
   StatusType,
   Highlight,
-  StatusPanelProps,
+  StatusPopperProps,
 }

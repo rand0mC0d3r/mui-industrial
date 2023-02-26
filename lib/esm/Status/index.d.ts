@@ -2,7 +2,7 @@ import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../index.types';
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
- * It can be used as a simple status element, a panel or a console.
+ * It can be used as a simple status element, a popper or a console.
  *
  * @param id - (string) Unique identifier for the status element.
  * @param disabled - (boolean) If needs to be disabled the status element.

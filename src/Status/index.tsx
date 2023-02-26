@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react'
 import { Highlight, StatusOptionsProps, StatusType } from '../index.types'
-import StatusConsole from '../StatusConsole'
-import StatusCore from '../StatusCore'
-import StatusPanel from '../StatusPanel'
+import StatusConsole from './components/StatusConsole'
+import StatusCore from './components/StatusCore'
+import StatusPoppper from './components/StatusPoppper'
+
+const defaultStatusOptionsProps = {
+  as: StatusType.SIMPLE,
+} as StatusOptionsProps
 
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
- * It can be used as a simple status element, a panel or a console.
+ * It can be used as a simple status element, a popper or a console.
  *
  * @param id - (string) Unique identifier for the status element.
  * @param disabled - (boolean) If needs to be disabled the status element.
@@ -30,9 +34,7 @@ export default function ({
   id,
   disabled = false,
   highlight = Highlight.DEFAULT,
-  options = {
-    as: StatusType.SIMPLE,
-  },
+  options = { ...defaultStatusOptionsProps },
   secondary = false,
   tooltip,
   onClick,
@@ -52,49 +54,24 @@ export default function ({
   style?: CSSProperties,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   children?: JSX.Element,
-
 }) {
+  const combinedOptions = { ...defaultStatusOptionsProps, ...options }
+  const props = {
+    id,
+    disabled,
+    highlight,
+    options: combinedOptions,
+    secondary,
+    tooltip,
+    onClick,
+    onContextMenu,
+    style,
+    className,
+    children
+  }
   return <>
-    {options?.as === StatusType.SIMPLE && <StatusCore {...{
-      id,
-      disabled,
-      highlight,
-      options,
-      secondary,
-      tooltip,
-      onClick,
-      onContextMenu,
-      style,
-      className,
-      children
-    }}
-    />}
-    {options?.as === StatusType.PANEL && <StatusPanel {...{
-      id,
-      disabled,
-      highlight,
-      options,
-      secondary,
-      tooltip,
-      onClick,
-      onContextMenu,
-      style,
-      className,
-      children,
-    }}
-    />}
-    {options?.as === StatusType.CONSOLE && <StatusConsole {...{
-      id,
-      disabled,
-      options,
-      secondary,
-      tooltip,
-      onClick,
-      onContextMenu,
-      style,
-      className,
-      children,
-    }}
-    />}
+    {combinedOptions.as === StatusType.SIMPLE && <StatusCore {...props} />}
+    {combinedOptions.as === StatusType.POPPER && <StatusPoppper {...props} />}
+    {combinedOptions.as === StatusType.CONSOLE && <StatusConsole {...props} />}
   </>
 }

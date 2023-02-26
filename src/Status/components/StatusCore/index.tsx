@@ -6,8 +6,11 @@ import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Highlight, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps, ThemeShape } from '../index.types'
-import DataProvider, { composeDomId } from '../Store'
+import {
+  Highlight, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps,
+  StatusOptionsSeparatorProps, StatusPopperProps, ThemeShape
+} from '../../../index.types'
+import DataProvider, { composeDomId } from '../../../Store'
 
 const componentId = 'statusBar'
 
@@ -61,6 +64,7 @@ const SSpan = styled('span')(({ theme }: { theme: { spacing: any } }) => ({
 
 const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ position }: { position: string }) => ({
   position: 'absolute',
+  zIndex: 102,
   bottom: position !== 'top' ? '-10px' : 'unset',
   top: position === 'top' ? '16px' : 'unset',
 }))
@@ -75,6 +79,7 @@ const SArrowUp = styled(ArrowDropUpOutlinedIcon)(() => ({
   position: 'absolute',
   bottom: 'unset',
   top: '-14px',
+  zIndex: 102
 }))
 
 const SDiv = styled('div')<{
@@ -120,19 +125,15 @@ const SDiv = styled('div')<{
    } : {}
  }))
 
-/**
- * @param id - (string) Unique identifier for the status element.
- * @param secondary - (boolean) If needs to be applied a secondary style to the status element.
- * @param style - (CSSProperties) Style to be applied to the root element.
- * @param onClick - (function) Function to be executed on click event.
- * @param onContextMenu - (function) Function to be executed on context menu event.
- * @param disabled - (boolean) If needs to be disabled the status element.
- * @param highlight - (string) If needs to be applied a highlight style to the status element.
- * @param tooltip - (string) Tooltip to be displayed on hover.
- * @param children - (JSX.Element) Children to be displayed inside the status element.
- *
- * @returns (JSX.Element) Status element
- */
+const defaultSeparatorOptions = {
+  start: false,
+  end: false,
+} as StatusOptionsSeparatorProps
+
+const defaultPopperOptions = {
+  hasArrow: false
+} as StatusPopperProps
+
 export default function ({
   id,
   style,
@@ -142,12 +143,7 @@ export default function ({
   highlight = Highlight.DEFAULT,
   tooltip,
   children,
-  options = {
-    separators: {
-      start: false,
-      end: false,
-    }
-  },
+  options,
   secondary = false,
 } : {
   id: string,
@@ -166,6 +162,9 @@ export default function ({
   const [ownId, setOwnId] = useState<string | null>()
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
+
+  const combinedSeparators = { ...defaultSeparatorOptions, ...options?.separators }
+  const combinedPopper = { ...defaultPopperOptions, ...options?.popper }
 
   const callbackHandleStatusAnnouncement = useCallback(
     () => handleStatusAnnouncement({ id, ownId, secondary, children }),
@@ -230,13 +229,13 @@ export default function ({
 
         highlight,
         secondary: secondary.toString(),
-        startSeparator: options?.separators?.start?.toString(),
-        endSeparator: options?.separators?.end?.toString(),
+        startSeparator: combinedSeparators.start?.toString(),
+        endSeparator: combinedSeparators.end?.toString(),
         hasclick: (!!onClick).toString(),
         isdisabled: disabled.toString(),
       }}
       >
-        {options?.panel?.hasArrow && <>
+        {combinedPopper.hasArrow && <>
           {position === PlacementPosition.BOTTOM
             ? <SArrowUp color="primary" />
             : <SArrowDown position={position.toString()} color="primary" />}

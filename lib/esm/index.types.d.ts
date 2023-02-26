@@ -56,22 +56,23 @@ export interface SnackbarObject {
     autoHideDuration: number;
     severity: Severity;
 }
-export interface StatusPanelProps {
+export interface StatusPopperProps {
     elevation?: number;
-    width?: PanelWidth;
+    width?: PopperWidth;
     onClose?: any;
     actions?: PopoverActions;
     hasArrow?: boolean;
     hasToolbar?: boolean;
     hasDecoration?: boolean;
 }
+export interface StatusOptionsSeparatorProps {
+    end?: boolean;
+    start?: boolean;
+}
 export interface StatusOptionsProps {
     as?: StatusType;
-    panel?: StatusPanelProps;
-    separators?: {
-        end?: boolean;
-        start?: boolean;
-    };
+    popper?: StatusPopperProps;
+    separators?: StatusOptionsSeparatorProps;
     content?: ReactNode;
     title?: string;
 }
@@ -100,14 +101,14 @@ export declare enum Highlight {
 }
 export declare enum StatusType {
     SIMPLE = "simple",
-    PANEL = "panel",
+    POPPER = "popper",
     CONSOLE = "console"
 }
 export declare enum PlacementPosition {
     TOP = "top",
     BOTTOM = "bottom"
 }
-export declare enum PanelWidth {
+export declare enum PopperWidth {
     SM = "sm",
     MD = "md",
     LG = "lg",
