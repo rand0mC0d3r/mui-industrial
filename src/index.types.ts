@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 
 export const domConsoleId = 'mui-status-console'
 export const domStatusBarId = 'mui-status-statusBar'
+export const localStorageKeyHeight = 'mui-industrial-console-height'
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -40,12 +41,16 @@ export interface StatusObject {
   children: React.ReactNode;
 }
 export interface ShortcutObject {
-  capsLock: boolean;
-  shiftKey: boolean;
-  ctrlKey: string;
-  commandAltKey: any;
-  char: string;
+  id: string,
+  uniqueId?: string,
+  shiftKey?: boolean;
+  ctrlKey?: string;
+  commandAltKey?: any;
+  ascii?: number;
+  char?: string;
+  label?: string;
   insensitive?: boolean;
+  onTrigger: () => void
 }
 export interface SnackbarObject {
   uniqueId: string;
@@ -57,7 +62,6 @@ export interface SnackbarObject {
   autoHideDuration: number;
   severity: Severity,
 }
-
 export interface StatusPopperProps {
   elevation?: number,
   width?: PopperWidth,
@@ -90,6 +94,7 @@ export interface SettingsObject {
   position: PlacementPosition;
   expand: any;
   debug: boolean;
+  capsLock: boolean;
   hasLock: boolean;
   isConsoleOpen?: boolean;
   isConsoleFixed?: boolean;

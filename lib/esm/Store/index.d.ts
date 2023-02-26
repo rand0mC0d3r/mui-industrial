@@ -1,16 +1,18 @@
 import React from 'react';
-import { PlacementPosition, Severity, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { PlacementPosition, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
     status: StatusObject[];
     snackbar: SnackbarObject[];
+    shortcuts: ShortcutObject[];
     updateConsoleActiveId: ({ id }: {
         id?: string;
     }) => void;
     updateIsConsoleOpen: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
+    handleKeyboardAnnouncement: any;
     handleStatusAnnouncement: any;
     handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration }: {
         ownId: string;

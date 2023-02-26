@@ -6,8 +6,9 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Resizable } from 're-resizable'
-import { useCallback, useContext, useEffect, useState } from 'react'
-import { domConsoleId, PlacementPosition, SettingsObject } from '../../index.types'
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
+import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types'
+import Keyboard from '../../Keyboard'
 import DataProvider from '../../Store'
 
 const StyledStatusConsole = styled('div')(() => ({
@@ -35,25 +36,6 @@ const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => (
   alignItems: 'center',
   right: '0px',
   zIndex: 99,
-
-  // (bottom === 'true'
-  // 	? '& > div > div:nth-child(2) > div:not(:first-child)'
-  // 	: '& > div > div:nth-child(2) > div:not(:nth-child(3))'): {
-  // 	display: 'none',
-  // }
-  '& > div > div:nth-child(2) > div': {
-    display: 'none',
-  },
-  '& > div > div:nth-child(2) > div:nth-child(1)': {
-    display: bottom === 'true' ? 'block' : 'none',
-  },
-  '& > div > div:nth-child(2) > div:nth-child(3)': {
-    display: bottom === 'true' ? 'none' : 'block',
-  },
-
-  // '& > div > div:nth-child(2) > div:not(nth-child(3))': {
-  //   display: bottom === 'true' ? 'block' : 'none',
-  // }
 }))
 
 const StyledEmptyWrapper = styled('div')(() => ({
@@ -97,7 +79,6 @@ const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated
 const domId = domConsoleId
 const domIdWrapper = 'mui-status-console-wrapper'
 const relevantType = 'console'
-const localStorageKey = 'mui-industrial-console-height'
 
 export default function () {
   const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider)
@@ -108,13 +89,6 @@ export default function () {
 
   const [height, setHeight] = useState<string | undefined>()
   const [width, setWidth] = useState('100%')
-
-  const handleUserKeyPress = useCallback(event => {
-    const { keyCode } = event
-    if ((keyCode === 27)) {
-      updateIsConsoleOpen()
-    }
-  }, [])
 
   const computeHeight = useCallback((d: number) => {
     const computedHeight = Number((height || '350px').replace('px', '')) + d
@@ -128,31 +102,35 @@ export default function () {
 
   useEffect(() => {
     if (height) {
-      localStorage.setItem(localStorageKey, height)
+      localStorage.setItem(localStorageKeyHeight, height)
     }
   }, [height])
 
   useEffect(() => {
-    const savedHeight = localStorage.getItem(localStorageKey)
+    const savedHeight = localStorage.getItem(localStorageKeyHeight)
     if (savedHeight) {
       setHeight(savedHeight)
     }
   }, [])
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleUserKeyPress)
-    return () => {
-      window.removeEventListener('keydown', handleUserKeyPress)
-    }
-  }, [handleUserKeyPress])
-
   return <>
+    <Keyboard id="mui-industrial-open-console" label="Open console" ascii={27} char="P" onTrigger={() => updateIsConsoleOpen()} />
     {(isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper
         {...{ id: domIdWrapper }}
         bottom={String(position === PlacementPosition.BOTTOM)}
       >
         <Resizable
+          enable={{
+            left: false,
+            right: false,
+            top: position === PlacementPosition.BOTTOM,
+            bottom: position === PlacementPosition.TOP,
+            topRight: false,
+            bottomRight: false,
+            bottomLeft: false,
+            topLeft: false
+          }}
           onResizeStop={(_e, _direction, _ref, d) => computeHeight(d.height)}
           style={{ display: 'flex', flexDirection: 'column' }}
           minHeight="75px"
@@ -184,9 +162,9 @@ export default function () {
               </>
               : <StyledEmptyWrapper>
                 <AppsOutageIcon />
-                {status.filter(({ type }) => type === relevantType).map(statusItem => <>
+                {status.filter(({ type }) => type === relevantType).map(statusItem => <Fragment key={statusItem.uniqueId}>
                   {statusItem.children}
-                </>)}
+                </Fragment>)}
                 <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
               </StyledEmptyWrapper>}
           </StyledResizable>

@@ -7,6 +7,7 @@ import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'reac
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
 import DataProvider, { DataContextInterface } from '../../Store'
 import InternalConsole from '../InternalConsole'
+import InternalKeyboard from '../InternalKeyboard'
 import InternalNotifications from '../InternalNotifications'
 import InternalStatus from '../InternalStatus'
 
@@ -92,7 +93,7 @@ export default function ({
   children: ReactNode,
 	style?: CSSProperties
 }) {
-  const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface
+  const { status, shortcuts, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface
   const { position, fullWidth, hasBorder } = settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
@@ -125,6 +126,7 @@ export default function ({
       <SNotifications {...{ column: position }}>
         <InternalNotifications />
       </SNotifications>
+      <InternalKeyboard />
     </SBox>
     <Popover
       id="toggle-status-popover"

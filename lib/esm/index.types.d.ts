@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 export declare const domConsoleId = "mui-status-console";
 export declare const domStatusBarId = "mui-status-statusBar";
+export declare const localStorageKeyHeight = "mui-industrial-console-height";
 export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;
@@ -39,12 +40,16 @@ export interface StatusObject {
     children: React.ReactNode;
 }
 export interface ShortcutObject {
-    capsLock: boolean;
-    shiftKey: boolean;
-    ctrlKey: string;
-    commandAltKey: any;
-    char: string;
+    id: string;
+    uniqueId?: string;
+    shiftKey?: boolean;
+    ctrlKey?: string;
+    commandAltKey?: any;
+    ascii?: number;
+    char?: string;
+    label?: string;
     insensitive?: boolean;
+    onTrigger: () => void;
 }
 export interface SnackbarObject {
     uniqueId: string;
@@ -85,6 +90,7 @@ export interface SettingsObject {
     position: PlacementPosition;
     expand: any;
     debug: boolean;
+    capsLock: boolean;
     hasLock: boolean;
     isConsoleOpen?: boolean;
     isConsoleFixed?: boolean;

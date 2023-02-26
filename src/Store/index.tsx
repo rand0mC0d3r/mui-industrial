@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, Severity, SnackbarObject, StatusObject, StatusType } from '../index.types'
+import { PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types'
 import Wrapper from '../internal/Wrapper'
 
 const domIdBase = 'mui-status'
@@ -24,6 +24,7 @@ const initialSettings = {
   statusBarAnnounced: false,
   allowRightClick: true,
   debug: false,
+  capsLock: false,
   hasLock: true,
   hasBorder: true,
   variant: 'default',
@@ -42,10 +43,12 @@ export interface DataContextInterface {
   settings: any;
   status: StatusObject[];
   snackbar: SnackbarObject[];
+  shortcuts: ShortcutObject[];
   updateConsoleActiveId: ({ id }: { id?: string }) => void;
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
+  handleKeyboardAnnouncement: any;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
     { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
@@ -90,7 +93,7 @@ function IndustrialProvider({
   }) {
   const [status, setStatus] = useState<StatusObject[]>([])
   const [snackbar, setSnackbar] = useState<SnackbarObject[]>([])
-  // const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([])
+  const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([])
   const [settings, setSettings] = useState<SettingsObject>(initialSettings)
 
   const logDebug = (message: string) => {
@@ -141,6 +144,31 @@ function IndustrialProvider({
           autoHideDuration,
         } as SnackbarObject
     ])
+  }
+
+  const handleKeyboardAnnouncement = ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, commandAltKey, insensitive, onTrigger } : ShortcutObject) => {
+    setShortcuts((shortcuts: ShortcutObject[]) => {
+      const findError = status.find(shortcut => uniqueId === shortcut.uniqueId)
+      if (findError) {
+        console.error(`${packageName}: ❌ Same shortcut already registered with id: [${id}] & uniqueId: [${uniqueId}]`)
+      }
+
+      return [
+        ...shortcuts.filter(shortcut => uniqueId !== shortcut.uniqueId),
+        {
+          uniqueId,
+          id,
+          char,
+          label,
+          ascii,
+          onTrigger,
+          shiftKey,
+          ctrlKey,
+          commandAltKey,
+          insensitive
+        } as ShortcutObject
+      ]
+    })
   }
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
@@ -259,13 +287,22 @@ function IndustrialProvider({
 
   useEffect(() => {
     if (settings.debug) {
-      console.clear()
+      // console.clear()
       console.log('Debugging is enabled.')
+
+      console.log('%cSettings', 'color: #4caf50')
       console.table({ ...settings })
+
+      console.log('%cStatus', 'color: #2196f3')
       console.table({ ...status })
+
+      console.log('%cSnackbar', 'color: #f44336')
       console.table({ ...snackbar })
+
+      console.log('%cShortcuts', 'color: #ff9800')
+      console.table({ ...shortcuts })
     }
-  }, [settings, snackbar, status])
+  }, [settings, shortcuts, snackbar, status])
 
   return <DataContext.Provider
     value={{
@@ -277,6 +314,10 @@ function IndustrialProvider({
 
       // status - wrapper
       triggerStatusBarAnnounced,
+
+      // keyboard
+      shortcuts,
+      handleKeyboardAnnouncement,
 
       // snackbar + crud,
       snackbar,
