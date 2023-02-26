@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 export declare const domConsoleId = "mui-status-console";
+export declare const domStatusBarId = "mui-status-statusBar";
 export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;

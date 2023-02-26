@@ -61,6 +61,7 @@ export interface DataContextInterface {
 const DataContext = createContext({} as DataContextInterface)
 
 function IndustrialProvider({
+  disabled = false,
   expand,
   hasLock,
   position = PlacementPosition.TOP,
@@ -74,6 +75,7 @@ function IndustrialProvider({
   size = 'small',
   variant = 'default',
 } : {
+  disabled?: boolean,
   expand?: boolean,
   hasLock?: boolean,
   position?: PlacementPosition,
@@ -309,7 +311,7 @@ function IndustrialProvider({
       logDebug,
     }}
   >
-    <Wrapper {...{ children, style }} />
+    <Wrapper {...{ disabled, children, style }} />
   </DataContext.Provider>
 }
 

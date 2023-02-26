@@ -1,2 +1,4 @@
-/// <reference types="react" />
-export default function (): JSX.Element;
+import { CSSProperties } from 'react';
+export default function ({ style }: {
+    style?: CSSProperties;
+}): JSX.Element;

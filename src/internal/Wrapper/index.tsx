@@ -5,7 +5,7 @@ import { Popover, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'react'
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
-import DataProvider from '../../Store'
+import DataProvider, { DataContextInterface } from '../../Store'
 import InternalConsole from '../InternalConsole'
 import InternalNotifications from '../InternalNotifications'
 import InternalStatus from '../InternalStatus'
@@ -71,44 +71,18 @@ const SElementItem = styled('div')(({ theme }) => ({
 }))
 
 const SStatusContainer = styled('div')<{
-	hasBorder?: string,
-	fullWidth?: string,
+	hasBorder?: boolean,
+	fullWidth?: boolean,
  }>(({ theme, hasBorder, fullWidth }: any) => ({
    alignSelf: 'stretch',
    justifyContent: 'center',
    display: 'flex',
-
-   boxShadow: fullWidth === 'true' && hasBorder === 'true'
-     ? [
-       `inset 0px 0px 0px 1px ${theme.palette.divider}`,
-     ].join(',')
+   boxShadow: fullWidth && hasBorder
+     ? [`inset 0px 0px 0px 1px ${theme.palette.divider}`].join(',')
      : 'none',
    backgroundColor: theme.palette.mode === 'light'
      ? theme.palette.background.default
      : theme.palette.background.paper,
- }))
-
-const SStatusWrapper = styled('div')<{
-	justifyContent: string,
-	width: string,
-	hasBorder?: string,
-	fullWidth?: string,
-	position?: string
- }>(({ theme, justifyContent, hasBorder, fullWidth, position, width }: any) => ({
-   gap: '4px',
-   display: 'flex',
-   alignItems: 'stretch',
-   alignSelf: 'center',
-
-   width: `${width}`,
-   justifyContent: `${justifyContent}`,
-   boxShadow: fullWidth === 'false' && hasBorder === 'true'
-     ? [
-       `inset 0px ${position === 'top' ? -3 : 3}px 0px -2px ${theme.palette.divider}`,
-       `inset -3px 0px 0px -2px ${theme.palette.divider}`,
-       `inset 3px 0px 0px -2px ${theme.palette.divider}`
-     ].join(',')
-     : 'none',
  }))
 
 export default function ({
@@ -118,8 +92,8 @@ export default function ({
   children: ReactNode,
 	style?: CSSProperties
 }) {
-  const { status, handleStatusVisibilityToggle } = useContext(DataProvider)
-  const { position, fullWidth, hasBorder, width, justifyContent } = useContext(DataProvider).settings as SettingsObject
+  const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface
+  const { position, fullWidth, hasBorder } = settings as SettingsObject
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -145,23 +119,8 @@ export default function ({
         {children}
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
       </SChildren>
-      {status.some(({ visible }) => visible) && <SStatusContainer {...{
-        fullWidth: fullWidth.toString(),
-        hasBorder: hasBorder.toString()
-      }}
-      >
-        <SStatusWrapper {...{
-          justifyContent,
-          width,
-          fullWidth: fullWidth.toString(),
-          hasBorder: hasBorder.toString(),
-          position,
-          onContextMenu,
-          style
-        }}
-        >
-          <InternalStatus />
-        </SStatusWrapper>
+      {status.some(({ visible }) => visible) && <SStatusContainer {...{ fullWidth, hasBorder, onContextMenu }}>
+        <InternalStatus {...{ style }} />
       </SStatusContainer>}
       <SNotifications {...{ column: position }}>
         <InternalNotifications />

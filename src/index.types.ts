@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 
 export const domConsoleId = 'mui-status-console'
+export const domStatusBarId = 'mui-status-statusBar'
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
