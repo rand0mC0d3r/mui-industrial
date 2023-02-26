@@ -24,14 +24,15 @@ import { StatusOptionsProps } from '../index.types';
  * @param children - (ReactNode) Children to be rendered inside the Status Console
  *
  * @example
- * <StatusConsole
+ * <Status
  *  id="statusConsole"
  *  options={{
+ *    as: StatusType.CONSOLE,
  *    title: 'Status Console',
  *    content: <div>Content</div>,
- *    separators: { end: true},
+ *    ...
  *  }}
- * />...
+ * >...
  *
  * @returns (JSX.Element) Status Console element
  */
