@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { CSSProperties, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { Highlight, PanelWidth, PlacementPosition, PopoverActions, SettingsObject, StatusObject, StatusOptionsProps } from '../index.types'
+import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
+import { Highlight, PanelWidth, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps } from '../index.types'
 import InternalHeader from '../internal/InternalHeader'
 import StatusCore from '../StatusCore'
 import DataProvider from '../Store'
@@ -17,18 +17,23 @@ const StyledPopper = styled(Popper)(() => ({
   zIndex: '101',
 }))
 
-const StyledContainer = styled('div')<{elevation: number, highlight: string, variant: string, decoration: string }>(({
+const StyledContainer = styled('div')<{
+  elevation?: number,
+  highlight: string,
+  variant: string,
+  decoration?: string
+}>(({
   theme,
   elevation,
   highlight,
   variant,
   decoration
 } : {
-	theme: any,
-	elevation: number,
-	highlight: string
-	variant: string,
-	decoration: string
+  theme: any,
+  elevation?: number,
+  highlight: string,
+  variant: string,
+  decoration?: string
 }) => ({
   display: 'flex',
   alignItems: 'stretch',
@@ -43,48 +48,46 @@ const StyledContainer = styled('div')<{elevation: number, highlight: string, var
   border: variant === 'default'
     ? '2px solid transparent'
     : `2px solid ${highlight !== 'default' ? theme.palette[highlight].main : 'transparent'}`,
-  boxShadow: theme.shadows[elevation]
+  boxShadow: theme.shadows[elevation || 2]
 }))
 
 export default function ({
   id,
-  secondary = false,
-  elevation = 2,
-  width,
-  style,
-  onClick,
-  onClose,
+  disabled,
   highlight = Highlight.DEFAULT,
-  tooltip = '',
-  children,
   options = {
+    panel: {
+      elevation: 2,
+      hasToolbar: true,
+      hasDecoration: true,
+    },
     separators: {
       start: false,
       end: false,
     }
-  },
-  popover,
-  popoverTitle,
-  popoverActions,
-  hasToolbar = true,
-  hasDecoration = true,
+  } as StatusOptionsProps,
+  tooltip = '',
+  secondary = false,
+
+  onClick,
+  onContextMenu,
+
+  style,
+  className,
+
+  children,
 } : {
   id: string,
+  disabled?: boolean,
   secondary?: boolean,
-  elevation?: number,
-  width?: PanelWidth,
   style?: CSSProperties,
   options: StatusOptionsProps,
   onClick?: (event: MouseEvent<HTMLDivElement>) => void,
-  onClose?: (event: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void,
   highlight?: Highlight,
   tooltip?: ReactNode | string,
   children?: ReactNode,
-  popover?: any,
-  popoverTitle?: string,
-  popoverActions?: PopoverActions,
-	hasToolbar?: boolean,
-	hasDecoration?: boolean,
+  className?: HTMLAttributes<HTMLDivElement>['className'],
 }) {
   const {
     status,
@@ -99,21 +102,19 @@ export default function ({
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return
-
     if (onClick) onClick(event)
     setAnchorEl(anchorEl ? null : event?.currentTarget as any)
   }
 
   const handleOnClose = (event: any) => {
-    if (onClose && !statusObject?.keepOpen) onClose(event)
+    if (options?.panel?.onClose && !statusObject?.keepOpen) options?.panel?.onClose(event)
     if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null)
   }
 
   useEffect(() => {
     const foundObject = status.find(item => item.uniqueId === id)
-    if (foundObject) {
-      setStatusObject(foundObject)
-    }
+    if (!foundObject) return
+    setStatusObject(foundObject)
   }, [status, id])
 
   const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight
@@ -121,13 +122,16 @@ export default function ({
   return <>
     <StatusCore {...{
       id,
+      disabled,
+      onContextMenu,
+      className,
       tooltip: open ? null : tooltip,
       options: { separators: options.separators },
-      hasArrow: open && hasDecoration,
+      hasArrow: open && options?.panel?.hasDecoration,
       highlight: determineHighlight(),
       secondary,
       onClick: handleOnClick,
-      style: { ...style },
+      style,
     }}
     >
       {children}
@@ -136,18 +140,18 @@ export default function ({
       keepMounted: statusObject?.keepOpen,
       open,
       anchorEl,
-      onClose,
-      elevation,
+      onClose: options?.panel?.onClose,
+      elevation: options?.panel?.elevation,
       placement: `${settings.position === PlacementPosition.TOP ? 'bottom' : 'top'}-${secondary ? 'end' : 'start'}` as any,
       id: `mui-status-panel-popover-${id}`,
     }}
     >
       <ClickAwayListener onClickAway={event => handleOnClose(event)}>
         <StyledContainer {...{
-          elevation,
+          elevation: options?.panel?.elevation,
           highlight: determineHighlight().toString(),
           variant: settings.variant.toString(),
-          decoration: hasDecoration.toString()
+          decoration: options?.panel?.hasDecoration?.toString()
         }}
         >
           <StyledBox
@@ -155,11 +159,16 @@ export default function ({
             alignItems="stretch"
             justifyContent="space-between"
             flexDirection="column"
-            width={width}
+            width={options?.panel?.width}
           >
-            {popover}
+            {options?.content}
           </StyledBox>
-          {hasToolbar && <InternalHeader {...{ id, popoverActions, popoverTitle }} />}
+          {options?.panel?.hasToolbar && <InternalHeader {...{
+            id,
+            actions: options?.panel?.actions,
+            title: options?.title
+          }}
+          />}
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>

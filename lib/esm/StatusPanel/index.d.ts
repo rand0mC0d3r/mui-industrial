@@ -1,20 +1,15 @@
-import { CSSProperties, MouseEvent, ReactNode } from 'react';
-import { Highlight, PanelWidth, PopoverActions, StatusOptionsProps } from '../index.types';
-export default function ({ id, secondary, elevation, width, style, onClick, onClose, highlight, tooltip, children, options, popover, popoverTitle, popoverActions, hasToolbar, hasDecoration, }: {
+import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import { Highlight, StatusOptionsProps } from '../index.types';
+export default function ({ id, disabled, highlight, options, tooltip, secondary, onClick, onContextMenu, style, className, children, }: {
     id: string;
+    disabled?: boolean;
     secondary?: boolean;
-    elevation?: number;
-    width?: PanelWidth;
     style?: CSSProperties;
     options: StatusOptionsProps;
     onClick?: (event: MouseEvent<HTMLDivElement>) => void;
-    onClose?: (event: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
     highlight?: Highlight;
     tooltip?: ReactNode | string;
     children?: ReactNode;
-    popover?: any;
-    popoverTitle?: string;
-    popoverActions?: PopoverActions;
-    hasToolbar?: boolean;
-    hasDecoration?: boolean;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
 }): JSX.Element;

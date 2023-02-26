@@ -3,7 +3,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { IconButton, Tooltip, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useContext, useEffect, useState } from 'react'
-import { PopoverActions, SettingsObject, StatusObject } from '../../index.types'
+import { PopoverActions, StatusObject } from '../../index.types'
 import DataProvider, { DataContextInterface } from '../../Store'
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
@@ -34,22 +34,14 @@ const StyledTypography = styled(Typography)(() => ({
 
 export default function ({
   id,
-  popoverTitle,
-  popoverActions,
+  title,
+  actions,
 } : {
   id: string,
-  popoverTitle?: string,
-  popoverActions?: PopoverActions,
+  title?: string,
+  actions?: PopoverActions,
 }) {
-  const {
-    status,
-    settings,
-    handleStatusKeepOpenToggle,
-  } : {
-    status: StatusObject[],
-    settings: SettingsObject,
-		handleStatusKeepOpenToggle: DataContextInterface['handleStatusKeepOpenToggle'],
-  } = useContext(DataProvider)
+  const { status, settings, handleStatusKeepOpenToggle } = useContext(DataProvider) as DataContextInterface
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
 
   useEffect(() => {
@@ -58,14 +50,14 @@ export default function ({
   }, [status, id])
 
   return <StyledActionsWrapper>
-    <StyledTypography variant="subtitle2" color="textSecondary">{popoverTitle}</StyledTypography>
+    <StyledTypography variant="subtitle2" color="textSecondary">{title}</StyledTypography>
     <StyledActions>
-      {popoverActions && popoverActions
+      {actions && actions
         .filter((_, i) => i < 3)
-        .map(popoverAction => <Tooltip key={popoverAction?.title} {...{ title: popoverAction?.title }}>
+        .map(action => <Tooltip key={action?.title} {...{ title: action?.title }}>
           <span>
-            <IconButton size="small" {...{ onClick: () => popoverAction?.onClick(), disabled: popoverAction?.disabled }}>
-              {popoverAction?.icon}
+            <IconButton size="small" {...{ onClick: () => action?.onClick(), disabled: action?.disabled }}>
+              {action?.icon}
             </IconButton>
           </span>
         </Tooltip>)}
