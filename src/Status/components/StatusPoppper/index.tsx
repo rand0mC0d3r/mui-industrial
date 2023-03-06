@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
+import {
+  CSSProperties, HTMLAttributes, MouseEvent,
+  ReactNode, useContext, useEffect,
+  useRef, useState
+} from 'react'
 import {
   Highlight, PlacementPosition, PopperWidth, SettingsObject, StatusObject,
   StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperProps
@@ -101,6 +105,7 @@ export default function ({
   } = useContext(DataProvider)
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
   const [anchorEl, setAnchorEl] = useState(null)
+  const popperReference = useRef()
 
   const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps
   const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps
@@ -124,11 +129,26 @@ export default function ({
     setStatusObject(foundObject)
   }, [status, id])
 
+  useEffect(() => {
+    if (!options.open) {
+      console.log('close')
+      if (!statusObject?.keepOpen || !settings.hasLock) {
+        setAnchorEl(null)
+      }
+      return
+    }
+    if (!popperReference?.current) return
+    console.log('open')
+    setAnchorEl(popperReference.current)
+  }, [options.open])
+
   const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight
 
   return <>
+    {/* {open ? 'force open' : 'force close'} */}
     <StatusCore {...{
       id,
+      ref: popperReference,
       disabled,
       onContextMenu,
       className,

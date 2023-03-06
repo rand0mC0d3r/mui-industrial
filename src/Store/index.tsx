@@ -48,7 +48,7 @@ export interface DataContextInterface {
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
-  handleKeyboardAnnouncement: any;
+  handleKeyboardAnnouncement: ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger }: ShortcutObject) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
     { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
@@ -146,7 +146,7 @@ function IndustrialProvider({
     ])
   }
 
-  const handleKeyboardAnnouncement = ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, commandAltKey, insensitive, onTrigger } : ShortcutObject) => {
+  const handleKeyboardAnnouncement = ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger } : ShortcutObject) => {
     setShortcuts((shortcuts: ShortcutObject[]) => {
       const findError = status.find(shortcut => uniqueId === shortcut.uniqueId)
       if (findError) {
@@ -164,7 +164,7 @@ function IndustrialProvider({
           onTrigger,
           shiftKey,
           ctrlKey,
-          commandAltKey,
+          altKey,
           insensitive
         } as ShortcutObject
       ]

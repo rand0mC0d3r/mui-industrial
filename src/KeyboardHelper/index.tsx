@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Chip, Typography } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ShortcutObject } from '../index.types'
@@ -11,30 +10,27 @@ export default function ({
   shortcutId: string,
   asChip?: boolean,
 }) {
-  const { shortcuts } = useContext(DataProvider) as DataContextInterface
-  const [shortcutObject, setShortcutObject] = useState<ShortcutObject | null>(null)
+  const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface
+  const [shortcutObject, setShortcutObject] = useState<ShortcutObject | undefined>()
 
   useEffect(() => {
-    if (shortcutId) {
-      const result = shortcuts.find(shortcut => shortcut.id === shortcutId)
-      if (result) {
-        setShortcutObject(result)
-      }
-    }
+    if (!shortcutId) return
+    setShortcutObject(shortcuts.find(shortcut => shortcut.id === shortcutId))
   }, [shortcutId])
 
   const content = <>
-    {shortcutObject && <>
-      {shortcutObject.ctrlKey && '⌃' }
-      {shortcutObject.commandAltKey && '⌘' }
-      {shortcutObject.shiftKey && '⇧' }
-      {shortcutObject.char}
-    </>}
+    {shortcutObject?.ctrlKey && '⌃' }
+    {shortcutObject?.altKey && '⌥' }
+    {shortcutObject?.metaKey && '⌘' }
+    {shortcutObject?.shiftKey && '⇧' }
+    {shortcutObject?.char}
   </>
 
   return <>
-    {asChip
-      ? <Chip label={content} variant="outlined" size="small" />
-      : <Typography variant="caption" color="textSecondary">{content}</Typography>}
+    {shortcutId && shortcutObject && <>
+      {asChip
+        ? <Chip label={content} variant="outlined" size="small" />
+        : <Typography id="lowerK" variant="caption" color="textSecondary">{content}</Typography>}
+    </>}
   </>
 }

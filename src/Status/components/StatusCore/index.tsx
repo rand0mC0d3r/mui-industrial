@@ -4,7 +4,11 @@ import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { CSSProperties, MouseEvent, ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react'
+import {
+  CSSProperties, ForwardedRef, forwardRef,
+  MouseEvent, MutableRefObject, ReactNode, useCallback,
+  useContext, useEffect, useLayoutEffect, useState
+} from 'react'
 import { createPortal } from 'react-dom'
 import {
   Highlight, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps,
@@ -134,29 +138,33 @@ const defaultPopperOptions = {
   hasArrow: false
 } as StatusPopperProps
 
-export default function ({
-  id,
-  style,
-  onClick,
-  onContextMenu,
-  disabled = false,
-  highlight = Highlight.DEFAULT,
-  tooltip,
-  children,
-  options,
-  secondary = false,
-} : {
+type StatusCoreProps = {
   id: string,
-  options?: StatusOptionsProps,
   style?: CSSProperties,
-  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
-  onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void,
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
   disabled?: boolean,
   highlight?: Highlight,
-  tooltip?: ReactNode | string,
+  tooltip?: ReactNode,
   children?: ReactNode,
+  options?: StatusOptionsProps,
   secondary?: boolean,
-}) {
+}
+
+export const StatusCore = forwardRef((props: StatusCoreProps, ref) => {
+  const {
+    id,
+    style,
+    onClick,
+    onContextMenu,
+    disabled = false,
+    highlight = Highlight.DEFAULT,
+    tooltip,
+    children,
+    options,
+    secondary = false,
+  } = props
+
   const { status, handleStatusUpdate, handleStatusAnnouncement, handleStatusDestroy } = useContext(DataProvider)
   const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject
   const [ownId, setOwnId] = useState<string | null>()
@@ -221,6 +229,7 @@ export default function ({
     && createPortal(
       (statusObject.visible && children) && <SDiv {...{
         id,
+        ref,
         key: `mui-status-${id}`,
         onClick: handleOnClick,
         onContextMenu: handleOnContextMenu,
@@ -249,4 +258,6 @@ export default function ({
       elementFound
     )}
   </>
-}
+})
+
+export default StatusCore

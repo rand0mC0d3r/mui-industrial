@@ -126,7 +126,7 @@ export default function ({
       <SNotifications {...{ column: position }}>
         <InternalNotifications />
       </SNotifications>
-      <InternalKeyboard />
+      {shortcuts.length > 0 && <InternalKeyboard />}
     </SBox>
     <Popover
       id="toggle-status-popover"

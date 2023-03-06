@@ -43,8 +43,9 @@ export interface ShortcutObject {
     id: string;
     uniqueId?: string;
     shiftKey?: boolean;
-    ctrlKey?: string;
-    commandAltKey?: any;
+    metaKey?: boolean;
+    ctrlKey?: boolean;
+    altKey?: boolean;
     ascii?: number;
     char?: string;
     label?: string;
@@ -80,6 +81,7 @@ export interface StatusOptionsProps {
     separators?: StatusOptionsSeparatorProps;
     content?: ReactNode;
     title?: string;
+    open?: boolean;
 }
 export interface SettingsObject {
     statusBarAnnounced: boolean;

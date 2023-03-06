@@ -1,14 +1,16 @@
 import { CSSProperties, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../../../index.types';
-export default function ({ id, style, onClick, onContextMenu, disabled, highlight, tooltip, children, options, secondary, }: {
+type StatusCoreProps = {
     id: string;
-    options?: StatusOptionsProps;
     style?: CSSProperties;
-    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
+    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
     disabled?: boolean;
     highlight?: Highlight;
-    tooltip?: ReactNode | string;
+    tooltip?: ReactNode;
     children?: ReactNode;
+    options?: StatusOptionsProps;
     secondary?: boolean;
-}): JSX.Element;
+};
+export declare const StatusCore: import("react").ForwardRefExoticComponent<StatusCoreProps & import("react").RefAttributes<unknown>>;
+export default StatusCore;

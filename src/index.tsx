@@ -5,6 +5,7 @@ import KeyboardHelper from './KeyboardHelper'
 import Status from './Status'
 import StatusHelper from './StatusHelper'
 // import StatusSnackbar from './StatusSnackbar'
+import { useShortcuts } from './hooks/useShortcuts'
 import { IndustrialProvider } from './Store'
 
 export {
@@ -20,4 +21,6 @@ export {
   StatusType,
   Highlight,
   StatusPopperProps,
+
+  useShortcuts,
 }
