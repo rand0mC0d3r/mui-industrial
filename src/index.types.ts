@@ -42,7 +42,7 @@ export interface StatusObject {
 }
 export interface ShortcutObject {
   id: string,
-  uniqueId?: string,
+  open?: boolean,
   shiftKey?: boolean;
   metaKey?: boolean;
   ctrlKey?: boolean;
@@ -51,7 +51,7 @@ export interface ShortcutObject {
   char?: string;
   label?: string;
   insensitive?: boolean;
-  onTrigger: () => void
+  onTrigger?: any
 }
 export interface SnackbarObject {
   uniqueId: string;

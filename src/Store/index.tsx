@@ -48,7 +48,9 @@ export interface DataContextInterface {
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
-  handleKeyboardAnnouncement: ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger }: ShortcutObject) => void;
+  handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger }: ShortcutObject) => void;
+  handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
+  handleCallKeyboard: ({ id }: { id: string }) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
     { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
@@ -146,19 +148,19 @@ function IndustrialProvider({
     ])
   }
 
-  const handleKeyboardAnnouncement = ({ uniqueId, id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger } : ShortcutObject) => {
+  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger } : ShortcutObject) => {
     setShortcuts((shortcuts: ShortcutObject[]) => {
-      const findError = status.find(shortcut => uniqueId === shortcut.uniqueId)
+      const findError = shortcuts.find(shortcut => shortcut.id === id)
       if (findError) {
-        console.error(`${packageName}: ❌ Same shortcut already registered with id: [${id}] & uniqueId: [${uniqueId}]`)
+        console.error(`${packageName}: ❌ Same shortcut already registered with id: [${id}]`)
       }
 
       return [
-        ...shortcuts.filter(shortcut => uniqueId !== shortcut.uniqueId),
+        ...shortcuts.filter(shortcut => shortcut.id !== id),
         {
-          uniqueId,
           id,
           char,
+          open: false,
           label,
           ascii,
           onTrigger,
@@ -169,6 +171,20 @@ function IndustrialProvider({
         } as ShortcutObject
       ]
     })
+  }
+  const handleKeyboardTriggerUpdate = ({ id, onTrigger } : { id: string, onTrigger: any }) => {
+    setShortcuts((shortcuts: ShortcutObject[]) => [
+      ...shortcuts.map(shortcut => shortcut.id !== id ? shortcut : { ...shortcut, onTrigger }),
+    ])
+  }
+  const handleCallKeyboard = ({ id } : { id: string }) => {
+    const findShortcut = shortcuts.find(shortcut => shortcut.id === id)
+    if (findShortcut !== undefined && findShortcut?.onTrigger) {
+      findShortcut?.onTrigger(findShortcut.open)
+    }
+    setShortcuts((shortcuts: ShortcutObject[]) => [
+      ...shortcuts.map(shortcut => shortcut.id !== id ? shortcut : { ...shortcut, open: !shortcut.open }),
+    ])
   }
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
@@ -318,6 +334,8 @@ function IndustrialProvider({
       // keyboard
       shortcuts,
       handleKeyboardAnnouncement,
+      handleKeyboardTriggerUpdate,
+      handleCallKeyboard,
 
       // snackbar + crud,
       snackbar,

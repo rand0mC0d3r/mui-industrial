@@ -5,8 +5,8 @@ import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined'
 import { Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import {
-  CSSProperties, ForwardedRef, forwardRef,
-  MouseEvent, MutableRefObject, ReactNode, useCallback,
+  CSSProperties, forwardRef,
+  MouseEvent, ReactNode, useCallback,
   useContext, useEffect, useLayoutEffect, useState
 } from 'react'
 import { createPortal } from 'react-dom'
@@ -151,7 +151,7 @@ type StatusCoreProps = {
   secondary?: boolean,
 }
 
-export const StatusCore = forwardRef((props: StatusCoreProps, ref) => {
+export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   const {
     id,
     style,

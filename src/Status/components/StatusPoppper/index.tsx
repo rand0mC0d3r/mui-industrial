@@ -131,14 +131,12 @@ export default function ({
 
   useEffect(() => {
     if (!options.open) {
-      console.log('close')
       if (!statusObject?.keepOpen || !settings.hasLock) {
         setAnchorEl(null)
       }
       return
     }
     if (!popperReference?.current) return
-    console.log('open')
     setAnchorEl(popperReference.current)
   }, [options.open])
 

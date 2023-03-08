@@ -30,7 +30,7 @@ export default function ({
     {shortcutId && shortcutObject && <>
       {asChip
         ? <Chip label={content} variant="outlined" size="small" />
-        : <Typography id="lowerK" variant="caption" color="textSecondary">{content}</Typography>}
+        : <Typography id="lowerK" variant="caption" color="inherit">{content}</Typography>}
     </>}
   </>
 }
