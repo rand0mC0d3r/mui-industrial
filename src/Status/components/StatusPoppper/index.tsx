@@ -73,6 +73,7 @@ const defaultSeparatorOptions = {
 
 export default ({
   id,
+  order,
   disabled,
   highlight = Highlight.DEFAULT,
   options,
@@ -85,6 +86,7 @@ export default ({
   children,
 } : {
   id: string,
+  order?: number,
   disabled?: boolean,
   highlight?: Highlight,
   options: StatusOptionsProps,
@@ -146,6 +148,7 @@ export default ({
     {/* {open ? 'force open' : 'force close'} */}
     <StatusCore {...{
       id,
+      order,
       ref: popperReference,
       disabled,
       onContextMenu,

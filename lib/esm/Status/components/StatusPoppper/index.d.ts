@@ -1,7 +1,8 @@
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../../../index.types';
-declare const _default: ({ id, disabled, highlight, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
+declare const _default: ({ id, order, disabled, highlight, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
     id: string;
+    order?: number | undefined;
     disabled?: boolean | undefined;
     highlight?: Highlight | undefined;
     options: StatusOptionsProps;
