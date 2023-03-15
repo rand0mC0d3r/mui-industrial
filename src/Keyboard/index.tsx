@@ -1,19 +1,14 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ShortcutObject } from '../index.types'
 import DataProvider, { DataContextInterface } from '../Store'
 
-export default function ({
-  id,
-  shiftKey,
-  ctrlKey,
-  altKey,
-  metaKey,
-  ascii,
-  char,
-  label,
-  insensitive = true,
-  onTrigger = () => {},
-} : ShortcutObject) {
+export default function (props : ShortcutObject) {
+  const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>(undefined)
+  const {
+    id, shiftKey, ctrlKey, altKey, metaKey,
+    ascii, char, label, insensitive = true, onTrigger = () => {},
+  } = props
+
   const {
     shortcuts,
     handleKeyboardAnnouncement,
@@ -24,9 +19,18 @@ export default function ({
 
   useEffect(() => {
     if ((char || ascii) && id && !shortcuts.some(shortcut => shortcut.id === id)) {
-      handleKeyboardAnnouncement({ label, ascii, id, char, shiftKey, metaKey, ctrlKey, altKey, insensitive, onTrigger } as ShortcutObject)
+      handleKeyboardAnnouncement({ ...props } as ShortcutObject)
     }
   }, [char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, insensitive, onTrigger, handleKeyboardAnnouncement])
+
+  useEffect(() => {
+    setShortcutItem(shortcuts.find(shortcut => shortcut.id === id))
+  }, [shortcuts])
+
+  useEffect(() => {
+    if (!shortcutItem) return
+    shortcutItem.onTrigger = onTrigger
+  }, [shortcutItem?.open])
 
   return <></>
 }

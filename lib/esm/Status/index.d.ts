@@ -1,5 +1,20 @@
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../index.types';
+import StatusHelper from '../StatusHelper';
+type StatusProps = {
+    id: string;
+    order?: number;
+    disabled?: boolean;
+    highlight?: Highlight;
+    options?: StatusOptionsProps;
+    secondary?: boolean;
+    tooltip?: ReactNode | string;
+    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
+    style?: CSSProperties;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+    children?: JSX.Element;
+};
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
  * It can be used as a simple status element, a popper or a console.
@@ -21,16 +36,8 @@ import { Highlight, StatusOptionsProps } from '../index.types';
  *
  * @returns (JSX.Element) Status element
  */
-export default function ({ id, disabled, highlight, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
-    id: string;
-    disabled?: boolean;
-    highlight?: Highlight;
-    options?: StatusOptionsProps;
-    secondary?: boolean;
-    tooltip?: ReactNode | string;
-    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
-    style?: CSSProperties;
-    className?: HTMLAttributes<HTMLDivElement>['className'];
-    children?: JSX.Element;
-}): JSX.Element;
+declare function Status({ ...rest }: StatusProps): JSX.Element;
+declare namespace Status {
+    var Body: typeof StatusHelper;
+}
+export default Status;

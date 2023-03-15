@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react'
 import { Highlight, StatusOptionsProps, StatusType } from '../index.types'
+import StatusHelper from '../StatusHelper'
 import StatusConsole from './components/StatusConsole'
 import StatusCore from './components/StatusCore'
 import StatusPoppper from './components/StatusPoppper'
@@ -8,6 +9,21 @@ import StatusPoppper from './components/StatusPoppper'
 const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
 } as StatusOptionsProps
+
+type StatusProps = {
+  id: string,
+  order?: number,
+  disabled?: boolean,
+  highlight?: Highlight,
+  options?: StatusOptionsProps,
+  secondary?: boolean,
+  tooltip?: ReactNode | string,
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
+  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
+  style?: CSSProperties,
+  className?: HTMLAttributes<HTMLDivElement>['className'],
+  children?: JSX.Element,
+}
 
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
@@ -30,48 +46,17 @@ const defaultStatusOptionsProps = {
  *
  * @returns (JSX.Element) Status element
  */
-export default function ({
-  id,
-  disabled = false,
-  highlight = Highlight.DEFAULT,
-  options = { ...defaultStatusOptionsProps },
-  secondary = false,
-  tooltip,
-  onClick,
-  onContextMenu,
-  style,
-  className,
-  children,
-} : {
-  id: string,
-  disabled?: boolean,
-  highlight?: Highlight,
-  options?: StatusOptionsProps,
-  secondary?: boolean,
-  tooltip?: ReactNode | string,
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
-  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
-  style?: CSSProperties,
-  className?: HTMLAttributes<HTMLDivElement>['className'],
-  children?: JSX.Element,
-}) {
-  const combinedOptions = { ...defaultStatusOptionsProps, ...options }
-  const props = {
-    id,
-    disabled,
-    highlight,
-    options: combinedOptions,
-    secondary,
-    tooltip,
-    onClick,
-    onContextMenu,
-    style,
-    className,
-    children
-  }
+function Status({ ...rest } : StatusProps): JSX.Element {
+  const combinedOptions = { ...defaultStatusOptionsProps, ...rest.options }
+  const props = { ...rest, options: combinedOptions }
+
   return <>
     {combinedOptions.as === StatusType.SIMPLE && <StatusCore {...props} />}
     {combinedOptions.as === StatusType.POPPER && <StatusPoppper {...props} />}
     {combinedOptions.as === StatusType.CONSOLE && <StatusConsole {...props} />}
   </>
 }
+
+Status.Body = StatusHelper
+
+export default Status
