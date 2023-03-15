@@ -115,8 +115,10 @@ export default ({
   const open = Boolean(anchorEl);
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
+
     if (statusObject?.keepOpen) return;
     if (onClick) onClick(event);
+    console.log('ckicked', !!event?.currentTarget);
     setAnchorEl(anchorEl ? null : event?.currentTarget as any);
   };
 
@@ -131,21 +133,22 @@ export default ({
     setStatusObject(foundObject);
   }, [status, id]);
 
-  useEffect(() => {
-    if (!options.open) {
-      if (!statusObject?.keepOpen || !settings.hasLock) {
-        setAnchorEl(null);
-      }
-      return;
-    }
-    if (!popperReference?.current) return;
-    setAnchorEl(popperReference.current);
-  }, [options.open, statusObject, settings.hasLock]);
+  // TODO: figure out what this is for
+  // useEffect(() => {
+  //   console.log('open', options.open, statusObject?.keepOpen, settings.hasLock);
+  //   if (!options.open) {
+  //     if (!statusObject?.keepOpen || !settings.hasLock) {
+  //       setAnchorEl(null);
+  //     }
+  //     return;
+  //   }
+  //   if (!popperReference?.current) return;
+  //   setAnchorEl(popperReference.current);
+  // }, [options.open, statusObject, settings.hasLock]);
 
   const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
 
   return <>
-    {/* {open ? 'force open' : 'force close'} */}
     <StatusCore {...{
       id,
       order,
