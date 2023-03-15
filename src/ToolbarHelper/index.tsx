@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IconButton, Tooltip } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material';
 
-export default function ({
+export default ({
   tooltip,
   onClick,
   icon,
 } : {
   tooltip: string,
-  onClick?: any,
+  onClick?: (e: any) => void,
   icon?: any,
-}) {
+}) : JSX.Element => {
   return <Tooltip title={tooltip}>
-    <IconButton size="small" onClick={onClick}>
+    <IconButton size="small" {...{ onClick }}>
       {icon}
     </IconButton>
-  </Tooltip>
-}
+  </Tooltip>;
+};

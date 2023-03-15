@@ -48,19 +48,19 @@ export interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function IndustrialProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
-    expand?: boolean;
-    hasLock?: boolean;
-    position?: PlacementPosition;
-    allowRightClick?: boolean;
-    hasBorder?: boolean;
-    fullWidth?: boolean;
-    justifyContent?: string;
-    debug?: boolean;
+declare const IndustrialProvider: ({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
+    expand?: boolean | undefined;
+    hasLock?: boolean | undefined;
+    position?: PlacementPosition | undefined;
+    allowRightClick?: boolean | undefined;
+    hasBorder?: boolean | undefined;
+    fullWidth?: boolean | undefined;
+    justifyContent?: string | undefined;
+    debug?: boolean | undefined;
     children?: React.ReactNode;
-    size?: 'small' | 'medium' | 'large';
-    variant?: 'default' | 'outlined';
+    size?: "small" | "medium" | "large" | undefined;
+    variant?: "default" | "outlined" | undefined;
     style: any;
-}): JSX.Element;
+}) => JSX.Element;
 export default DataContext;
 export { IndustrialProvider };

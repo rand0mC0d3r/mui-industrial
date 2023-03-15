@@ -12,16 +12,17 @@ import { CSSProperties, HTMLAttributes } from 'react';
  *
  * @returns (JSX.Element) Status helper element
  */
-export default function ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, }: {
-    icon?: JSX.Element;
-    text?: string;
-    badge?: string | number;
-    image?: string;
-    mask?: boolean;
-    reverse?: boolean;
-    reverseIcon?: boolean;
-    children?: JSX.Element;
-    childrenIndex?: -1 | 1 | 2 | 3 | 4 | 5;
+declare const _default: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, }: {
+    icon?: JSX.Element | undefined;
+    text?: string | undefined;
+    badge?: string | number | undefined;
+    image?: string | undefined;
+    mask?: boolean | undefined;
+    reverse?: boolean | undefined;
+    reverseIcon?: boolean | undefined;
+    children?: JSX.Element | undefined;
+    childrenIndex?: 2 | 1 | -1 | 3 | 4 | 5 | undefined;
     className?: HTMLAttributes<HTMLDivElement>['className'];
-    style?: CSSProperties;
-}): JSX.Element;
+    style?: CSSProperties | undefined;
+}) => JSX.Element;
+export default _default;

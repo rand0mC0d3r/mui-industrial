@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react'
-import { Highlight, StatusOptionsProps, StatusType } from '../index.types'
-import StatusHelper from '../StatusHelper'
-import StatusConsole from './components/StatusConsole'
-import StatusCore from './components/StatusCore'
-import StatusPoppper from './components/StatusPoppper'
+import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import { Highlight, StatusOptionsProps, StatusType } from '../index.types';
+import StatusHelper from '../StatusHelper';
+import StatusConsole from './components/StatusConsole';
+import StatusCore from './components/StatusCore';
+import StatusPoppper from './components/StatusPoppper';
 
 const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
-} as StatusOptionsProps
+} as StatusOptionsProps;
 
 type StatusProps = {
   id: string,
@@ -23,13 +24,14 @@ type StatusProps = {
   style?: CSSProperties,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   children?: JSX.Element,
-}
+};
 
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
  * It can be used as a simple status element, a popper or a console.
  *
  * @param id - (string) Unique identifier for the status element.
+ * @param order - (number) Order to be displayed in the console.
  * @param disabled - (boolean) If needs to be disabled the status element.
  * @param highlight - (string) If needs to be applied a highlight style to the status element.
  * @param options - (StatusOptionsProps) Options to be applied to the status element.
@@ -46,17 +48,17 @@ type StatusProps = {
  *
  * @returns (JSX.Element) Status element
  */
-function Status({ ...rest } : StatusProps): JSX.Element {
-  const combinedOptions = { ...defaultStatusOptionsProps, ...rest.options }
-  const props = { ...rest, options: combinedOptions }
+const Status = ({ ...rest } : StatusProps) => {
+  const combinedOptions = { ...defaultStatusOptionsProps, ...rest.options };
+  const props = { ...rest, options: combinedOptions };
 
   return <>
     {combinedOptions.as === StatusType.SIMPLE && <StatusCore {...props} />}
     {combinedOptions.as === StatusType.POPPER && <StatusPoppper {...props} />}
     {combinedOptions.as === StatusType.CONSOLE && <StatusConsole {...props} />}
-  </>
-}
+  </>;
+};
 
-Status.Body = StatusHelper
+Status.Body = StatusHelper;
 
-export default Status
+export default Status;

@@ -1,7 +1,8 @@
 /// <reference types="react" />
 import { Severity } from '../../../../index.types';
-export default function ({ actions, source, severity, }: {
+declare const _default: ({ actions, source, severity, }: {
     actions?: any;
-    source?: string;
+    source?: string | undefined;
     severity: Severity;
-}): JSX.Element;
+}) => JSX.Element;
+export default _default;

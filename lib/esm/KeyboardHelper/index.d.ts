@@ -1,5 +1,6 @@
 /// <reference types="react" />
-export default function ({ shortcutId, asChip, }: {
+declare const _default: ({ shortcutId, asChip, }: {
     shortcutId: string;
-    asChip?: boolean;
-}): JSX.Element;
+    asChip?: boolean | undefined;
+}) => JSX.Element;
+export default _default;

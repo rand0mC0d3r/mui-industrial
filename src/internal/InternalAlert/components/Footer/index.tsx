@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { cloneElement, Fragment } from 'react'
-import { Severity } from '../../../../index.types'
+import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { cloneElement, Fragment } from 'react';
+import { Severity } from '../../../../index.types';
 
 const SFooter = styled('div')(() => ({
   display: 'flex',
@@ -12,7 +12,7 @@ const SFooter = styled('div')(() => ({
   justifyContent: 'space-between',
   width: '100%',
   marginTop: '8px',
-}))
+}));
 
 const SActions = styled('div')(() => ({
   display: 'flex',
@@ -20,13 +20,13 @@ const SActions = styled('div')(() => ({
   gap: '8px',
   flex: '1 1 auto',
   justifyContent: 'flex-end',
-}))
+}));
 
 const SSource = styled(Typography)(() => ({
   userSelect: 'none',
-}))
+}));
 
-export default function ({
+export default ({
   actions,
   source,
   severity,
@@ -34,7 +34,7 @@ export default function ({
   actions?: any,
   source?: string,
   severity: Severity,
-}) {
+}) : JSX.Element => {
   return <SFooter>
     {source && <SSource variant="caption" color="textSecondary">{`Source: ${source}`}</SSource>}
     <SActions>
@@ -46,10 +46,10 @@ export default function ({
             size: 'small',
             style: i === 0 ? { } : { borderStyle: 'dotted' },
             variant: i === 0 ? 'contained' : 'outlined',
-            disableElevation: true
-          }
+            disableElevation: true,
+          },
         )}
       </Fragment>)}
     </SActions>
-  </SFooter>
-}
+  </SFooter>;
+};

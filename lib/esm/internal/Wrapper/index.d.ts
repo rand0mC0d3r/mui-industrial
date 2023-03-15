@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
-export default function ({ children, style, }: {
+declare const _default: ({ children, style, }: {
     children: ReactNode;
-    style?: CSSProperties;
-}): JSX.Element;
+    style?: CSSProperties | undefined;
+}) => JSX.Element;
+export default _default;

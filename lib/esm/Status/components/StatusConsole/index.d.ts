@@ -36,15 +36,16 @@ import { StatusOptionsProps } from '../../../index.types';
  *
  * @returns (JSX.Element) Status Console element
  */
-export default function ({ id, disabled, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
+declare const _default: ({ id, disabled, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
     id: string;
-    disabled?: boolean;
-    options?: StatusOptionsProps;
-    secondary?: boolean;
+    disabled?: boolean | undefined;
+    options?: StatusOptionsProps | undefined;
+    secondary?: boolean | undefined;
     tooltip?: ReactNode | string;
-    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
-    style?: CSSProperties;
+    onClick?: ((event: MouseEvent<HTMLDivElement>) => void) | undefined;
+    onContextMenu?: ((event: MouseEvent<HTMLDivElement>) => void) | undefined;
+    style?: CSSProperties | undefined;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     children?: ReactNode;
-}): JSX.Element;
+}) => JSX.Element;
+export default _default;

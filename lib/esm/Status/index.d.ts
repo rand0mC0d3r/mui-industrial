@@ -1,6 +1,5 @@
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../index.types';
-import StatusHelper from '../StatusHelper';
 type StatusProps = {
     id: string;
     order?: number;
@@ -20,6 +19,7 @@ type StatusProps = {
  * It can be used as a simple status element, a popper or a console.
  *
  * @param id - (string) Unique identifier for the status element.
+ * @param order - (number) Order to be displayed in the console.
  * @param disabled - (boolean) If needs to be disabled the status element.
  * @param highlight - (string) If needs to be applied a highlight style to the status element.
  * @param options - (StatusOptionsProps) Options to be applied to the status element.
@@ -36,8 +36,20 @@ type StatusProps = {
  *
  * @returns (JSX.Element) Status element
  */
-declare function Status({ ...rest }: StatusProps): JSX.Element;
-declare namespace Status {
-    var Body: typeof StatusHelper;
-}
+declare const Status: {
+    ({ ...rest }: StatusProps): JSX.Element;
+    Body: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, }: {
+        icon?: JSX.Element | undefined;
+        text?: string | undefined;
+        badge?: string | number | undefined;
+        image?: string | undefined;
+        mask?: boolean | undefined;
+        reverse?: boolean | undefined;
+        reverseIcon?: boolean | undefined;
+        children?: JSX.Element | undefined;
+        childrenIndex?: 2 | 1 | -1 | 3 | 4 | 5 | undefined;
+        className?: string | undefined;
+        style?: CSSProperties | undefined;
+    }) => JSX.Element;
+};
 export default Status;

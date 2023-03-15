@@ -1,22 +1,23 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import React, { createContext, useEffect, useState } from 'react'
-import { PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types'
-import Wrapper from '../internal/Wrapper'
+import React, { createContext, useEffect, useState } from 'react';
+import { PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import Wrapper from '../internal/Wrapper';
 
-const domIdBase = 'mui-status'
+const domIdBase = 'mui-status';
 
 export const composeDomId = (component: string, detail: string[]) => {
-  const id = detail.join('-')
-  return `${domIdBase}-${component}-${id}`
-}
+  const id = detail.join('-');
+  return `${domIdBase}-${component}-${id}`;
+};
 
-const packageName = 'mui-industrial'
-const settingsStorageKey = 'mui-status.settings'
-const statusStorageKey = 'mui-status.status'
+const packageName = 'mui-industrial';
+const settingsStorageKey = 'mui-status.settings';
+const statusStorageKey = 'mui-status.status';
 
 const initialSettings = {
   position: PlacementPosition.TOP,
@@ -30,14 +31,14 @@ const initialSettings = {
   variant: 'default',
   isConsoleFixed: false,
   isConsoleOpen: false,
-} as SettingsObject
+} as SettingsObject;
 
 const valOrDefault = (val: any, def: any) => {
   if (val === undefined) {
-    return def
+    return def;
   }
-  return val
-}
+  return val;
+};
 
 export interface DataContextInterface {
   settings: any;
@@ -53,7 +54,7 @@ export interface DataContextInterface {
   handleCallKeyboard: ({ id }: { id: string }) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
-    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
+  { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
   handleStatusDestroy: any;
   handleSnackbarDestroy: any;
   handleStatusTypeUpdate: ({ id, type }: { id: string, type: StatusType }) => void;
@@ -64,9 +65,9 @@ export interface DataContextInterface {
   logDebug: any,
 }
 
-const DataContext = createContext({} as DataContextInterface)
+const DataContext = createContext({} as DataContextInterface);
 
-function IndustrialProvider({
+const IndustrialProvider = ({
   expand,
   hasLock,
   position = PlacementPosition.TOP,
@@ -85,34 +86,34 @@ function IndustrialProvider({
   position?: PlacementPosition,
   allowRightClick?: boolean,
   hasBorder?: boolean,
-	fullWidth?: boolean,
+  fullWidth?: boolean,
   justifyContent?: string,
   debug?: boolean,
   children?: React.ReactNode,
-	size?: 'small' | 'medium' | 'large',
-	variant?: 'default' | 'outlined',
-	style: any,
-  }) {
-  const [status, setStatus] = useState<StatusObject[]>([])
-  const [snackbar, setSnackbar] = useState<SnackbarObject[]>([])
-  const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([])
-  const [settings, setSettings] = useState<SettingsObject>(initialSettings)
+  size?: 'small' | 'medium' | 'large',
+  variant?: 'default' | 'outlined',
+  style: any,
+}) => {
+  const [status, setStatus] = useState<StatusObject[]>([]);
+  const [snackbar, setSnackbar] = useState<SnackbarObject[]>([]);
+  const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([]);
+  const [settings, setSettings] = useState<SettingsObject>(initialSettings);
 
   const logDebug = (message: string) => {
     if (settings.debug) {
-      console.log(message)
+      console.log(message);
     }
-  }
+  };
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
-    console.log('registed status', id)
+    console.log('registed status', id);
     setStatus((status: StatusObject[]) => {
-      const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId)
+      const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
       if (findError) {
-        logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`)
-        return status
+        logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`);
+        return status;
       }
-      logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`)
+      logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
 
       return [
         ...status.filter(({ uniqueId }) => uniqueId !== id),
@@ -123,36 +124,36 @@ function IndustrialProvider({
           keepOpen: false,
           visible: true,
           secondary,
-          children
-        } as StatusObject
-      ]
-    })
-  }
+          children,
+        } as StatusObject,
+      ];
+    });
+  };
   const handleSnackbarAnnouncement = (
     { ownId, severity, actions, source, message, code, autoHideDuration } :
-    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }
+    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number },
   ) => {
-    console.log('registed snackbar', ownId)
+    console.log('registed snackbar', ownId);
     setSnackbar((snackbar: SnackbarObject[]) => [
       ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
-        {
-          uniqueId: ownId,
-          open: true,
-          severity,
-          actions,
-          source,
-          message,
-          code,
-          autoHideDuration,
-        } as SnackbarObject
-    ])
-  }
+      {
+        uniqueId: ownId,
+        open: true,
+        severity,
+        actions,
+        source,
+        message,
+        code,
+        autoHideDuration,
+      } as SnackbarObject,
+    ]);
+  };
 
   const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger } : ShortcutObject) => {
     setShortcuts((shortcuts: ShortcutObject[]) => {
-      const findError = shortcuts.find(shortcut => shortcut.id === id)
+      const findError = shortcuts.find(shortcut => shortcut.id === id);
       if (findError) {
-        console.error(`${packageName}: ❌ Same shortcut already registered with id: [${id}]`)
+        console.error(`${packageName}: ❌ Same shortcut already registered with id: [${id}]`);
       }
 
       return [
@@ -167,100 +168,100 @@ function IndustrialProvider({
           shiftKey,
           ctrlKey,
           altKey,
-          insensitive
-        } as ShortcutObject
-      ]
-    })
-  }
+          insensitive,
+        } as ShortcutObject,
+      ];
+    });
+  };
   const handleKeyboardTriggerUpdate = ({ id, onTrigger } : { id: string, onTrigger: any }) => {
     setShortcuts((shortcuts: ShortcutObject[]) => [
       ...shortcuts.map(shortcut => shortcut.id !== id ? shortcut : { ...shortcut, onTrigger }),
-    ])
-  }
+    ]);
+  };
   const handleCallKeyboard = ({ id } : { id: string }) => {
-    const findShortcut = shortcuts.find(shortcut => shortcut.id === id)
+    const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (findShortcut !== undefined && findShortcut?.onTrigger) {
-      findShortcut?.onTrigger(findShortcut.open)
+      findShortcut?.onTrigger(findShortcut.open);
     }
     setShortcuts((shortcuts: ShortcutObject[]) => [
       ...shortcuts.map(shortcut => shortcut.id !== id ? shortcut : { ...shortcut, open: !shortcut.open }),
-    ])
-  }
+    ]);
+  };
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
     setStatus((status: StatusObject[]) => {
-      const findError = status.find(({ uniqueId }) => uniqueId === id)
+      const findError = status.find(({ uniqueId }) => uniqueId === id);
       if (findError?.ownId !== ownId) {
         if (settings.debug) {
-          console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`)
+          console.error(`mui-status: ❌ Faulty status update captured for: [${id}] & ownId: [${ownId}], but expected ownId: [${findError?.ownId}]`);
         }
-        return status
+        return status;
       }
-      return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, children } : sItem)
-    })
-  }
+      return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, children } : sItem);
+    });
+  };
 
   const handleStatusVisibilityToggle = ({ id }: { id: string }) => {
-    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)))
-  }
+    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, visible: !lo.visible } : lo)));
+  };
 
   const handleStatusTypeUpdate = ({ id, type }: { id: string, type: any }) => {
     if (settings.debug) {
-      console.info(`mui-status: 🆗 Updated type for id: [${id}] to: [${type}]`)
+      console.info(`mui-status: 🆗 Updated type for id: [${id}] to: [${type}]`);
     }
     setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
       ? { ...lo, type } as StatusObject
-      : lo)))
-  }
+      : lo)));
+  };
 
   const handleStatusConsoleTitleUpdate = ({ id, title }: { id: string, title?: string }) => {
     if (settings.debug) {
-      console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`)
+      console.info(`mui-status: 🆗 Updated console title for id: [${id}] to: [${title}]`);
     }
     setStatus((status: StatusObject[]) => status.map((lo: StatusObject) => (lo.uniqueId === id
       ? { ...lo, title } as StatusObject
-      : lo)))
-  }
+      : lo)));
+  };
 
   const handleStatusDestroy = ({ id }: { id: string }) => {
-    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)])
-  }
+    setStatus((status: StatusObject[]) => [...status.filter(lo => lo.uniqueId !== id)]);
+  };
 
   const handleStatusKeepOpenToggle = ({ id }: { id: string }) => {
-    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, keepOpen: !lo.keepOpen } : lo)))
-  }
+    setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, keepOpen: !lo.keepOpen } : lo)));
+  };
 
   const handleSnackbarDestroy = ({ uniqueId }: { uniqueId: string }) => {
-    setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)])
-  }
+    setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)]);
+  };
 
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
-      setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }))
+      setSettings((settings: SettingsObject) => ({ ...settings, statusBarAnnounced: true }));
     }
-  }
+  };
 
-  const updateConsoleActiveId = ({ id } : { id?: string}) => {
+  const updateConsoleActiveId = ({ id } : { id?: string }) => {
     setSettings((settings: SettingsObject) => ({
       ...settings,
       consoleActiveId: id || undefined,
-      isConsoleOpen: !!id
-    }))
-  }
+      isConsoleOpen: !!id,
+    }));
+  };
 
   const updateIsConsoleOpen = () => {
     setSettings((settings: SettingsObject) => ({
       ...settings,
       isConsoleOpen: !settings.isConsoleOpen,
       // consoleActiveId: settings.isConsoleOpen ? undefined : settings.consoleActiveId
-    }))
-  }
+    }));
+  };
   const updateIsConsoleClosed = () => {
     setSettings((settings: SettingsObject) => ({
       ...settings,
       isConsoleOpen: false,
-    }))
-  }
+    }));
+  };
 
   useEffect(() => {
     // const storedSettingsLocal = localStorage.getItem(settingsStorageKey)
@@ -268,7 +269,7 @@ function IndustrialProvider({
 
     // if (storedSettingsLocal) setStoredSettings(JSON.parse(storedSettingsLocal))
     // if (storedStatusLocal) setStoredStatus(JSON.parse(storedStatusLocal))
-  }, [])
+  }, []);
 
   // useEffect(() => {
   //   if (storedStatus.length > 0) {
@@ -282,8 +283,8 @@ function IndustrialProvider({
   //   }
   // }, [storedStatus, storedSettings])
 
-  useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings])
-  useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status])
+  useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings]);
+  useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status]);
 
   useEffect(() => {
     setSettings((settings: SettingsObject) => ({
@@ -298,27 +299,27 @@ function IndustrialProvider({
       allowRightClick: allowRightClick || initialSettings.allowRightClick,
       debug: debug || initialSettings.debug,
       hasLock: valOrDefault(hasLock, initialSettings.hasLock),
-    }))
-  }, [allowRightClick, fullWidth, variant, hasBorder, size, justifyContent, expand, position, debug, hasLock])
+    }));
+  }, [allowRightClick, fullWidth, variant, hasBorder, size, justifyContent, expand, position, debug, hasLock]);
 
   useEffect(() => {
     if (settings.debug) {
       // console.clear()
-      console.log('Debugging is enabled.')
+      console.log('Debugging is enabled.');
 
-      console.log('%cSettings', 'color: #4caf50')
-      console.table({ ...settings })
+      console.log('%cSettings', 'color: #4caf50');
+      console.table({ ...settings });
 
-      console.log('%cStatus', 'color: #2196f3')
-      console.table({ ...status })
+      console.log('%cStatus', 'color: #2196f3');
+      console.table({ ...status });
 
-      console.log('%cSnackbar', 'color: #f44336')
-      console.table({ ...snackbar })
+      console.log('%cSnackbar', 'color: #f44336');
+      console.table({ ...snackbar });
 
-      console.log('%cShortcuts', 'color: #ff9800')
-      console.table({ ...shortcuts })
+      console.log('%cShortcuts', 'color: #ff9800');
+      console.table({ ...shortcuts });
     }
-  }, [settings, shortcuts, snackbar, status])
+  }, [settings, shortcuts, snackbar, status]);
 
   return <DataContext.Provider
     value={{
@@ -356,8 +357,8 @@ function IndustrialProvider({
     }}
   >
     <Wrapper {...{ children, style }} />
-  </DataContext.Provider>
-}
+  </DataContext.Provider>;
+};
 
-export default DataContext
-export { IndustrialProvider }
+export default DataContext;
+export { IndustrialProvider };

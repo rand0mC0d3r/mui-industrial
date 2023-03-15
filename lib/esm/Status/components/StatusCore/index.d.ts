@@ -2,6 +2,7 @@ import { CSSProperties, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../../../index.types';
 type StatusCoreProps = {
     id: string;
+    order?: number;
     style?: CSSProperties;
     onClick?: (e: MouseEvent<HTMLDivElement>) => void;
     onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;

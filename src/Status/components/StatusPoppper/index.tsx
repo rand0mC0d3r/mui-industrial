@@ -1,28 +1,28 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { alpha, Box, ClickAwayListener, Popper } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { alpha, Box, ClickAwayListener, Popper } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   CSSProperties, HTMLAttributes, MouseEvent,
   ReactNode, useContext, useEffect,
-  useRef, useState
-} from 'react'
+  useRef, useState,
+} from 'react';
 import {
   Highlight, PlacementPosition, PopperWidth, SettingsObject, StatusObject,
-  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperProps
-} from '../../../index.types'
-import InternalHeader from '../../../internal/InternalHeader'
-import DataProvider from '../../../Store'
-import StatusCore from '../StatusCore'
+  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperProps,
+} from '../../../index.types';
+import InternalHeader from '../../../internal/InternalHeader';
+import DataProvider from '../../../Store';
+import StatusCore from '../StatusCore';
 
-const StyledBox = styled(Box)<{width?: PopperWidth }>(({ theme, width }) => ({
+const StyledBox = styled(Box)<{ width?: PopperWidth }>(({ theme, width }) => ({
   width: `${width ? `${theme.breakpoints.values[width] / 1.42}px` : 'auto'}`,
   height: `${width ? `${theme.breakpoints.values[width] / 1.24}px` : 'auto'}`,
-}))
+}));
 
 const StyledPopper = styled(Popper)(() => ({
   zIndex: '101',
-}))
+}));
 
 const StyledContainer = styled('div')<{
   elevation?: number,
@@ -34,7 +34,7 @@ const StyledContainer = styled('div')<{
   elevation,
   highlight,
   variant,
-  decoration
+  decoration,
 } : {
   theme: any,
   elevation?: number,
@@ -55,8 +55,8 @@ const StyledContainer = styled('div')<{
   border: variant === 'default'
     ? '2px solid transparent'
     : `2px solid ${highlight !== 'default' ? theme.palette[highlight].main : 'transparent'}`,
-  boxShadow: theme.shadows[elevation || 2]
-}))
+  boxShadow: theme.shadows[elevation || 2],
+}));
 
 const defaultPopperOptions = {
   elevation: 2,
@@ -64,14 +64,14 @@ const defaultPopperOptions = {
   onClose: () => {},
   hasArrow: false,
   hasDecoration: false,
-} as StatusPopperProps
+} as StatusPopperProps;
 
 const defaultSeparatorOptions = {
   start: false,
   end: false,
-} as StatusOptionsSeparatorProps
+} as StatusOptionsSeparatorProps;
 
-export default function ({
+export default ({
   id,
   disabled,
   highlight = Highlight.DEFAULT,
@@ -95,52 +95,52 @@ export default function ({
   style?: CSSProperties,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   children?: ReactNode,
-}) {
+}) : JSX.Element =>{
   const {
     status,
     settings,
   } : {
     status: StatusObject[],
     settings: SettingsObject,
-  } = useContext(DataProvider)
-  const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const popperReference = useRef()
+  } = useContext(DataProvider);
+  const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const popperReference = useRef();
 
-  const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps
-  const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps
+  const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps;
+  const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps;
 
-  const open = Boolean(anchorEl)
+  const open = Boolean(anchorEl);
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (statusObject?.keepOpen) return
-    if (onClick) onClick(event)
-    setAnchorEl(anchorEl ? null : event?.currentTarget as any)
-  }
+    if (statusObject?.keepOpen) return;
+    if (onClick) onClick(event);
+    setAnchorEl(anchorEl ? null : event?.currentTarget as any);
+  };
 
   const handleOnClose = (event: any) => {
-    if (enrichedPopper.onClose && !statusObject?.keepOpen) enrichedPopper.onClose(event)
-    if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null)
-  }
+    if (enrichedPopper.onClose && !statusObject?.keepOpen) enrichedPopper.onClose(event);
+    if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null);
+  };
 
   useEffect(() => {
-    const foundObject = status.find(item => item.uniqueId === id)
-    if (!foundObject) return
-    setStatusObject(foundObject)
-  }, [status, id])
+    const foundObject = status.find(item => item.uniqueId === id);
+    if (!foundObject) return;
+    setStatusObject(foundObject);
+  }, [status, id]);
 
   useEffect(() => {
     if (!options.open) {
       if (!statusObject?.keepOpen || !settings.hasLock) {
-        setAnchorEl(null)
+        setAnchorEl(null);
       }
-      return
+      return;
     }
-    if (!popperReference?.current) return
-    setAnchorEl(popperReference.current)
-  }, [options.open])
+    if (!popperReference?.current) return;
+    setAnchorEl(popperReference.current);
+  }, [options.open, statusObject, settings.hasLock]);
 
-  const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight
+  const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
 
   return <>
     {/* {open ? 'force open' : 'force close'} */}
@@ -156,7 +156,7 @@ export default function ({
         popper: {
           ...enrichedPopper,
           hasArrow: open && enrichedPopper.hasArrow,
-        }
+        },
       } as StatusOptionsProps,
       highlight: determineHighlight(),
       secondary,
@@ -181,7 +181,7 @@ export default function ({
           elevation: enrichedPopper.elevation,
           highlight: determineHighlight().toString(),
           variant: settings.variant.toString(),
-          decoration: enrichedPopper.hasDecoration?.toString()
+          decoration: enrichedPopper.hasDecoration?.toString(),
         }}
         >
           <StyledBox
@@ -196,11 +196,11 @@ export default function ({
           {enrichedPopper.hasToolbar && <InternalHeader {...{
             id,
             actions: enrichedPopper.actions,
-            title: options?.title
+            title: options?.title,
           }}
           />}
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>
-  </>
-}
+  </>;
+};

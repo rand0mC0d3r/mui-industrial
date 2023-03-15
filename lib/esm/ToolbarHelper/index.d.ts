@@ -1,6 +1,7 @@
 /// <reference types="react" />
-export default function ({ tooltip, onClick, icon, }: {
+declare const _default: ({ tooltip, onClick, icon, }: {
     tooltip: string;
-    onClick?: any;
+    onClick?: ((e: any) => void) | undefined;
     icon?: any;
-}): JSX.Element;
+}) => JSX.Element;
+export default _default;

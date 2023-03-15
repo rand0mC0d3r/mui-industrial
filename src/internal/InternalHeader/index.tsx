@@ -1,10 +1,10 @@
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { IconButton, Tooltip, Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { useContext, useEffect, useState } from 'react'
-import { PopoverActions, StatusObject } from '../../index.types'
-import DataProvider, { DataContextInterface } from '../../Store'
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { IconButton, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useContext, useEffect, useState } from 'react';
+import { PopoverActions, StatusObject } from '../../index.types';
+import DataProvider, { DataContextInterface } from '../../Store';
 
 const StyledActionsWrapper = styled('div')(({ theme }) => ({
   padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
@@ -13,26 +13,26 @@ const StyledActionsWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   userSelect: 'none',
-  alignItems: 'center'
-}))
+  alignItems: 'center',
+}));
 
 const StyledActions = styled('div')(({ theme }) => ({
   gap: `${theme.shape.borderRadius}px`,
 
   display: 'flex',
   justifyContent: 'flex-end',
-  alignItems: 'center'
-}))
+  alignItems: 'center',
+}));
 
 const StyledTypography = styled(Typography)(() => ({
   lineHeight: 1,
   textOverflow: 'ellipsis',
   maxWidth: '225px',
   overflow: 'hidden',
-  whiteSpace: 'nowrap'
-}))
+  whiteSpace: 'nowrap',
+}));
 
-export default function ({
+export default ({
   id,
   title,
   actions,
@@ -40,14 +40,14 @@ export default function ({
   id: string,
   title?: string,
   actions?: PopoverActions,
-}) {
-  const { status, settings, handleStatusKeepOpenToggle } = useContext(DataProvider) as DataContextInterface
-  const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
+}): JSX.Element => {
+  const { status, settings, handleStatusKeepOpenToggle } = useContext(DataProvider) as DataContextInterface;
+  const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
 
   useEffect(() => {
-    if (!status || !id) return
-    setStatusObject(status.find(({ uniqueId }: StatusObject) => uniqueId === id) || null)
-  }, [status, id])
+    if (!status || !id) return;
+    setStatusObject(status.find(({ uniqueId }: StatusObject) => uniqueId === id) || null);
+  }, [status, id]);
 
   return <StyledActionsWrapper>
     <StyledTypography variant="subtitle2" color="textSecondary">{title}</StyledTypography>
@@ -67,5 +67,5 @@ export default function ({
         </IconButton>
       </Tooltip>}
     </StyledActions>
-  </StyledActionsWrapper>
-}
+  </StyledActionsWrapper>;
+};

@@ -1,11 +1,12 @@
 /// <reference types="react" />
-export default function ({ code, uniqueId, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded, }: {
-    code?: string;
+declare const _default: ({ code, uniqueId, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded, }: {
+    code?: string | undefined;
     uniqueId: string;
     actions?: any;
     severity: any;
     message: string;
-    isRemoveFlag?: boolean;
+    isRemoveFlag?: boolean | undefined;
     isExpanded: boolean;
     setIsExpanded: any;
-}): JSX.Element;
+}) => JSX.Element;
+export default _default;

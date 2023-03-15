@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
-import { Popover, Tooltip, Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'react'
-import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types'
-import DataProvider, { DataContextInterface } from '../../Store'
-import InternalConsole from '../InternalConsole'
-import InternalKeyboard from '../InternalKeyboard'
-import InternalNotifications from '../InternalNotifications'
-import InternalStatus from '../InternalStatus'
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import { Popover, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'react';
+import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types';
+import DataProvider, { DataContextInterface } from '../../Store';
+import InternalConsole from '../InternalConsole';
+import InternalKeyboard from '../InternalKeyboard';
+import InternalNotifications from '../InternalNotifications';
+import InternalStatus from '../InternalStatus';
 
 const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   height: '100%',
@@ -22,8 +22,8 @@ const SBox = styled('div')<{ column?: string }>(({ column }) => ({
   left: '0px',
   right: '0px',
 
-  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column'
-}))
+  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column',
+}));
 
 const SNotifications = styled('div')<{ column?: string }>(({ column }) => ({
   gap: '0px',
@@ -34,8 +34,8 @@ const SNotifications = styled('div')<{ column?: string }>(({ column }) => ({
 
   bottom: column !== PlacementPosition.TOP ? 'unset' : '32px',
   top: column !== PlacementPosition.TOP ? '32px' : 'unset',
-  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column'
-}))
+  flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column',
+}));
 
 const SChildren = styled('div')(() => ({
   flex: '1 1 auto',
@@ -43,18 +43,18 @@ const SChildren = styled('div')(() => ({
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
-}))
+}));
 
 const StyledTypographyNoChildren = styled(Typography)(() => ({
-  userSelect: 'none'
-}))
+  userSelect: 'none',
+}));
 
 const SElement = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   gap: '16px',
   padding: '8px',
-}))
+}));
 
 const SElementItem = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -69,50 +69,50 @@ const SElementItem = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.primary.light,
     color: `${theme.palette.background.default} !important`,
   },
-}))
+}));
 
 const SStatusContainer = styled('div')<{
-	hasBorder?: boolean,
-	fullWidth?: boolean,
- }>(({ theme, hasBorder, fullWidth }: any) => ({
-   alignSelf: 'stretch',
-   justifyContent: 'center',
-   display: 'flex',
-   boxShadow: fullWidth && hasBorder
-     ? [`inset 0px 0px 0px 1px ${theme.palette.divider}`].join(',')
-     : 'none',
-   backgroundColor: theme.palette.mode === 'light'
-     ? theme.palette.background.default
-     : theme.palette.background.paper,
- }))
+  hasBorder?: boolean,
+  fullWidth?: boolean,
+}>(({ theme, hasBorder, fullWidth }: any) => ({
+  alignSelf: 'stretch',
+  justifyContent: 'center',
+  display: 'flex',
+  boxShadow: fullWidth && hasBorder
+    ? [`inset 0px 0px 0px 1px ${theme.palette.divider}`].join(',')
+    : 'none',
+  backgroundColor: theme.palette.mode === 'light'
+    ? theme.palette.background.default
+    : theme.palette.background.paper,
+}));
 
-export default function ({
+export default ({
   children,
   style,
 } : {
   children: ReactNode,
-	style?: CSSProperties
-}) {
-  const { status, shortcuts, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface
-  const { position, fullWidth, hasBorder } = settings as SettingsObject
-  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
-  const open = Boolean(anchorEl)
+  style?: CSSProperties
+}): JSX.Element => {
+  const { status, shortcuts, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface;
+  const { position, fullWidth, hasBorder } = settings as SettingsObject;
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+  const open = Boolean(anchorEl);
 
-  const onClose = () => setAnchorEl(null)
+  const onClose = () => setAnchorEl(null);
 
   const onContextMenu = (e: MouseEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    setAnchorEl(e.currentTarget)
-  }
+    e.preventDefault();
+    setAnchorEl(e.currentTarget);
+  };
 
   const statusEntry = (statusItem: StatusObject) => <SElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
     {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
     {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>}
-  </SElementItem>
+  </SElementItem>;
 
   const entryWrapper = (statusItem: StatusObject) => <Tooltip {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}>
     {statusEntry(statusItem)}
-  </Tooltip>
+  </Tooltip>;
 
   return <>
     <SBox id="mui-status-wrapper" {...{ column: position }}>
@@ -135,11 +135,11 @@ export default function ({
       transformOrigin={{ vertical: position === PlacementPosition.BOTTOM ? 'bottom' : 'top', horizontal: 'center' }}
       style={{ marginTop: `${(position === PlacementPosition.TOP ? 1 : -1) * 12}px` }}
     >
-      <SElement {...{ onContextMenu: e => { e.preventDefault() } }}>
+      <SElement {...{ onContextMenu: e => { e.preventDefault(); } }}>
         {[false, true].map((state: boolean) => <div key={state.toString()}>
           {status.filter(({ secondary }) => secondary === state).map(statusItem => entryWrapper(statusItem))}
         </div>)}
       </SElement>
     </Popover>
-  </>
-}
+  </>;
+};

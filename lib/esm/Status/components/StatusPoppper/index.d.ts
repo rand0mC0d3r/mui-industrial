@@ -1,15 +1,16 @@
 import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 import { Highlight, StatusOptionsProps } from '../../../index.types';
-export default function ({ id, disabled, highlight, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
+declare const _default: ({ id, disabled, highlight, options, secondary, tooltip, onClick, onContextMenu, style, className, children, }: {
     id: string;
-    disabled?: boolean;
-    highlight?: Highlight;
+    disabled?: boolean | undefined;
+    highlight?: Highlight | undefined;
     options: StatusOptionsProps;
-    secondary?: boolean;
+    secondary?: boolean | undefined;
     tooltip?: ReactNode | string;
-    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
-    style?: CSSProperties;
+    onClick?: ((event: MouseEvent<HTMLDivElement>) => void) | undefined;
+    onContextMenu?: ((event: MouseEvent<HTMLDivElement>) => void) | undefined;
+    style?: CSSProperties | undefined;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     children?: ReactNode;
-}): JSX.Element;
+}) => JSX.Element;
+export default _default;

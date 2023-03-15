@@ -26,13 +26,14 @@ export interface PopoverAction {
     onClick: () => void;
     disabled?: boolean;
 }
-export type asType = 'simple' | 'panel' | 'console';
+export type AsType = 'simple' | 'panel' | 'console';
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
     secondary: boolean;
     index: number;
+    order: number;
     keepOpen: boolean;
     uniqueId: string;
     ownId: string;

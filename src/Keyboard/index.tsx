@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from 'react'
-import { ShortcutObject } from '../index.types'
-import DataProvider, { DataContextInterface } from '../Store'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from 'react';
+import { ShortcutObject } from '../index.types';
+import DataProvider, { DataContextInterface } from '../Store';
 
-export default function (props : ShortcutObject) {
-  const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>(undefined)
+export default (props : ShortcutObject): JSX.Element => {
+  const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>(undefined);
   const {
     id, shiftKey, ctrlKey, altKey, metaKey,
     ascii, char, label, insensitive = true, onTrigger = () => {},
-  } = props
+  } = props;
 
   const {
     shortcuts,
@@ -15,22 +16,22 @@ export default function (props : ShortcutObject) {
   } : {
     shortcuts: ShortcutObject[],
     handleKeyboardAnnouncement: DataContextInterface['handleKeyboardAnnouncement']
-  } = useContext(DataProvider) as DataContextInterface
+  } = useContext(DataProvider) as DataContextInterface;
 
   useEffect(() => {
     if ((char || ascii) && id && !shortcuts.some(shortcut => shortcut.id === id)) {
-      handleKeyboardAnnouncement({ ...props } as ShortcutObject)
+      handleKeyboardAnnouncement({ ...props } as ShortcutObject);
     }
-  }, [char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, insensitive, onTrigger, handleKeyboardAnnouncement])
+  }, [char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, insensitive, onTrigger, handleKeyboardAnnouncement]);
 
   useEffect(() => {
-    setShortcutItem(shortcuts.find(shortcut => shortcut.id === id))
-  }, [shortcuts])
+    setShortcutItem(shortcuts.find(shortcut => shortcut.id === id));
+  }, [shortcuts, id]);
 
   useEffect(() => {
-    if (!shortcutItem) return
-    shortcutItem.onTrigger = onTrigger
-  }, [shortcutItem?.open])
+    if (!shortcutItem) return;
+    shortcutItem.onTrigger = onTrigger;
+  }, [shortcutItem?.open, onTrigger]);
 
-  return <></>
-}
+  return <></>;
+};

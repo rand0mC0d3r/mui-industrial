@@ -1,16 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import CheckIcon from '@mui/icons-material/Check'
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
-import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined'
-import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import { Alert, Tooltip, Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { cloneElement, useEffect, useState } from 'react'
-import { Severity } from '../../index.types'
-import Footer from './components/Footer'
-import Header from './components/Header'
+import CheckIcon from '@mui/icons-material/Check';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import PriorityHighOutlinedIcon from '@mui/icons-material/PriorityHighOutlined';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { Alert, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { cloneElement, useEffect, useState } from 'react';
+import { Severity } from '../../index.types';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
   fontFamily: 'monospace',
@@ -37,14 +37,14 @@ const SCode = styled('textarea')<{ height: number }>(({ height, theme }) => ({
   '&:focus-visible': {
     outline: '0px',
   },
-}))
+}));
 
 const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
   whiteSpace: ellipsis === 'true' ? 'nowrap' : 'normal',
   overflow: ellipsis === 'true' ? 'hidden' : 'unset',
   textOverflow: ellipsis === 'true' ? 'ellipsis' : 'unset',
   lineHeight: ellipsis === 'true' ? 'initial' : '1.65',
-}))
+}));
 
 const SWrapper = styled('div')(() => ({
   display: 'flex',
@@ -52,7 +52,7 @@ const SWrapper = styled('div')(() => ({
   flexDirection: 'column',
   alignItems: 'stretch',
   justifyContent: 'center',
-}))
+}));
 
 const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded, actions }) => ({
   '.MuiAlert-message': {
@@ -63,9 +63,9 @@ const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded,
     padding: expanded === 'true' ? '8px 0px' : '0px',
     flexDirection: (actions === 'true' || expanded === 'true') ? 'column' : 'row',
   },
-}))
+}));
 
-export default function ({
+export default ({
   uniqueId,
   actions,
   source,
@@ -81,18 +81,18 @@ export default function ({
   message: string,
   code: string,
   isRemoveFlag?: boolean,
-}) {
-  const [isExpanded, setIsExpanded] = useState(false)
+}) : JSX.Element => {
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    if (actions) setIsExpanded(true)
-  }, [actions])
+    if (actions) setIsExpanded(true);
+  }, [actions]);
 
-  const getMessage = (ellipsis = false) => <SMessage ellipsis={ellipsis.toString()}>{message}</SMessage>
+  const getMessage = (ellipsis = false) => <SMessage ellipsis={ellipsis.toString()}>{message}</SMessage>;
 
   const getIcon = (icon: any) => <Tooltip placement="left" arrow title={`${severity.toUpperCase()}${source ? ` - Source: ${source}` : ''}`}>
     {cloneElement(icon, { style: { fontSize: 'inherit' } })}
-  </Tooltip>
+  </Tooltip>;
 
   return <SAlert
     expanded={isExpanded.toString()}
@@ -117,5 +117,5 @@ export default function ({
         {(source || actions) && <Footer {...{ actions, severity, source }} />}
       </>}
     </SWrapper>
-  </SAlert>
-}
+  </SAlert>;
+};

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { domConsoleId, Highlight, SettingsObject, StatusObject, StatusOptionsProps, StatusType } from '../../../index.types'
-import DataProvider, { DataContextInterface } from '../../../Store'
-import StatusCore from '../StatusCore'
+import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, useContext, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { domConsoleId, Highlight, SettingsObject, StatusObject, StatusOptionsProps, StatusType } from '../../../index.types';
+import DataProvider, { DataContextInterface } from '../../../Store';
+import StatusCore from '../StatusCore';
 
 /**
  *
@@ -41,7 +41,7 @@ import StatusCore from '../StatusCore'
  *
  * @returns (JSX.Element) Status Console element
  */
-export default function ({
+export default ({
   id,
   disabled,
   options,
@@ -63,37 +63,37 @@ export default function ({
   style?: CSSProperties,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   children?: ReactNode,
-}) {
-  const { status, handleStatusTypeUpdate, handleStatusConsoleTitleUpdate, updateConsoleActiveId } = useContext(DataProvider) as DataContextInterface
-  const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject
-  const [statusObject, setStatusObject] = useState<StatusObject | null>(null)
-  const [elementFound, setElementFound] = useState<HTMLElement | null>(null)
+}): JSX.Element => {
+  const { status, handleStatusTypeUpdate, handleStatusConsoleTitleUpdate, updateConsoleActiveId } = useContext(DataProvider) as DataContextInterface;
+  const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject;
+  const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
+  const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
 
   const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId)
     ? Highlight.PRIMARY
-    : Highlight.DEFAULT
+    : Highlight.DEFAULT;
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (onClick) onClick(event)
-    if (!statusObject) return
-    if (!isConsoleOpen || consoleActiveId !== id) updateConsoleActiveId({ id: statusObject?.uniqueId })
-  }
+    if (onClick) onClick(event);
+    if (!statusObject) return;
+    if (!isConsoleOpen || consoleActiveId !== id) updateConsoleActiveId({ id: statusObject?.uniqueId });
+  };
 
   useEffect(() => {
-    setElementFound(document.getElementById(domConsoleId) || null)
-  }, [statusObject, consoleActiveId, isConsoleOpen])
+    setElementFound(document.getElementById(domConsoleId) || null);
+  }, [statusObject, consoleActiveId, isConsoleOpen]);
 
   useEffect(() => {
-    if (statusObject !== null) return
-    const foundObject = status.find(({ uniqueId }) => uniqueId === id)
-    if (!foundObject) return
-    setStatusObject(foundObject)
-    handleStatusTypeUpdate({ id, type: StatusType.CONSOLE })
-  }, [status, id, statusObject])
+    if (statusObject !== null) return;
+    const foundObject = status.find(({ uniqueId }) => uniqueId === id);
+    if (!foundObject) return;
+    setStatusObject(foundObject);
+    handleStatusTypeUpdate({ id, type: StatusType.CONSOLE });
+  }, [status, id, statusObject, handleStatusTypeUpdate]);
 
   useEffect(() => {
-    if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title })
-  }, [statusObject, id, options?.title])
+    if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title });
+  }, [statusObject, id, options?.title, handleStatusConsoleTitleUpdate]);
 
   return <>
     <StatusCore {...{
@@ -115,5 +115,5 @@ export default function ({
     && statusObject
     && statusObject.uniqueId === consoleActiveId
     && createPortal(options?.content, elementFound)}
-  </>
-}
+  </>;
+};

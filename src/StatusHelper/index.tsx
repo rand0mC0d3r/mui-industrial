@@ -1,6 +1,6 @@
-import { Stack, SvgIcon, Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { CSSProperties, HTMLAttributes } from 'react'
+import { Stack, SvgIcon, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { CSSProperties, HTMLAttributes } from 'react';
 
 const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   gap: `${theme.spacing(0.5)}`,
@@ -13,7 +13,7 @@ const SStack = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   userSelect: 'none',
   WebkitFontSmoothing: 'antialiased',
   shapeRendering: 'geometricPrecision',
-}))
+}));
 
 const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
   transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
@@ -22,7 +22,7 @@ const SIcon = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
   order: 0,
   width: '17px',
   flex: '0 0 auto',
-}))
+}));
 
 const SText = styled(Typography)(() => ({
   display: 'flex',
@@ -31,7 +31,7 @@ const SText = styled(Typography)(() => ({
   userSelect: 'none',
   fontSize: '15px',
   lineHeight: '0px',
-}))
+}));
 
 const SBadge = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -44,7 +44,7 @@ const SBadge = styled(Typography)(({ theme }) => ({
   padding: '0px 6px',
   lineHeight: 'inherit',
   fontSize: '12px',
-}))
+}));
 
 const SImg = styled('img')<{ mask: string }>(({ mask }) => ({
   borderRadius: mask === 'true' ? '50%' : '0px',
@@ -53,7 +53,7 @@ const SImg = styled('img')<{ mask: string }>(({ mask }) => ({
   order: 2,
   width: '18px',
   height: '18px',
-}))
+}));
 
 const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
   order: index,
@@ -62,7 +62,7 @@ const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'nowrap',
-}))
+}));
 
 /**
  * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
@@ -77,7 +77,7 @@ const SChildren = styled('div')<{ index: number }>(({ theme, index }) => ({
  *
  * @returns (JSX.Element) Status helper element
  */
-export default function ({
+export default ({
   icon,
   text,
   badge,
@@ -101,12 +101,12 @@ export default function ({
   childrenIndex?: -1 | 1 | 2 | 3 | 4 | 5,
   className?: HTMLAttributes<HTMLDivElement>['className'],
   style?: CSSProperties,
-}) {
+}): JSX.Element => {
   return <SStack {...{ id: 'statusHelper', style, className, reverse: reverse.toString() }}>
     {icon && <SIcon {...{ id: 'sh.icon', reverse: reverseIcon.toString() }}>{icon}</SIcon>}
     {children && <>{childrenIndex ? <SChildren {...{ index: childrenIndex }}>{children}</SChildren> : children}</>}
     {image && <SImg {...{ id: 'sh.image', alt: '', mask: mask.toString(), src: image }} />}
     {!!badge && <SBadge {...{ id: 'sh.badge' }}>{String(badge)}</SBadge>}
     {text && <SText {...{ id: 'sh.text', variant: 'caption' }}>{text}</SText>}
-  </SStack>
-}
+  </SStack>;
+};

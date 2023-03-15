@@ -1,17 +1,17 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 
-export const domConsoleId = 'mui-status-console'
-export const domStatusBarId = 'mui-status-statusBar'
-export const localStorageKeyHeight = 'mui-industrial-console-height'
+export const domConsoleId = 'mui-status-console';
+export const domStatusBarId = 'mui-status-statusBar';
+export const localStorageKeyHeight = 'mui-industrial-console-height';
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export type StatusTypes = 'simple' | 'panel' | 'console'
+export type StatusTypes = 'simple' | 'panel' | 'console';
 
 export interface ThemeShape {
   spacing(spacing: number): void,
-  shape: { borderRadius: number},
+  shape: { borderRadius: number },
   palette: {
     divider: string,
     primary: { main: string, dark: string },
@@ -26,15 +26,16 @@ export interface PopoverAction {
   disabled?: boolean,
 }
 
-export type asType = 'simple' | 'panel' | 'console'
+export type AsType = 'simple' | 'panel' | 'console';
 
-export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?]
+export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export interface StatusObject {
   visible: boolean;
   type: StatusTypes,
   secondary: boolean;
   index: number;
-	keepOpen: boolean,
+  order: number;
+  keepOpen: boolean,
   uniqueId: string;
   ownId: string;
   title?: string;
@@ -69,8 +70,8 @@ export interface StatusPopperProps {
   onClose?: any,
   actions?: PopoverActions,
   hasArrow?: boolean,
-	hasToolbar?: boolean,
-	hasDecoration?: boolean,
+  hasToolbar?: boolean,
+  hasDecoration?: boolean,
 }
 
 export interface StatusOptionsSeparatorProps {
@@ -92,7 +93,7 @@ export interface SettingsObject {
   allowRightClick: boolean;
   isHidden: boolean;
   justifyContent: string;
-	variant:'default' | 'outlined';
+  variant:'default' | 'outlined';
   position: PlacementPosition;
   expand: any;
   debug: boolean;
@@ -102,7 +103,7 @@ export interface SettingsObject {
   isConsoleFixed?: boolean;
   consoleActiveId?: string;
   width: string;
-	size: 'small' | 'medium' | 'large';
+  size: 'small' | 'medium' | 'large';
   hasBorder: boolean;
   fullWidth: boolean;
 }
@@ -116,7 +117,7 @@ export enum Highlight {
 export enum StatusType {
   SIMPLE = 'simple',
   POPPER = 'popper',
-  CONSOLE = 'console'
+  CONSOLE = 'console',
 }
 
 export enum PlacementPosition {
@@ -147,4 +148,4 @@ export const Direction = {
   BottomLeft: 'bottomLeft',
   BottomRight: 'bottomRight',
   Left: 'left',
-}
+};
