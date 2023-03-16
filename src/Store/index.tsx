@@ -15,7 +15,7 @@ export const composeDomId = (component: string, detail: string[]) => {
   return `${domIdBase}-${component}-${id}`;
 };
 
-const packageName = 'mui-industrial';
+// const packageName = 'mui-industrial';
 const settingsStorageKey = 'mui-status.settings';
 const statusStorageKey = 'mui-status.status';
 
@@ -50,7 +50,7 @@ export interface DataContextInterface {
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
   handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, metaKey, altKey, insensitive }: ShortcutObject) => void;
-  handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
+  // handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   handleCallKeyboard: ({ id }: { id: string }) => void;
   handleStatusAnnouncement: any;
@@ -152,13 +152,10 @@ const IndustrialProvider = ({
 
   // KEYBOARD SHORTCUTS
   const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
-    // console.log('registed keyboard', id);
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
-    const evaluate = !!findShortcut
-      && JSON.stringify(findShortcut) !== JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive });
 
-    if (!evaluate) {
-      console.log('updating shortcuts', id);
+    if (!(!!findShortcut
+      && JSON.stringify(findShortcut) !== JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }))) {
       setShortcuts((prevShortcuts: ShortcutObject[]) => {
         return [
           ...prevShortcuts.filter(shortcut => shortcut.id !== id),
@@ -190,7 +187,6 @@ const IndustrialProvider = ({
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (!!findShortcut && findShortcut?.onTrigger) {
-      console.log('triggering shortcut', findShortcut);
       findShortcut?.onTrigger(new Date().toTimeString());
     }
   };
