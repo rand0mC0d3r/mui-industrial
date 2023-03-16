@@ -51,7 +51,7 @@ export interface DataContextInterface {
   handleStatusUpdate: any;
   handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, metaKey, altKey, insensitive }: ShortcutObject) => void;
   // handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
-  handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
+  // handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   handleCallKeyboard: ({ id }: { id: string }) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
@@ -153,39 +153,31 @@ const IndustrialProvider = ({
   // KEYBOARD SHORTCUTS
   const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }: any) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
+    if (findShortcut && JSON.stringify(findShortcut) === JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive })) return;
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      return [
+        ...prevShortcuts.filter(shortcut => shortcut.id !== id),
+        {
+          id,
+          char,
+          label,
+          ascii,
 
-    if (!(!!findShortcut
-      && JSON.stringify(findShortcut) !== JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }))) {
-      setShortcuts((prevShortcuts: ShortcutObject[]) => {
-        return [
-          ...prevShortcuts.filter(shortcut => shortcut.id !== id),
-          {
-            id,
-            char,
-            label,
-            ascii,
+          altKey,
+          ctrlKey,
+          metaKey,
+          shiftKey,
 
-            altKey,
-            ctrlKey,
-            metaKey,
-            shiftKey,
-
-            insensitive,
-          } as ShortcutObject,
-        ];
-      });
-    }
-
-  };
-
-  const handleUpdateKeyboard = ({ id, onTrigger } : { id: string, onTrigger: any }) => {
-    setShortcuts((prevShortcuts: ShortcutObject[]) => prevShortcuts.map(p => (p.id === id ? { ...p, onTrigger } : p)));
+          insensitive,
+        } as ShortcutObject,
+      ];
+    });
   };
 
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (!!findShortcut && findShortcut?.onTrigger) {
-      findShortcut?.onTrigger(new Date().toTimeString());
+      findShortcut?.onTrigger();
     }
   };
 
@@ -348,7 +340,7 @@ const IndustrialProvider = ({
       // keyboard
       shortcuts,
       handleKeyboardAnnouncement,
-      handleUpdateKeyboard,
+      // handleUpdateKeyboard,
       // handleKeyboardTriggerUpdate,
       handleCallKeyboard,
 

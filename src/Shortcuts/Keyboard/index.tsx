@@ -3,8 +3,18 @@ import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 
 export default ({
-  id, shiftKey, ctrlKey, altKey, metaKey,
-  ascii, char, label, insensitive = true, onTrigger = () => {},
+  id,
+  ascii,
+  char,
+  label,
+
+  ctrlKey,
+  altKey,
+  metaKey,
+  shiftKey,
+
+  insensitive = true,
+  onTrigger = () => {},
 } : ShortcutObject): JSX.Element => {
   const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>();
   const [announced, setAnnounced] = useState(false);

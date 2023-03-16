@@ -22,7 +22,7 @@ import DataProvider, { DataContextInterface } from '../../Store';
 export default ({
   shortcutId,
   asChip = false,
-  hasTooltip = true,
+  hasTooltip = false,
 } : {
   shortcutId: string,
   asChip?: boolean,
