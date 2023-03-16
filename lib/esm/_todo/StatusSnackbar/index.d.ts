@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { Severity } from '../index.types';
+import { Severity } from '../../index.types';
 declare const _default: ({ severity, message, onClick, autoHideDuration, actions, source, code, }: {
     severity: Severity;
     message: string;

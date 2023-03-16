@@ -9,22 +9,20 @@ import { StatusProps } from '../index.types';
  *  id="##uniqueId##" --> Unique identifier for the status element
  *
  *  options={{
- *    as: StatusType.CONSOLE, --> StatusType.SIMPLE | StatusType.POPPER | StatusType.CONSOLE
- *    title: 'Status Console', --> Title to be displayed on the status element
- *    content: <div>Content</div>, --> Content to be displayed on the status element (only when NOT StatusType.SIMPLE)
+ *    as: StatusType.CONSOLE, // StatusType.SIMPLE | StatusType.POPPER | StatusType.CONSOLE
+ *    title: 'Status Console', // Title to be displayed on the status element
+ *    content: <div>Content</div>, // Content to be displayed on the status element (only when NOT StatusType.SIMPLE)
  *    ...
  *  }}
  *
- *  disabled={false} --> If needs to be disabled the status element
- *  highlight={Highlight.SUCCESS} --> If needs to be applied a highlight style to the status element
- *  secondary={false} --> If needs to be applied a secondary priority/importance to the status element
- *  tooltip="Tooltip" --> Tooltip to be displayed on hover
+ *  secondary={false} // If needs to be applied a secondary priority/importance to the status element
+ *  tooltip="Tooltip" // Tooltip to be displayed on hover
  *
- *  onClick={() => {}} --> Function to be executed on click event
- *  onContextMenu={() => {}} --> Function to be executed on context menu event
+ *  onClick={() => {}} // Function to be executed on click event
+ *  onContextMenu={() => {}} // Function to be executed on context menu event
  * (/)>
- *    ... --> Custom children to be displayed inside the status element
- *    <Status.Template> --> Predefined template to be displayed inside the status element
+ *    ... // Custom children to be displayed inside the status element
+ *    <Status.Template ... /> // Predefined template to be displayed inside the status element
  * (</Status>)
  *
  * @param id - (string) Unique identifier for the status element.
@@ -47,6 +45,24 @@ import { StatusProps } from '../index.types';
  */
 declare const Status: {
     ({ ...rest }: StatusProps): JSX.Element;
+    /**
+     * Predefined template to be displayed inside the status element.
+     *
+     * @example
+     * <Status.Template text="..." badge={text|string} />
+     *
+     * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
+     * @param text - (string | number) Text to display for status element.
+     * @param badge - (string | number) Badge to display relevant notifications.
+     * @param image - (string) Image to display for status element. Expects a valid image path.
+     * @param mask - (boolean) If needs to be applied a circular mask to the image.
+     * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
+     * @param reverseIcon - (boolean) If needs to be applied a reverse of the given icon.
+     * @param className - (HTMLAttribute) Class name to be applied to the root element.
+     * @param style - (CSSProperties) Style to be applied to the root element.
+     *
+     * @returns (JSX.Element) Status helper element
+     */
     Template: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
         icon?: JSX.Element | undefined;
         text?: string | undefined;

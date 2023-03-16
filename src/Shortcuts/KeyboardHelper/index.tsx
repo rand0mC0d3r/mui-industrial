@@ -1,10 +1,10 @@
 import { Chip, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { ShortcutObject } from '../index.types';
-import DataProvider, { DataContextInterface } from '../Store';
+import { ShortcutObject } from '../../index.types';
+import DataProvider, { DataContextInterface } from '../../Store';
 
 /**
- * @name Shortcut
+ * Shortcut helper component
  *
  * @description Displays the shortcut for a given shortcut ID.
  * If the shortcut ID is not found, nothing is displayed.
@@ -14,7 +14,7 @@ import DataProvider, { DataContextInterface } from '../Store';
  * @param {boolean} hasTooltip - Whether to display a tooltip with a tooltip on hover
  *
  * @example
- * <Shortcut shortcutId="##openPanel##" />
+ * <Shortcut shortcutId="##openPanel##" asChip={true|false} hasTooltip={true|false} />
  *
  * @returns {JSX.Element} Shortcut
  */

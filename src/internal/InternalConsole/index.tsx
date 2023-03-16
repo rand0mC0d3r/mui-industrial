@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 import { Resizable } from 're-resizable';
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
-import Keyboard from '../../Keyboard';
+import Keyboard from '../../Shortcuts/Keyboard';
 import DataProvider from '../../Store';
 
 const StyledStatusConsole = styled('div')(() => ({

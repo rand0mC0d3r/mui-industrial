@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from 'react';
-import { ShortcutObject } from '../index.types';
-import DataProvider, { DataContextInterface } from '../Store';
+import { ShortcutObject } from '../../index.types';
+import DataProvider, { DataContextInterface } from '../../Store';
 
 export default (props : ShortcutObject): JSX.Element => {
   const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>(undefined);

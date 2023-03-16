@@ -1,19 +1,6 @@
 import { CSSProperties, HTMLAttributes } from 'react';
 import { StyledBadge, StyledChildren, StyledIcon, StyledImage, StyledStack, StyledText } from './css';
 
-/**
- * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
- * @param text - (string | number) Text to display for status element.
- * @param badge - (string | number) Badge to display relevant notifications.
- * @param image - (string) Image to display for status element. Expects a valid image path.
- * @param mask - (boolean) If needs to be applied a circular mask to the image.
- * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
- * @param reverseIcon - (boolean) If needs to be applied a reverse of the given icon.
- * @param className - (HTMLAttribute) Class name to be applied to the root element.
- * @param style - (CSSProperties) Style to be applied to the root element.
- *
- * @returns (JSX.Element) Status helper element
- */
 export default ({
   icon,
   text,
