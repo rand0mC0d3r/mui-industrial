@@ -224,10 +224,12 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   // eslint-disable-next-line no-console
   useEffect(() => { if (!id) { console.error('Please define an id for the status bar item'); } }, [id]);
 
-  // useEffect(() => () => {
-  //   console.log('die');
-  //   callbackHandleStatusDestroy();
-  // }, [callbackHandleStatusDestroy]);
+  useEffect(() => {
+    return () => {
+      console.log('die');
+      //   callbackHandleStatusDestroy();
+    };
+  }, []);
 
   return <>
     {(statusObject !== null && !!id && elementFound)
