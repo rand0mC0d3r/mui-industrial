@@ -1,62 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { alpha, Box, ClickAwayListener, Popper } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { ClickAwayListener } from '@mui/material';
+import { MouseEvent, useContext, useEffect, useRef, useState } from 'react';
 import {
-  CSSProperties, HTMLAttributes, MouseEvent,
-  ReactNode, useContext, useEffect,
-  useRef, useState,
-} from 'react';
-import {
-  Highlight, PlacementPosition, PopperWidth, SettingsObject, StatusObject,
-  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperProps,
+  Highlight, PlacementPosition, SettingsObject, StatusObject,
+  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperJSXProps, StatusPopperProps,
 } from '../../../index.types';
 import InternalHeader from '../../../internal/InternalHeader';
 import DataProvider from '../../../Store';
 import StatusCore from '../StatusCore';
-
-const StyledBox = styled(Box)<{ width?: PopperWidth }>(({ theme, width }) => ({
-  width: `${width ? `${theme.breakpoints.values[width] / 1.42}px` : 'auto'}`,
-  height: `${width ? `${theme.breakpoints.values[width] / 1.24}px` : 'auto'}`,
-}));
-
-const StyledPopper = styled(Popper)(() => ({
-  zIndex: '101',
-}));
-
-const StyledContainer = styled('div')<{
-  elevation?: number,
-  highlight: string,
-  variant: string,
-  decoration?: string
-}>(({
-  theme,
-  elevation,
-  highlight,
-  variant,
-  decoration,
-} : {
-  theme: any,
-  elevation?: number,
-  highlight: string,
-  variant: string,
-  decoration?: string
-}) => ({
-  display: 'flex',
-  alignItems: 'stretch',
-  position: 'relative',
-  flexDirection: 'column',
-  padding: 0,
-  backdropFilter: 'blur(8px)',
-
-  backgroundColor: `${alpha(theme.palette.background.default, 0.75)}`,
-  borderRadius: `${theme.shape.borderRadius}px`,
-  margin: decoration === 'true' ? `${theme.spacing(0.75)} 0px` : `${theme.spacing(0.25)} 0px`,
-  border: variant === 'default'
-    ? '2px solid transparent'
-    : `2px solid ${highlight !== 'default' ? theme.palette[highlight].main : 'transparent'}`,
-  boxShadow: theme.shadows[elevation || 2],
-}));
+import { StyledBox, StyledContainer, StyledPopper } from './css';
 
 const defaultPopperOptions = {
   elevation: 2,
@@ -84,29 +37,11 @@ export default ({
   style,
   className,
   children,
-} : {
-  id: string,
-  order?: number,
-  disabled?: boolean,
-  highlight?: Highlight,
-  options: StatusOptionsProps,
-  secondary?: boolean,
-  tooltip?: ReactNode | string,
-  onClick?: (event: MouseEvent<HTMLDivElement>) => void,
-  onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void,
-  style?: CSSProperties,
-  className?: HTMLAttributes<HTMLDivElement>['className'],
-  children?: ReactNode,
-}) : JSX.Element =>{
-  const {
-    status,
-    settings,
-  } : {
-    status: StatusObject[],
-    settings: SettingsObject,
-  } = useContext(DataProvider);
+} : StatusPopperJSXProps) : JSX.Element => {
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { status } : { status: StatusObject[] } = useContext(DataProvider);
+  const { settings } : { settings: SettingsObject } = useContext(DataProvider);
   const popperReference = useRef();
 
   const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps;
@@ -115,10 +50,8 @@ export default ({
   const open = Boolean(anchorEl);
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
-
     if (statusObject?.keepOpen) return;
     if (onClick) onClick(event);
-    console.log('ckicked', !!event?.currentTarget);
     setAnchorEl(anchorEl ? null : event?.currentTarget as any);
   };
 

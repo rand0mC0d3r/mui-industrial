@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
-import { Highlight, StatusOptionsProps, StatusType } from '../index.types';
+import { StatusOptionsProps, StatusProps, StatusType } from '../index.types';
 import StatusHelper from '../StatusHelper';
 import StatusConsole from './components/StatusConsole';
 import StatusCore from './components/StatusCore';
@@ -11,24 +10,32 @@ const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
 } as StatusOptionsProps;
 
-type StatusProps = {
-  id: string,
-  order?: number,
-  disabled?: boolean,
-  highlight?: Highlight,
-  options?: StatusOptionsProps,
-  secondary?: boolean,
-  tooltip?: ReactNode | string,
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void,
-  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void,
-  style?: CSSProperties,
-  className?: HTMLAttributes<HTMLDivElement>['className'],
-  children?: JSX.Element,
-};
-
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
  * It can be used as a simple status element, a popper or a console.
+ *
+ * @example
+ * <Status
+ *  id="##uniqueId##" --> Unique identifier for the status element
+ *
+ *  options={{
+ *    as: StatusType.CONSOLE, --> StatusType.SIMPLE | StatusType.POPPER | StatusType.CONSOLE
+ *    title: 'Status Console', --> Title to be displayed on the status element
+ *    content: <div>Content</div>, --> Content to be displayed on the status element (only when NOT StatusType.SIMPLE)
+ *    ...
+ *  }}
+ *
+ *  disabled={false} --> If needs to be disabled the status element
+ *  highlight={Highlight.SUCCESS} --> If needs to be applied a highlight style to the status element
+ *  secondary={false} --> If needs to be applied a secondary priority/importance to the status element
+ *  tooltip="Tooltip" --> Tooltip to be displayed on hover
+ *
+ *  onClick={() => {}} --> Function to be executed on click event
+ *  onContextMenu={() => {}} --> Function to be executed on context menu event
+ * (/)>
+ *    ... --> Custom children to be displayed inside the status element
+ *    <Status.Template> --> Predefined template to be displayed inside the status element
+ * (</Status>)
  *
  * @param id - (string) Unique identifier for the status element.
  * @param order - (number) Order to be displayed in the console.
@@ -60,5 +67,7 @@ const Status = ({ ...rest } : StatusProps) => {
 };
 
 Status.Body = StatusHelper;
+Status.Content = StatusHelper;
+Status.Template = StatusHelper;
 
 export default Status;

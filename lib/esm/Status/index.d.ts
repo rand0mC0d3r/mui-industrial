@@ -1,22 +1,31 @@
-import { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
-import { Highlight, StatusOptionsProps } from '../index.types';
-type StatusProps = {
-    id: string;
-    order?: number;
-    disabled?: boolean;
-    highlight?: Highlight;
-    options?: StatusOptionsProps;
-    secondary?: boolean;
-    tooltip?: ReactNode | string;
-    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
-    style?: CSSProperties;
-    className?: HTMLAttributes<HTMLDivElement>['className'];
-    children?: JSX.Element;
-};
+/// <reference types="react" />
+import { StatusProps } from '../index.types';
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
  * It can be used as a simple status element, a popper or a console.
+ *
+ * @example
+ * <Status
+ *  id="##uniqueId##" --> Unique identifier for the status element
+ *
+ *  options={{
+ *    as: StatusType.CONSOLE, --> StatusType.SIMPLE | StatusType.POPPER | StatusType.CONSOLE
+ *    title: 'Status Console', --> Title to be displayed on the status element
+ *    content: <div>Content</div>, --> Content to be displayed on the status element (only when NOT StatusType.SIMPLE)
+ *    ...
+ *  }}
+ *
+ *  disabled={false} --> If needs to be disabled the status element
+ *  highlight={Highlight.SUCCESS} --> If needs to be applied a highlight style to the status element
+ *  secondary={false} --> If needs to be applied a secondary priority/importance to the status element
+ *  tooltip="Tooltip" --> Tooltip to be displayed on hover
+ *
+ *  onClick={() => {}} --> Function to be executed on click event
+ *  onContextMenu={() => {}} --> Function to be executed on context menu event
+ * (/)>
+ *    ... --> Custom children to be displayed inside the status element
+ *    <Status.Template> --> Predefined template to be displayed inside the status element
+ * (</Status>)
  *
  * @param id - (string) Unique identifier for the status element.
  * @param order - (number) Order to be displayed in the console.
@@ -38,7 +47,7 @@ type StatusProps = {
  */
 declare const Status: {
     ({ ...rest }: StatusProps): JSX.Element;
-    Body: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenIndex, className, style, }: {
+    Body: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
         icon?: JSX.Element | undefined;
         text?: string | undefined;
         badge?: string | number | undefined;
@@ -47,9 +56,35 @@ declare const Status: {
         reverse?: boolean | undefined;
         reverseIcon?: boolean | undefined;
         children?: JSX.Element | undefined;
-        childrenIndex?: 2 | 1 | -1 | 3 | 4 | 5 | undefined;
+        childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
         className?: string | undefined;
-        style?: CSSProperties | undefined;
+        style?: import("react").CSSProperties | undefined;
+    }) => JSX.Element;
+    Content: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
+        icon?: JSX.Element | undefined;
+        text?: string | undefined;
+        badge?: string | number | undefined;
+        image?: string | undefined;
+        mask?: boolean | undefined;
+        reverse?: boolean | undefined;
+        reverseIcon?: boolean | undefined;
+        children?: JSX.Element | undefined;
+        childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
+        className?: string | undefined;
+        style?: import("react").CSSProperties | undefined;
+    }) => JSX.Element;
+    Template: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
+        icon?: JSX.Element | undefined;
+        text?: string | undefined;
+        badge?: string | number | undefined;
+        image?: string | undefined;
+        mask?: boolean | undefined;
+        reverse?: boolean | undefined;
+        reverseIcon?: boolean | undefined;
+        children?: JSX.Element | undefined;
+        childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
+        className?: string | undefined;
+        style?: import("react").CSSProperties | undefined;
     }) => JSX.Element;
 };
 export default Status;
