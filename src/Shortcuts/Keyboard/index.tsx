@@ -4,19 +4,15 @@ import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 
 export default (props : ShortcutObject): JSX.Element => {
-  const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>(undefined);
+  const [shortcutItem, setShortcutItem] = useState<ShortcutObject | undefined>();
+  const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
+  const handleKeyboardAnnouncement = useContext(DataProvider).handleKeyboardAnnouncement as DataContextInterface['handleKeyboardAnnouncement'];
+
   const {
     id, shiftKey, ctrlKey, altKey, metaKey,
     ascii, char, label, insensitive = true, onTrigger = () => {},
   } = props;
 
-  const {
-    shortcuts,
-    handleKeyboardAnnouncement,
-  } : {
-    shortcuts: ShortcutObject[],
-    handleKeyboardAnnouncement: DataContextInterface['handleKeyboardAnnouncement']
-  } = useContext(DataProvider) as DataContextInterface;
 
   useEffect(() => {
     if ((char || ascii) && id && !shortcuts.some(shortcut => shortcut.id === id)) {
@@ -30,6 +26,7 @@ export default (props : ShortcutObject): JSX.Element => {
 
   useEffect(() => {
     if (!shortcutItem) return;
+    console.log('triggering', shortcutItem);
     shortcutItem.onTrigger = onTrigger;
   }, [shortcutItem?.open, onTrigger]);
 
