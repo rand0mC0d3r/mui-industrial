@@ -58,18 +58,16 @@ export default ({
     setStatusObject(foundObject);
   }, [status, id]);
 
-  // TODO: figure out what this is for - this is the external auto open/close
-  // useEffect(() => {
-  //   console.log('open', options.open, statusObject?.keepOpen, settings.hasLock);
-  //   if (!options.open) {
-  //     if (!statusObject?.keepOpen || !settings.hasLock) {
-  //       setAnchorEl(null);
-  //     }
-  //     return;
-  //   }
-  //   if (!popperReference?.current) return;
-  //   setAnchorEl(popperReference.current);
-  // }, [options.open, statusObject, settings.hasLock]);
+  useEffect(() => {
+    if (!options.open) {
+      if (!statusObject?.keepOpen) {
+        setAnchorEl(null);
+      }
+      return;
+    }
+    if (!popperReference?.current) return;
+    setAnchorEl(popperReference.current);
+  }, [options.open, statusObject]);
 
   const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
 

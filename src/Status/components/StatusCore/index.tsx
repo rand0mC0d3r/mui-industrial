@@ -168,7 +168,7 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     secondary = false,
   } = props;
 
-  const { status, handleStatusUpdate, handleStatusAnnouncement } = useContext(DataProvider);
+  const { status, handleStatusAnnouncement } = useContext(DataProvider);
   const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject;
   const [ownId, setOwnId] = useState<string | null>();
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
@@ -187,7 +187,7 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     if (onClick !== undefined && !disabled) {
       e.preventDefault();
       onClick(e);
-      handleStatusUpdate({ id, ownId, children });
+      // handleStatusUpdate({ id, ownId, children });
     }
   };
 

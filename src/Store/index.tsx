@@ -304,20 +304,31 @@ const IndustrialProvider = ({
   useEffect(() => {
     if (settings.debug) {
 
-      // console.clear()
+      console.clear();
+      // console.log('----------------------------------------------------------------------------');
       console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
+      console.time();
 
       console.log('%cSettings', 'color: #4caf50');
       console.table({ ...settings });
 
-      console.log('%cStatus', 'color: #2196f3');
-      console.table({ ...status });
+      if (status.length > 0) {
+        console.log('%cStatus', 'color: #2196f3');
+        console.table({ ...status });
+      }
 
-      console.log('%cSnackbar', 'color: #f44336');
-      console.table({ ...snackbar });
+      if (snackbar.length > 0) {
+        console.log('%cSnackbar', 'color: #f44336');
+        console.table({ ...snackbar });
+      }
 
-      console.log('%cShortcuts', 'color: #ff9800');
-      console.table({ ...shortcuts });
+      if (shortcuts.length > 0) {
+        console.log('%cShortcuts', 'color: #ff9800');
+        console.table({ ...shortcuts });
+      }
+
+      console.timeEnd();
+      // console.log('=============================================================================');
     }
   }, [settings, shortcuts, snackbar, status]);
 
