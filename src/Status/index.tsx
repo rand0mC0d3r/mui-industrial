@@ -4,7 +4,7 @@ import { StatusOptionsProps, StatusProps, StatusType } from '../index.types';
 import StatusHelper from '../StatusHelper';
 import StatusConsole from './components/StatusConsole';
 import StatusCore from './components/StatusCore';
-import StatusPoppper from './components/StatusPoppper';
+import StatusPopper from './components/StatusPopper';
 
 const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
@@ -61,7 +61,7 @@ const Status = ({ ...rest } : StatusProps) => {
 
   return <>
     {combinedOptions.as === StatusType.SIMPLE && <StatusCore {...props} />}
-    {combinedOptions.as === StatusType.POPPER && <StatusPoppper {...props} />}
+    {combinedOptions.as === StatusType.POPPER && <StatusPopper {...props} />}
     {combinedOptions.as === StatusType.CONSOLE && <StatusConsole {...props} />}
   </>;
 };

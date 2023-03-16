@@ -178,7 +178,6 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
 
   const callbackHandleStatusAnnouncement = useCallback(() => {
-    console.log('announce');
     handleStatusAnnouncement({ id, ownId, secondary, children });
   }, [id, secondary, ownId, children, handleStatusAnnouncement]);
 
@@ -201,7 +200,6 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
 
   useEffect(() => {
     if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
-      console.log('call3');
       callbackHandleStatusAnnouncement();
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement]);
@@ -209,14 +207,12 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   useEffect(() => {
     const statusObjectFound = status.find(({ uniqueId }) => uniqueId === id);
     if ((statusObject === null || statusObject?.visible !== statusObjectFound?.visible) && statusObjectFound) {
-      console.log('call2');
       setStatusObject(statusObjectFound);
     }
   }, [status, id, statusObject]);
 
   useLayoutEffect(() => {
     if (statusObject !== null) {
-      console.log('call1');
       setElementFound(document.getElementById(composeDomId(componentId, [secondary ? 'secondary' : 'primary'])) || null);
     }
   }, [secondary, statusObject]);

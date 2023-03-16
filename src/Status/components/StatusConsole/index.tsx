@@ -6,6 +6,7 @@ import StatusCore from '../StatusCore';
 
 export default ({
   id,
+  order,
   disabled,
   options,
   secondary,
@@ -51,15 +52,19 @@ export default ({
   return <>
     <StatusCore {...{
       id,
-      style,
-      className,
+
+      order,
       tooltip,
       secondary,
-      onContextMenu,
       disabled,
       options: { separators: options?.separators },
       highlight: computeHightlight,
+
       onClick: handleOnClick,
+      onContextMenu,
+
+      style,
+      className,
     }}>
       {children}
     </StatusCore>

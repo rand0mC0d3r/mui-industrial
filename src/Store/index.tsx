@@ -106,14 +106,13 @@ const IndustrialProvider = ({
   };
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
-    console.log('registed status', id);
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
       if (findError) {
         logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`);
         return status;
       }
-      logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
+      // logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
 
       return [
         ...status.filter(({ uniqueId }) => uniqueId !== id),
@@ -304,8 +303,9 @@ const IndustrialProvider = ({
 
   useEffect(() => {
     if (settings.debug) {
+
       // console.clear()
-      console.log('Debugging is enabled.');
+      console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
 
       console.log('%cSettings', 'color: #4caf50');
       console.table({ ...settings });

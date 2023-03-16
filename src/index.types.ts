@@ -1,5 +1,4 @@
 import React, { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
-import { StatusPopperProps } from './index.types';
 
 export const domConsoleId = 'mui-status-console';
 export const domStatusBarId = 'mui-status-statusBar';
@@ -33,6 +32,7 @@ export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 
 export type StatusConsoleJSXProps = {
   id: string,
+  order?: number,
   disabled?: boolean,
   options?: StatusOptionsProps,
   secondary?: boolean,
