@@ -47,32 +47,6 @@ import { StatusProps } from '../index.types';
  */
 declare const Status: {
     ({ ...rest }: StatusProps): JSX.Element;
-    Body: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
-        icon?: JSX.Element | undefined;
-        text?: string | undefined;
-        badge?: string | number | undefined;
-        image?: string | undefined;
-        mask?: boolean | undefined;
-        reverse?: boolean | undefined;
-        reverseIcon?: boolean | undefined;
-        children?: JSX.Element | undefined;
-        childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
-        className?: string | undefined;
-        style?: import("react").CSSProperties | undefined;
-    }) => JSX.Element;
-    Content: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
-        icon?: JSX.Element | undefined;
-        text?: string | undefined;
-        badge?: string | number | undefined;
-        image?: string | undefined;
-        mask?: boolean | undefined;
-        reverse?: boolean | undefined;
-        reverseIcon?: boolean | undefined;
-        children?: JSX.Element | undefined;
-        childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
-        className?: string | undefined;
-        style?: import("react").CSSProperties | undefined;
-    }) => JSX.Element;
     Template: ({ icon, text, badge, image, mask, reverse, reverseIcon, children, childrenOrder, className, style, }: {
         icon?: JSX.Element | undefined;
         text?: string | undefined;

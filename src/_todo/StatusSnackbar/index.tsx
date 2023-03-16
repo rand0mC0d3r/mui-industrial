@@ -5,8 +5,8 @@ import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
 import { IconButton, Tooltip } from '@mui/material';
 import { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Severity, SnackbarObject } from '../index.types';
-import DataProvider, { composeDomId, DataContextInterface } from '../Store';
+import { Severity, SnackbarObject } from '../../index.types';
+import DataProvider, { composeDomId, DataContextInterface } from '../../Store';
 
 const componentId = 'snackBar';
 

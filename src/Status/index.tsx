@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import { StatusOptionsProps, StatusProps, StatusType } from '../index.types';
 import StatusHelper from '../StatusHelper';
 import StatusConsole from './components/StatusConsole';
@@ -66,8 +64,6 @@ const Status = ({ ...rest } : StatusProps) => {
   </>;
 };
 
-Status.Body = StatusHelper;
-Status.Content = StatusHelper;
 Status.Template = StatusHelper;
 
 export default Status;

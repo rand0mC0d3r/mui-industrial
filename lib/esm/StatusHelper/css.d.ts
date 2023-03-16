@@ -1,6 +1,15 @@
-export declare const StyledStack: any;
-export declare const StyledIcon: any;
-export declare const StyledText: any;
-export declare const StyledBadge: any;
-export declare const StyledImage: any;
-export declare const StyledChildren: any;
+import { FC } from 'react';
+export declare const StyledStack: FC<{
+    reverse: string;
+}>;
+export declare const StyledIcon: FC<{
+    reverse: string;
+}>;
+export declare const StyledText: FC;
+export declare const StyledBadge: FC;
+export declare const StyledImage: FC<{
+    mask: string;
+}>;
+export declare const StyledChildren: FC<{
+    order: number;
+}>;

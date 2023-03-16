@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Stack, SvgIcon, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { FC } from 'react';
 
-export const StyledStack: any = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
+export const StyledStack: FC<{ reverse: string }> = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   gap: `${theme.spacing(0.5)}`,
   flexDirection: reverse === 'true' ? 'row-reverse' : 'row',
 
@@ -15,7 +15,7 @@ export const StyledStack: any = styled(Stack)<{ reverse: string }>(({ theme, rev
   shapeRendering: 'geometricPrecision',
 }));
 
-export const StyledIcon: any = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
+export const StyledIcon: FC<{ reverse: string }> = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
   transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
 
   display: 'flex',
@@ -24,7 +24,7 @@ export const StyledIcon: any = styled(SvgIcon)<{ reverse: string }>(({ reverse }
   flex: '0 0 auto',
 }));
 
-export const StyledText: any = styled(Typography)(() => ({
+export const StyledText: FC = styled(Typography)(() => ({
   display: 'flex',
   order: 4,
   whiteSpace: 'nowrap',
@@ -33,7 +33,7 @@ export const StyledText: any = styled(Typography)(() => ({
   lineHeight: '0px',
 }));
 
-export const StyledBadge: any = styled(Typography)(({ theme }) => ({
+export const StyledBadge: FC = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
   borderRadius: `${theme.shape.borderRadius * 2}px`,
   backgroundColor: theme.palette.divider,
@@ -46,8 +46,8 @@ export const StyledBadge: any = styled(Typography)(({ theme }) => ({
   fontSize: '12px',
 }));
 
-export const StyledImage: any = styled('img')<{ mask: string }>(({ mask }) => ({
-  borderRadius: mask === 'true' ? '50%' : '0px',
+export const StyledImage: FC<{ mask: string }> = styled('img')<{ mask: string }>(({ mask }) => ({
+  borderRadius: mask === 'true' ? '50%' : 'unset',
 
   display: 'flex',
   order: 2,
@@ -55,7 +55,7 @@ export const StyledImage: any = styled('img')<{ mask: string }>(({ mask }) => ({
   height: '18px',
 }));
 
-export const StyledChildren: any = styled('div')<{ order: number }>(({ theme, order }) => ({
+export const StyledChildren: FC<{ order: number }> = styled('div')<{ order: number }>(({ theme, order }) => ({
   order: order,
   gap: `${theme.spacing(0.5)}`,
 

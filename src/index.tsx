@@ -6,10 +6,11 @@ import Status from './Status';
 import { IndustrialProvider } from './Store';
 
 export {
+  IndustrialProvider,
+
   Status,
   KeyboardHelper,
   Keyboard,
-  IndustrialProvider,
 
   StatusOptionsProps,
   StatusType,
