@@ -17,6 +17,10 @@ export interface DataContextInterface {
         id: string;
         onTrigger: any;
     }) => void;
+    handleUpdateKeyboard: ({ id, onTrigger }: {
+        id: string;
+        onTrigger: any;
+    }) => void;
     handleCallKeyboard: ({ id }: {
         id: string;
     }) => void;
