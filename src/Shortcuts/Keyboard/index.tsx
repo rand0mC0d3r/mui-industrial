@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 
@@ -18,14 +18,20 @@ export default ({
   //   ascii, char, label, insensitive = true, onTrigger = () => {},
   // } = props;
 
+  const callback = useCallback(() => {
+    handleKeyboardAnnouncement({ char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive } as ShortcutObject);
+  }, [handleKeyboardAnnouncement, char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, insensitive, onTrigger]);
+
 
   useEffect(() => {
+    console.log('useEffect', char, id, ascii);
     if ((char || ascii) && id) {
-      handleKeyboardAnnouncement({ char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive } as ShortcutObject);
+      callback();
     }
-  }, [char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, insensitive, onTrigger, handleKeyboardAnnouncement]);
+  }, [char, id, ascii, callback]);
 
   useEffect(() => {
+    console.log('found', shortcuts.find(shortcut => shortcut.id === id));
     setShortcutItem(shortcuts.find(shortcut => shortcut.id === id));
   }, [shortcuts, id]);
 
