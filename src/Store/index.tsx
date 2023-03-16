@@ -53,6 +53,7 @@ export interface DataContextInterface {
   // handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   // handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   handleCallKeyboard: ({ id }: { id: string }) => void;
+  handleKeyboardDestroy: ({ id }: { id: string }) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
   { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
@@ -150,10 +151,16 @@ const IndustrialProvider = ({
   };
 
 
+  function generateSignature(id?: string, label?: string, ascii?: number, char?: string): string {
+    return `${id}-${label}-${ascii}-${char}`;
+  }
+
   // KEYBOARD SHORTCUTS
   const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }: any) => {
-    const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
-    if (findShortcut && JSON.stringify(findShortcut) === JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive })) return;
+    const s = shortcuts.find(shortcut => shortcut.id === id);
+    if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
+
+    console.log('registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
         ...prevShortcuts.filter(shortcut => shortcut.id !== id),
@@ -180,6 +187,15 @@ const IndustrialProvider = ({
       findShortcut?.onTrigger();
     }
   };
+
+  const handleKeyboardDestroy = ({ id }: { id: string }) => {
+    console.log('destroyed keyboard', id);
+    setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
+  };
+
+  //////////////////////////
+  //////////////////////////
+  //////////////////////////
 
   const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
     setStatus((status: StatusObject[]) => {
@@ -298,23 +314,23 @@ const IndustrialProvider = ({
   useEffect(() => {
     if (settings.debug) {
 
-      console.clear();
+      // console.clear();
       // console.log('----------------------------------------------------------------------------');
       console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
       console.time();
 
-      console.log('%cSettings', 'color: #4caf50');
-      console.table({ ...settings });
+      // console.log('%cSettings', 'color: #4caf50');
+      // console.table({ ...settings });
 
-      if (status.length > 0) {
-        console.log('%cStatus', 'color: #2196f3');
-        console.table({ ...status });
-      }
+      // if (status.length > 0) {
+      //   console.log('%cStatus', 'color: #2196f3');
+      //   console.table({ ...status });
+      // }
 
-      if (snackbar.length > 0) {
-        console.log('%cSnackbar', 'color: #f44336');
-        console.table({ ...snackbar });
-      }
+      // if (snackbar.length > 0) {
+      //   console.log('%cSnackbar', 'color: #f44336');
+      //   console.table({ ...snackbar });
+      // }
 
       if (shortcuts.length > 0) {
         console.log('%cShortcuts', 'color: #ff9800');
@@ -340,6 +356,7 @@ const IndustrialProvider = ({
       // keyboard
       shortcuts,
       handleKeyboardAnnouncement,
+      handleKeyboardDestroy,
       // handleUpdateKeyboard,
       // handleKeyboardTriggerUpdate,
       handleCallKeyboard,

@@ -226,7 +226,7 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
 
   useEffect(() => {
     return () => {
-      console.log('die');
+      // console.log('die');
       //   callbackHandleStatusDestroy();
     };
   }, []);

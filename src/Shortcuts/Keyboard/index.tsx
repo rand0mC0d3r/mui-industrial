@@ -7,12 +7,10 @@ export default ({
   ascii,
   char,
   label,
-
   ctrlKey,
   altKey,
   metaKey,
   shiftKey,
-
   insensitive = true,
   onTrigger = () => {},
 } : ShortcutObject): JSX.Element => {
@@ -35,6 +33,11 @@ export default ({
   useEffect(() => {
     if (!shortcutItem || !announced) return;
     shortcutItem.onTrigger = onTrigger;
+
+    return () => {
+      shortcutItem.onTrigger = () => { };
+      shortcutItem.deprecated = true;
+    };
   }, [shortcutItem, onTrigger, announced]);
 
   return <></>;
