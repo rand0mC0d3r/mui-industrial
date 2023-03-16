@@ -151,11 +151,11 @@ const IndustrialProvider = ({
 
 
   // KEYBOARD SHORTCUTS
-  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
+  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }: any) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
 
     if (!(!!findShortcut
-      && JSON.stringify(findShortcut) !== JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }))) {
+      && JSON.stringify(findShortcut) !== JSON.stringify({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }))) {
       setShortcuts((prevShortcuts: ShortcutObject[]) => {
         return [
           ...prevShortcuts.filter(shortcut => shortcut.id !== id),
@@ -169,8 +169,6 @@ const IndustrialProvider = ({
             ctrlKey,
             metaKey,
             shiftKey,
-
-            onTrigger,
 
             insensitive,
           } as ShortcutObject,
