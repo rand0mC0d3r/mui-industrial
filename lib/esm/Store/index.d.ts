@@ -12,7 +12,7 @@ export interface DataContextInterface {
     updateIsConsoleOpen: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
-    handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, insensitive, onTrigger }: ShortcutObject) => void;
+    handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, metaKey, altKey, insensitive }: ShortcutObject) => void;
     handleKeyboardTriggerUpdate: ({ id, onTrigger }: {
         id: string;
         onTrigger: any;
