@@ -89,7 +89,7 @@ export interface StatusObject {
 export interface ShortcutObject {
   id: string,
   open?: boolean,
-  deprecated?: boolean,
+  lastCall?: number,
   shiftKey?: boolean;
   metaKey?: boolean;
   ctrlKey?: boolean;

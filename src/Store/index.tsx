@@ -160,7 +160,7 @@ const IndustrialProvider = ({
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
-    console.log('registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
+    console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
         ...prevShortcuts
@@ -187,12 +187,15 @@ const IndustrialProvider = ({
     if (!!findShortcut && findShortcut?.onTrigger) {
       findShortcut?.onTrigger();
     }
+    // new Date().getTime()
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleKeyboardDestroy = ({ id }: { id: string }) => {
-    // console.log('destroyed keyboard', id);
-    // setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
+    if (shortcuts.some(shortcut => shortcut.id === id)) {
+      console.log('[store] 💀 Destroyed keyboard', id);
+      setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
+    }
   };
 
   //////////////////////////
