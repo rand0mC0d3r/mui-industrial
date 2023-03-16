@@ -163,7 +163,8 @@ const IndustrialProvider = ({
     console.log('registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
-        ...prevShortcuts.filter(shortcut => shortcut.id !== id),
+        ...prevShortcuts
+          .filter(p => p.id !== id),
         {
           id,
           char,
@@ -188,9 +189,10 @@ const IndustrialProvider = ({
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleKeyboardDestroy = ({ id }: { id: string }) => {
-    console.log('destroyed keyboard', id);
-    setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
+    // console.log('destroyed keyboard', id);
+    // setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
   };
 
   //////////////////////////

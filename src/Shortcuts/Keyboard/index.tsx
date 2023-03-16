@@ -35,8 +35,7 @@ export default ({
     shortcutItem.onTrigger = onTrigger;
 
     return () => {
-      shortcutItem.onTrigger = () => { };
-      shortcutItem.deprecated = true;
+      shortcutItem.onTrigger = undefined;
     };
   }, [shortcutItem, onTrigger, announced]);
 
