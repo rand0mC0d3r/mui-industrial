@@ -42,19 +42,18 @@ export default ({
     shortcutObject?.metaKey && '⌘',
     shortcutObject?.shiftKey && '⇧',
     shortcutObject?.char,
-  ].filter(Boolean).join(' ');
+  ].filter(Boolean).join(' ') as string;
 
   const determineChip: JSX.Element = <Chip label={shortcutString} variant="outlined" size="small" />;
 
   const determineTypography: JSX.Element = <Typography id="lowerK" variant="caption" color="inherit">{shortcutString}</Typography>;
 
-  const determineTooltip = (element : JSX.Element) => <>
-    {hasTooltip
-      ? <Tooltip title={`${shortcutObject && `${shortcutObject.label} -`} ${shortcutString}`} placement="right" arrow>
+  const determineTooltip = (element : JSX.Element) : JSX.Element => hasTooltip
+    ? <Tooltip title={`${shortcutObject && `${shortcutObject.label} -`} ${shortcutString}`} placement="right" arrow>
       <span>{element}</span>
     </Tooltip>
-      : element}
-  </>;
+    : element
+  ;
 
   return <>
     {shortcutId
