@@ -158,11 +158,13 @@ const IndustrialProvider = ({
   // KEYBOARD SHORTCUTS
   const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
-    if (settings.debug) {
-      console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
-    }
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
+    if (settings.debug) {
+      console.log(Math.random().toString(36).slice(2, 7), id);
+      console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
+    }
+    console.log('------------');
     // console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
@@ -191,9 +193,10 @@ const IndustrialProvider = ({
 
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
-    if (!!findShortcut && findShortcut?.onTrigger) {
-      findShortcut?.onTrigger();
-    }
+    // if (!!findShortcut && findShortcut?.onTrigger) {
+    //   findShortcut?.onTrigger();
+    // }
+    if (!findShortcut) return;
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
         ...prevShortcuts
@@ -342,7 +345,7 @@ const IndustrialProvider = ({
   useEffect(() => {
     if (settings.debug) {
 
-      // console.clear();
+      console.clear();
       // console.log('----------------------------------------------------------------------------');
       console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
       console.time();
@@ -360,9 +363,11 @@ const IndustrialProvider = ({
       //   console.table({ ...snackbar });
       // }
 
+      console.log('%cShortcuts', 'color: #ff9800', shortcuts.length);
       if (shortcuts.length > 0) {
-        console.log('%cShortcuts', 'color: #ff9800');
-        console.table({ ...shortcuts });
+        console.log({ ...shortcuts });
+      } else {
+        console.log('🫙 No shortcuts found.');
       }
 
       console.timeEnd();
