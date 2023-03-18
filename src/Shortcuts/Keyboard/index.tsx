@@ -26,34 +26,43 @@ export default ({
   const handleKeyboardAnnouncement = useContext(DataProvider).handleKeyboardAnnouncement as DataContextInterface['handleKeyboardAnnouncement'];
   const { handleKeyboardDestroy } = useContext(DataProvider);
 
-  const callbackAnnouncement = useCallback(() => {
-    if (((char || ascii) && id)) {
-      // console.log('🚩 ADD', id, refShortcutItem.current);
-      handleKeyboardAnnouncement({ char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive } as ShortcutObject);
-      // setAnnounced(true);
-    }
-  }, [ handleKeyboardAnnouncement, char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive]);
+  // const callbackAnnouncement = useCallback(() => {
+  //   if (((char || ascii) && id)) {
+  //     console.log('🚩 ADD', id, refShortcutItem.current);
+  //     handleKeyboardAnnouncement({ char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive } as ShortcutObject);
+  //     // setAnnounced(true);
+  //   }
+  // }, [ handleKeyboardAnnouncement, char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive]);
 
-  const callbackDestroy = useCallback(() => {
-    handleKeyboardDestroy({ id });
-  }, [handleKeyboardDestroy, id]);
+  // const callbackDestroy = useCallback(() => {
+  //   handleKeyboardDestroy({ id });
+  // }, [handleKeyboardDestroy, id]);
+
+  // const callbackTrigger = useCallback(() => {
+  //   console.log('xxx Trigger');
+  //   onTrigger();
+  // }, [onTrigger]);
 
   // const callbackOnTrigger = useCallback(() => {
   //   onTrigger();
   // }, [onTrigger]);
 
   useEffect(() => {
-    if (refShortcutItem.current === undefined) {
-      callbackAnnouncement();
+    // if (refShortcutItem.current === undefined) {
+    if ((char || ascii) && id && !shortcuts.some(shortcut => shortcut.id === id)) {
+      console.log('🚩 ADD', id);
+      handleKeyboardAnnouncement({ char, id, ascii, label, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive } as ShortcutObject);
+      // setAnnounced(true);
     }
-  }, [callbackAnnouncement]);
+    // }
+  });
 
   useEffect(() =>  {
 
     return () => {
-      if (refShortcutItem.current !== undefined) {
-        console.log('DESTROY keyboard');
-        callbackDestroy();
+      if (shortcuts.some(shortcut => shortcut.id === id)) {
+        console.log('💣 DESTROY');
+        handleKeyboardDestroy({ id });
       }
     };
   });
@@ -67,10 +76,10 @@ export default ({
   //   };
   // }, [announced, toDestroy, shortcutItem, callbackDestroy]);
 
-  useEffect(() => {
-    refShortcutItem.current = shortcuts.find(shortcut => shortcut.id === id);
-    console.log('🏳️ SHORTCUTS', shortcuts, id, refShortcutItem.current === undefined);
-  }, [shortcuts, id]);
+  // useEffect(() => {
+  //   refShortcutItem.current = shortcuts.find(shortcut => shortcut.id === id);
+  //   console.log('🏳️ SHORTCUTS', shortcuts, id, refShortcutItem.current === undefined);
+  // }, [shortcuts, id]);
 
   // useEffect(() => {
   //   const lastCall = shortcutItem?.lastCall;

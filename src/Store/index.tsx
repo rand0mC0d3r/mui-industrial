@@ -107,6 +107,14 @@ const IndustrialProvider = ({
     }
   };
 
+  const log = (...props: any) => {
+    if (settings.debug) {
+      console.clear();
+      // console.log.apply()
+      console.log(...props);
+    }
+  };
+
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
@@ -160,14 +168,8 @@ const IndustrialProvider = ({
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
-    if (settings.debug) {
-      console.log(Math.random().toString(36).slice(2, 7), id);
-      console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
-    }
-    console.log('------------');
-    // console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
-      return [
+      const result = [
         ...prevShortcuts
           .filter(p => p.id !== id),
         {
@@ -178,8 +180,6 @@ const IndustrialProvider = ({
 
           onTrigger,
 
-          lastCall: 0,
-
           altKey,
           ctrlKey,
           metaKey,
@@ -188,40 +188,27 @@ const IndustrialProvider = ({
           insensitive,
         } as ShortcutObject,
       ];
+
+      log('[store] ➕ Registed keyboard', id, result);
+      return result;
     });
   };
 
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
-    // if (!!findShortcut && findShortcut?.onTrigger) {
-    //   findShortcut?.onTrigger();
-    // }
-    if (!findShortcut) return;
-    setShortcuts((prevShortcuts: ShortcutObject[]) => {
-      return [
-        ...prevShortcuts
-
-          .filter(p => p.id !== id),
-        {
-          ...findShortcut,
-          lastCall: new Date().getTime(),
-        } as ShortcutObject,
-      ];
-    });
-    // new Date().getTime()
+    if (!!findShortcut && findShortcut?.onTrigger) {
+      log('[store] ➖ Triggered keyboard', findShortcut.id);
+      findShortcut?.onTrigger();
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleKeyboardDestroy = ({ id }: { id: string }) => {
-    if (shortcuts.some(shortcut => shortcut.id === id)) {
-
-      setShortcuts((prevShortcuts: ShortcutObject[]) => {
-        if (settings.debug) {
-          console.log('[store] 💀 Destroyed keyboard', id, [...prevShortcuts.filter(p => p.id !== id)]);
-        }
-        return [...prevShortcuts.filter(p => p.id !== id)];
-      });
-    }
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      const result = [...prevShortcuts.filter(p => p.id !== id)];
+      log('[store] ➖ Destroyed keyboard', id, result);
+      return result;
+    });
   };
 
   //////////////////////////
@@ -345,7 +332,7 @@ const IndustrialProvider = ({
   useEffect(() => {
     if (settings.debug) {
 
-      console.clear();
+      // console.clear();
       // console.log('----------------------------------------------------------------------------');
       console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
       console.time();

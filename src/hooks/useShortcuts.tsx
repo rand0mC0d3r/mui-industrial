@@ -4,5 +4,5 @@ import DataProvider, { DataContextInterface } from '../Store';
 
 export const useShortcuts = () => {
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
-  return shortcuts.filter(shortcut => !shortcut.deprecated);
+  return shortcuts;
 };
