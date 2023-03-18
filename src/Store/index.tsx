@@ -156,11 +156,14 @@ const IndustrialProvider = ({
   }
 
   // KEYBOARD SHORTCUTS
-  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive }: any) => {
+  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
+    if (settings.debug) {
+      console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
+    }
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
-    console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
+    // console.log('[store] 📩 Registed keyboard', id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, insensitive);
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       return [
         ...prevShortcuts
@@ -170,6 +173,10 @@ const IndustrialProvider = ({
           char,
           label,
           ascii,
+
+          onTrigger,
+
+          lastCall: 0,
 
           altKey,
           ctrlKey,
@@ -187,14 +194,30 @@ const IndustrialProvider = ({
     if (!!findShortcut && findShortcut?.onTrigger) {
       findShortcut?.onTrigger();
     }
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      return [
+        ...prevShortcuts
+
+          .filter(p => p.id !== id),
+        {
+          ...findShortcut,
+          lastCall: new Date().getTime(),
+        } as ShortcutObject,
+      ];
+    });
     // new Date().getTime()
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleKeyboardDestroy = ({ id }: { id: string }) => {
     if (shortcuts.some(shortcut => shortcut.id === id)) {
-      console.log('[store] 💀 Destroyed keyboard', id);
-      setShortcuts((prevShortcuts: ShortcutObject[]) => [...prevShortcuts.filter(p => p.id !== id)]);
+
+      setShortcuts((prevShortcuts: ShortcutObject[]) => {
+        if (settings.debug) {
+          console.log('[store] 💀 Destroyed keyboard', id, [...prevShortcuts.filter(p => p.id !== id)]);
+        }
+        return [...prevShortcuts.filter(p => p.id !== id)];
+      });
     }
   };
 
