@@ -14,6 +14,7 @@ export interface DataContextInterface {
     handleStatusUpdate: any;
     handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
     handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
+    handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
     handleCallKeyboard: ({ id }: {
         id: string;
     }) => void;

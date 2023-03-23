@@ -2,6 +2,8 @@ import { Chip, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
+import Component from './Component';
+import { StyledOverrideWrapper } from './css';
 
 /**
  * Shortcut helper component
@@ -12,6 +14,7 @@ import DataProvider, { DataContextInterface } from '../../Store';
  * @param {string} shortcutId - The ID of the shortcut to display
  * @param {boolean} asChip - Whether to display the shortcut as a chip or not
  * @param {boolean} hasTooltip - Whether to display a tooltip with a tooltip on hover
+ * @param {boolean} hasOverride - Whether to display the override shortcut or not
  *
  * @example
  * <Shortcut shortcutId="##openPanel##" asChip={true|false} hasTooltip={true|false} />
@@ -23,22 +26,23 @@ export default ({
   shortcutId,
   asChip = false,
   hasTooltip = false,
+  hasOverride = false,
 } : {
   shortcutId: string,
   asChip?: boolean,
   hasTooltip?: boolean,
+  hasOverride?: boolean,
 }): JSX.Element => {
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
   const [shortcutObject, setShortcutObject] = useState<ShortcutObject | undefined>();
 
   useEffect(() => {
-    if (!shortcutId) return;
     setShortcutObject(shortcuts.find(({ id }) => id === shortcutId));
   }, [shortcutId, shortcuts]);
 
   const shortcutString = [
-    shortcutObject?.ctrlKey && '⌃',
     shortcutObject?.altKey && '⌥',
+    shortcutObject?.ctrlKey && '⌃',
     shortcutObject?.metaKey && '⌘',
     shortcutObject?.shiftKey && '⇧',
     shortcutObject?.char,
@@ -55,11 +59,17 @@ export default ({
     : element
   ;
 
+  const determineOverride = (element : JSX.Element) : JSX.Element => hasOverride
+    ? <StyledOverrideWrapper>
+        {shortcutObject && <Component {...{ shortcutId, shortcutObject }} />}
+        {element}
+      </StyledOverrideWrapper>
+    : element
+  ;
+
   return <>
     {shortcutId
     && shortcutObject
-    && determineTooltip(asChip
-      ? determineChip
-      : determineTypography)}
+    && determineOverride(determineTooltip(asChip ? determineChip : determineTypography))}
   </>;
 };
