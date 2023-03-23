@@ -5,6 +5,7 @@ import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
 import { Chip, ClickAwayListener, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
 import { useContext, useState } from 'react';
 // import { PlacementPosition, SettingsObject } from '../../../index.types';
+import HistoryIcon from '@mui/icons-material/History';
 import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 import { StyledContainer, StyledPopper } from './css';
@@ -18,6 +19,7 @@ export default ({
 }) : JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleKeyboardUpdate = useContext(DataProvider).handleKeyboardUpdate as DataContextInterface['handleKeyboardUpdate'];
+  const handleKeyboardRevert = useContext(DataProvider).handleKeyboardRevert as DataContextInterface['handleKeyboardRevert'];
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -60,12 +62,18 @@ export default ({
             variant='outlined'
             label="Key"
             autoFocus
+            onFocus={e => e.currentTarget.select()}
             InputProps={{
               startAdornment: <InputAdornment position="start" style={{ display: 'flex', gap: '4px' }}>
                 {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
                 {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
                 {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
                 {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
+              </InputAdornment>,
+              endAdornment: shortcutObject.original && <InputAdornment position="end">
+                <Tooltip title="Revert to original shortcut">
+                  <HistoryIcon style={{ fontSize: '16px', cursor: 'pointer' }} color="action" onClick={() => handleKeyboardRevert(shortcutId)} />
+                </Tooltip>
               </InputAdornment>,
             }}
             value={shortcutObject?.char}

@@ -81,7 +81,7 @@ export interface StatusObject {
     title?: string;
     children: React.ReactNode;
 }
-export interface ShortcutObject {
+export interface IShortcutObject {
     id: string;
     label: string;
     ascii?: number | null;
@@ -92,6 +92,9 @@ export interface ShortcutObject {
     shiftKey?: boolean;
     insensitive?: boolean;
     onTrigger: any;
+}
+export interface ShortcutObject extends IShortcutObject {
+    original?: ShortcutObject;
 }
 export interface SnackbarObject {
     uniqueId: string;

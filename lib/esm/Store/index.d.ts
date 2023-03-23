@@ -18,6 +18,7 @@ export interface DataContextInterface {
     handleCallKeyboard: ({ id }: {
         id: string;
     }) => void;
+    handleKeyboardRevert: (id: string) => void;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;

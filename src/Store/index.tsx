@@ -56,6 +56,7 @@ export interface DataContextInterface {
   handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
 
   handleCallKeyboard: ({ id }: { id: string }) => void;
+  handleKeyboardRevert: (id: string) => void;
 
   handleKeyboardDeRegister: (id: string) => void;
   handleKeyboardsDeRegister: (ids: string[]) => void;
@@ -218,7 +219,15 @@ const IndustrialProvider = ({
 
   const handleKeyboardUpdate = (id: string, shortcutObject: ShortcutObject) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
-      const result = [...prevShortcuts.map(p => p.id === id ? shortcutObject : p)];
+      const result = [...prevShortcuts.map(p => p.id === id ? { ...shortcutObject, original:  p.original || p } : p)];
+      log('[store] ⚙️ Updated keyboard', id, result);
+      return result;
+    });
+  };
+
+  const handleKeyboardRevert = (id: string) => {
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      const result = [...prevShortcuts.map(p => (p.id === id && p.original) ? { ...p.original } : p)];
       log('[store] ⚙️ Updated keyboard', id, result);
       return result;
     });
@@ -409,8 +418,7 @@ const IndustrialProvider = ({
       handleKeyboardDeRegister,
       handleKeyboardsDeRegister,
       handleKeyboardUpdate,
-      // handleUpdateKeyboard,
-      // handleKeyboardTriggerUpdate,
+      handleKeyboardRevert,
       handleCallKeyboard,
 
       // snackbar + crud,
