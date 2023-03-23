@@ -6,7 +6,7 @@ import DataProvider, { DataContextInterface } from '../../Store';
 const SPrimary = styled('div')(() => ({
   display: 'flex',
   flexWrap: 'nowrap',
-  overflow: 'visible',
+  overflow: 'hidden',
   justifyContent: 'flex-start',
 
   '&::-webkit-scrollbar': {
@@ -17,7 +17,7 @@ const SPrimary = styled('div')(() => ({
 const SSecondary = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'nowrap',
-  overflow: 'visible',
+  overflow: 'hidden',
   justifyContent: 'flex-end',
   alignItems: 'center',
   flex: '0 1 auto',
@@ -39,6 +39,7 @@ const SWrapper = styled('div')<{
   display: 'flex',
   alignItems: 'stretch',
   alignSelf: 'center',
+  overflow: 'hidden',
 
   width: `${width}`,
   justifyContent: `${justifyContent}`,
@@ -60,7 +61,9 @@ export default ({
   const { position, fullWidth, hasBorder, width, justifyContent } = settings as SettingsObject;
 
   return <SWrapper {...{ justifyContent, width, fullWidth, hasBorder, position, style }}>
-    {status.some(({ secondary }) => !secondary) && <SPrimary {...{ id: `${domStatusBarId}-primary` }} />}
-    {status.some(({ secondary }) => secondary) && <SSecondary {...{ id: `${domStatusBarId}-secondary` }} />}
+    {status.length > 0 && <>
+      <SPrimary {...{ id: `${domStatusBarId}-primary` }} />
+      <SSecondary {...{ id: `${domStatusBarId}-secondary` }} />
+    </>}
   </SWrapper>;
 };
