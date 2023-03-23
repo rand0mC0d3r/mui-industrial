@@ -49,13 +49,20 @@ export interface DataContextInterface {
   updateIsConsoleOpen: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
-  handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, metaKey, altKey, insensitive }: ShortcutObject) => void;
-  // handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
-  // handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
+
+  // keyboard
+  handleKeyboardRegister: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: ShortcutObject) => void;
+  handleKeyboardsRegister: ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
+
   handleCallKeyboard: ({ id }: { id: string }) => void;
-  handleKeyboardDestroy: (id: string) => void;
-  handleKeyboardsDestroy: (ids: string[]) => void;
+
+  handleKeyboardDeRegister: (id: string) => void;
+  handleKeyboardsDeRegister: (ids: string[]) => void;
+  //////////////////////
+
   handleStatusAnnouncement: any;
+  // handleSnackbarAnnouncements: ([{ ownId, severity, actions, source, message, code, autoHideDuration }] :
+  // [{ ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }]) => void;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
   { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
   handleStatusDestroy: any;
@@ -165,7 +172,36 @@ const IndustrialProvider = ({
   }
 
   // KEYBOARD SHORTCUTS
-  const handleKeyboardAnnouncement = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
+  const handleKeyboardRegister = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
+    const s = shortcuts.find(shortcut => shortcut.id === id);
+    if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
+
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      const result = [
+        ...prevShortcuts
+          .filter(p => p.id !== id),
+        {
+          id,
+          char,
+          label,
+          ascii,
+
+          onTrigger,
+
+          altKey,
+          ctrlKey,
+          metaKey,
+          shiftKey,
+
+          insensitive,
+        } as ShortcutObject,
+      ];
+
+      log('[store] ➕ Registed keyboard', id, result);
+      return result;
+    });
+  };
+  const handleKeyboardsRegister = ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: any) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
@@ -203,7 +239,7 @@ const IndustrialProvider = ({
     }
   };
 
-  const handleKeyboardDestroy = (id: string) => {
+  const handleKeyboardDeRegister = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => p.id !== id)];
       log('[store] ➖ Destroyed keyboard', id, result);
@@ -211,7 +247,7 @@ const IndustrialProvider = ({
     });
   };
 
-  const handleKeyboardsDestroy = (ids: string[]) => {
+  const handleKeyboardsDeRegister = (ids: string[]) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => !ids.some(id => id === p.id))];
       log('[store] ➖ Destroyed keyboards', ids, result);
@@ -383,9 +419,10 @@ const IndustrialProvider = ({
 
       // keyboard
       shortcuts,
-      handleKeyboardAnnouncement,
-      handleKeyboardDestroy,
-      handleKeyboardsDestroy,
+      handleKeyboardRegister,
+      handleKeyboardsRegister,
+      handleKeyboardDeRegister,
+      handleKeyboardsDeRegister,
       // handleUpdateKeyboard,
       // handleKeyboardTriggerUpdate,
       handleCallKeyboard,
@@ -393,6 +430,7 @@ const IndustrialProvider = ({
       // snackbar + crud,
       snackbar,
       handleSnackbarDestroy,
+
 
       // status state + crud
       status,

@@ -2,9 +2,15 @@ import { useContext } from 'react';
 import DataProvider, { DataContextInterface } from '../Store';
 
 export const useRegisterShortcut = () => {
-  const handleKeyboardAnnouncement = useContext(DataProvider).handleKeyboardAnnouncement as DataContextInterface['handleKeyboardAnnouncement'];
-  const handleKeyboardDestroy = useContext(DataProvider).handleKeyboardDestroy as DataContextInterface['handleKeyboardDestroy'];
-  const handleKeyboardsDestroy = useContext(DataProvider).handleKeyboardsDestroy as DataContextInterface['handleKeyboardsDestroy'];
+  const handleKeyboardRegister = useContext(DataProvider).handleKeyboardRegister as DataContextInterface['handleKeyboardRegister'];
+  const handleKeyboardsRegister = useContext(DataProvider).handleKeyboardsRegister as DataContextInterface['handleKeyboardsRegister'];
+  const handleKeyboardDeRegister = useContext(DataProvider).handleKeyboardDeRegister as DataContextInterface['handleKeyboardDeRegister'];
+  const handleKeyboardsDeRegister = useContext(DataProvider).handleKeyboardsDeRegister as DataContextInterface['handleKeyboardsDeRegister'];
 
-  return { handleKeyboardAnnouncement, handleKeyboardDestroy, handleKeyboardsDestroy };
+  return {
+    handleKeyboardRegister,
+    handleKeyboardsRegister,
+    handleKeyboardDeRegister,
+    handleKeyboardsDeRegister,
+  };
 };

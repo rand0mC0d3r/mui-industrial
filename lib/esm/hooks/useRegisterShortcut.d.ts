@@ -1,5 +1,6 @@
 export declare const useRegisterShortcut: () => {
-    handleKeyboardAnnouncement: ({ id, label, ascii, char, shiftKey, ctrlKey, metaKey, altKey, insensitive }: import("../index.types").ShortcutObject) => void;
-    handleKeyboardDestroy: (id: string) => void;
-    handleKeyboardsDestroy: (ids: string[]) => void;
+    handleKeyboardRegister: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: import("../index.types").ShortcutObject) => void;
+    handleKeyboardsRegister: ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: import("../index.types").ShortcutObject[]) => void;
+    handleKeyboardDeRegister: (id: string) => void;
+    handleKeyboardsDeRegister: (ids: string[]) => void;
 };
