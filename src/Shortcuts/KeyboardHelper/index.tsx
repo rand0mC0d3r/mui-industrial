@@ -50,7 +50,17 @@ export default ({
 
   const determineChip: JSX.Element = <Chip style={{ userSelect: 'none' }} label={shortcutString} variant="outlined" size="small" />;
 
-  const determineTypography: JSX.Element = <Typography style={{ userSelect: 'none' }} variant="caption" color="inherit">{shortcutString}</Typography>;
+  const determineTypography: JSX.Element = <Typography
+    style={{
+      userSelect: 'none',
+      height: '24px',
+      display: 'flex',
+      alignItems: 'center',
+    }}
+    variant="caption"
+    color="inherit">
+      {shortcutString}
+    </Typography>;
 
   const determineTooltip = (element : JSX.Element) : JSX.Element => hasTooltip
     ? <Tooltip title={`${shortcutObject && `${shortcutObject.label} -`} ${shortcutString}`} placement="right" arrow>

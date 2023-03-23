@@ -20,8 +20,9 @@ export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) 
   flexDirection: 'row',
   gap: '4px',
   padding: '8px',
+  width: '225px',
 
   backgroundColor: `${alpha(theme.palette.background.default, 0.95)}`,
   borderRadius: `${theme.shape.borderRadius * 2}px`,
-  border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${theme.palette.primary.main}`,
 }));

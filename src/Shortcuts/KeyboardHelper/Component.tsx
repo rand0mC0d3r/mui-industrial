@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
-import { Chip, ClickAwayListener, IconButton, TextField, Tooltip } from '@mui/material';
+import { Chip, ClickAwayListener, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
 import { useContext, useState } from 'react';
 // import { PlacementPosition, SettingsObject } from '../../../index.types';
 import { ShortcutObject } from '../../index.types';
@@ -41,7 +41,7 @@ export default ({
   return <>
     <Tooltip title="Override tooltip">
       <IconButton size="small" aria-describedby={id} onClick={handleClick}>
-        <ChangeCircleOutlinedIcon style={{ fontSize: '14px' }} />
+        <ChangeCircleOutlinedIcon color={open ? 'primary' : 'action'} style={{ fontSize: '14px' }} />
       </IconButton>
     </Tooltip>
     <StyledPopper {...{
@@ -54,17 +54,22 @@ export default ({
     >
       <ClickAwayListener onClickAway={() => handleClose()}>
         <StyledContainer>
-          {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
-          {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
-          {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
-          {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
           <TextField
             inputProps={{ maxlength: 1 }}
             size="small"
             variant='outlined'
             label="Key"
+            autoFocus
+            InputProps={{
+              startAdornment: <InputAdornment position="start" style={{ display: 'flex', gap: '4px' }}>
+                {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
+                {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
+                {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
+                {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
+              </InputAdornment>,
+            }}
             value={shortcutObject?.char}
-            onChange={e => handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value } as ShortcutObject)}
+            onChange={e => e.target.value.length > 0 && handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value } as ShortcutObject)}
           />
 
         </StyledContainer>
