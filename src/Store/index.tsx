@@ -51,8 +51,8 @@ export interface DataContextInterface {
   handleStatusUpdate: any;
 
   // keyboard
-  handleKeyboardRegister: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: ShortcutObject) => void;
-  handleKeyboardsRegister: ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
+  handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
+  handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
 
   handleCallKeyboard: ({ id }: { id: string }) => void;
 
@@ -167,23 +167,22 @@ const IndustrialProvider = ({
   };
 
 
-  function generateSignature(id?: string, label?: string, ascii?: number, char?: string): string {
-    return `${id}-${label}-${ascii}-${char}`;
+  function generateSignature(id?: string, label?: string, ascii?: number | null, char?: string | null): string {
+    return `${id}-${label}-${ascii || 'empty'}-${char || 'empty'}`;
   }
 
   // KEYBOARD SHORTCUTS
-  const handleKeyboardRegister = ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: any) => {
+  const handleKeyboardRegister = ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [
-        ...prevShortcuts
-          .filter(p => p.id !== id),
+        ...prevShortcuts.filter(p => p.id !== id),
         {
           id,
-          char,
           label,
+          char,
           ascii,
 
           onTrigger,
@@ -201,7 +200,7 @@ const IndustrialProvider = ({
       return result;
     });
   };
-  const handleKeyboardsRegister = ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: any) => {
+  const handleKeyboardsRegister = ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: any) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 

@@ -88,16 +88,17 @@ export interface StatusObject {
 }
 export interface ShortcutObject {
   id: string,
-  open?: boolean,
-  shiftKey?: boolean;
-  metaKey?: boolean;
-  ctrlKey?: boolean;
+  label: string;
+  ascii?: number | null;
+  char: string | null;
+
   altKey?: boolean;
-  ascii?: number;
-  char?: string;
-  label?: string;
+  ctrlKey?: boolean;
+  metaKey?: boolean;
+  shiftKey?: boolean;
+
   insensitive?: boolean;
-  onTrigger?: any
+  onTrigger: any
 }
 export interface SnackbarObject {
   uniqueId: string;

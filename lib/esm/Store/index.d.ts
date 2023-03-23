@@ -12,8 +12,8 @@ export interface DataContextInterface {
     updateIsConsoleOpen: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
-    handleKeyboardRegister: ({ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }: ShortcutObject) => void;
-    handleKeyboardsRegister: ([{ id, label, ascii, char, shiftKey, ctrlKey, altKey, metaKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
+    handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
+    handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
     handleCallKeyboard: ({ id }: {
         id: string;
     }) => void;
