@@ -200,33 +200,10 @@ const IndustrialProvider = ({
       return result;
     });
   };
-  const handleKeyboardsRegister = ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: any) => {
-    const s = shortcuts.find(shortcut => shortcut.id === id);
-    if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
-    setShortcuts((prevShortcuts: ShortcutObject[]) => {
-      const result = [
-        ...prevShortcuts
-          .filter(p => p.id !== id),
-        {
-          id,
-          char,
-          label,
-          ascii,
-
-          onTrigger,
-
-          altKey,
-          ctrlKey,
-          metaKey,
-          shiftKey,
-
-          insensitive,
-        } as ShortcutObject,
-      ];
-
-      log('[store] ➕ Registed keyboard', id, result);
-      return result;
+  const handleKeyboardsRegister = (shortcutObjects: ShortcutObject[]) => {
+    shortcutObjects.forEach((shortcutObject: ShortcutObject) => {
+      handleKeyboardRegister(shortcutObject);
     });
   };
 
