@@ -53,7 +53,8 @@ export interface DataContextInterface {
   // handleKeyboardTriggerUpdate: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   // handleUpdateKeyboard: ({ id, onTrigger }: { id: string, onTrigger: any }) => void;
   handleCallKeyboard: ({ id }: { id: string }) => void;
-  handleKeyboardDestroy: ({ id }: { id: string }) => void;
+  handleKeyboardDestroy: (id: string) => void;
+  handleKeyboardsDestroy: (ids: string[]) => void;
   handleStatusAnnouncement: any;
   handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
   { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
@@ -109,7 +110,7 @@ const IndustrialProvider = ({
 
   const log = (...props: any) => {
     if (settings.debug) {
-      console.clear();
+      // console.clear();
       // console.log.apply()
       console.log(...props);
     }
@@ -197,16 +198,23 @@ const IndustrialProvider = ({
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (!!findShortcut && findShortcut?.onTrigger) {
-      log('[store] ➖ Triggered keyboard', findShortcut.id);
+      log('[store] 💡 Triggered keyboard', findShortcut.id);
       findShortcut?.onTrigger();
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleKeyboardDestroy = ({ id }: { id: string }) => {
+  const handleKeyboardDestroy = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => p.id !== id)];
       log('[store] ➖ Destroyed keyboard', id, result);
+      return result;
+    });
+  };
+
+  const handleKeyboardsDestroy = (ids: string[]) => {
+    setShortcuts((prevShortcuts: ShortcutObject[]) => {
+      const result = [...prevShortcuts.filter(p => !ids.some(id => id === p.id))];
+      log('[store] ➖ Destroyed keyboards', ids, result);
       return result;
     });
   };
@@ -377,6 +385,7 @@ const IndustrialProvider = ({
       shortcuts,
       handleKeyboardAnnouncement,
       handleKeyboardDestroy,
+      handleKeyboardsDestroy,
       // handleUpdateKeyboard,
       // handleKeyboardTriggerUpdate,
       handleCallKeyboard,

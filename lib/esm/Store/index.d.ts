@@ -16,9 +16,8 @@ export interface DataContextInterface {
     handleCallKeyboard: ({ id }: {
         id: string;
     }) => void;
-    handleKeyboardDestroy: ({ id }: {
-        id: string;
-    }) => void;
+    handleKeyboardDestroy: (id: string) => void;
+    handleKeyboardsDestroy: (ids: string[]) => void;
     handleStatusAnnouncement: any;
     handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration }: {
         ownId: string;
