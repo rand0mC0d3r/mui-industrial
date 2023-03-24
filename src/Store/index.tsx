@@ -206,10 +206,8 @@ const IndustrialProvider = ({
             original: newShortcut,
           };
         }
-        console.log('override', override);
-        console.log('newShortcut', newShortcut);
       } catch (e) {
-        log('Failed to parse keyboard overrides', e);
+        log('❌ Failed to parse keyboard overrides', e);
       }
     }
 

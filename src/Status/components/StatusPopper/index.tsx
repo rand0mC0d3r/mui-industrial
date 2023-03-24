@@ -13,6 +13,7 @@ const defaultPopperOptions = {
   elevation: 2,
   hasToolbar: true,
   onClose: () => {},
+  open: false,
   hasArrow: false,
   hasDecoration: false,
 } as StatusPopperProps;
@@ -38,6 +39,7 @@ export default ({
 } : StatusPopperJSXProps) : JSX.Element => {
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState<boolean>(false);
   const { status } : { status: StatusObject[] } = useContext(DataProvider);
   const popperReference = useRef();
 
@@ -47,7 +49,8 @@ export default ({
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return;
     if (onClick) onClick(event);
-    setAnchorEl(anchorEl ? null : event?.currentTarget as any);
+    setAnchorEl(open ? null : event?.currentTarget as any);
+    setOpen(p => !p);
   };
 
   useEffect(() => {
@@ -55,6 +58,18 @@ export default ({
     if (!foundObject) return;
     setStatusObject(foundObject);
   }, [status, id]);
+
+  useEffect(() => {
+    if (!anchorEl) {
+      setOpen(false);
+    }
+  }, [anchorEl]);
+
+  useEffect(() => {
+    if (options?.open) {
+      setOpen(options?.open);
+    }
+  }, [options.open]);
 
   useEffect(() => {
     if (!options.open) {
@@ -66,7 +81,7 @@ export default ({
     }
     if (!popperReference?.current) return;
     setAnchorEl(popperReference.current);
-  }, [options.open, statusObject]);
+  }, [statusObject, options]);
 
   const determineHighlight = () => (statusObject?.keepOpen || options.open !== undefined ? options.open : false)
     ? Highlight.PRIMARY
@@ -97,7 +112,7 @@ export default ({
       onClick: handleOnClick,
       onContextMenu,
 
-      style,
+      style: { ...style, cursor: statusObject?.keepOpen ? 'not-allowed' : 'pointer' },
       className,
     }}>
       {children}
@@ -108,7 +123,7 @@ export default ({
       enrichedPopper,
       highlight,
       statusObject,
-      open: options.open,
+      open,
       anchorEl,
       setAnchorEl,
       options,

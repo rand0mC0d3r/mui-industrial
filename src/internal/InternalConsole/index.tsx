@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -8,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { Resizable } from 're-resizable';
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
-import Keyboard from '../../Shortcuts/Keyboard';
+// import Keyboard from '../../Shortcuts/Keyboard';
 import DataProvider from '../../Store';
 
 const StyledStatusConsole = styled('div')(() => ({
@@ -114,7 +115,7 @@ export default (): JSX.Element => {
   }, []);
 
   return <>
-    <Keyboard id="mui-industrial-open-console" label="Open console" ascii={27} char="P" onTrigger={() => updateIsConsoleOpen()} />
+    {/* <Keyboard id="mui-industrial-open-console" label="Open console" ascii={27} char="P" onTrigger={() => updateIsConsoleOpen()} /> */}
     {(isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper
         {...{ id: domIdWrapper }}

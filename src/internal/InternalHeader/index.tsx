@@ -25,7 +25,6 @@ const StyledActions = styled('div')(({ theme }) => ({
 }));
 
 const StyledTypography = styled(Typography)(() => ({
-  lineHeight: 1,
   textOverflow: 'ellipsis',
   maxWidth: '225px',
   overflow: 'hidden',
