@@ -183,36 +183,38 @@ const IndustrialProvider = ({
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
+
+    let newShortcut =  {
+      id, label, char, ascii,
+      onTrigger,
+      altKey, ctrlKey, metaKey, shiftKey,
+      insensitive,
+    } as ShortcutObject;
+
     let override;
-    const possibleOverride = localStorage.getItem(keyboardOverridesStorageKey);
-    if (possibleOverride) {
+    const possibleOverrides = localStorage.getItem(keyboardOverridesStorageKey);
+    if (possibleOverrides) {
       try {
-        override = JSON.parse(possibleOverride);
+        override = JSON.parse(possibleOverrides)
+          .filter((o: any) => o.id === id)
+          .filter((o: any) => JSON.stringify(o.original) === JSON.stringify(newShortcut))
+          .find((o: any) => o);
+        if (override) {
+          newShortcut = {
+            ...override,
+            onTrigger,
+            original: newShortcut,
+          };
+        }
+        console.log('override', override);
+        console.log('newShortcut', newShortcut);
       } catch (e) {
         log('Failed to parse keyboard overrides', e);
       }
     }
 
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
-      const result = [
-        ...prevShortcuts.filter(p => p.id !== id),
-        {
-          id,
-          label,
-          char,
-          ascii,
-
-          onTrigger,
-
-          altKey,
-          ctrlKey,
-          metaKey,
-          shiftKey,
-
-          insensitive,
-        } as ShortcutObject,
-      ];
-
+      const result = [ ...prevShortcuts.filter(p => p.id !== id), newShortcut];
       log('➕ Registed keyboard', id, result);
       return result;
     });
