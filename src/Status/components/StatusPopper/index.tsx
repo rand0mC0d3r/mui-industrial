@@ -44,8 +44,6 @@ export default ({
   const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps;
   const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps;
 
-  const open = Boolean(anchorEl);
-
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return;
     if (onClick) onClick(event);
@@ -70,7 +68,9 @@ export default ({
     setAnchorEl(popperReference.current);
   }, [options.open, statusObject]);
 
-  const determineHighlight = () => (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
+  const determineHighlight = () => (statusObject?.keepOpen || options.open !== undefined ? options.open : false)
+    ? Highlight.PRIMARY
+    : highlight;
 
   return <>
     <StatusCore {...{
@@ -82,7 +82,7 @@ export default ({
 
       order,
       disabled,
-      tooltip: open ? null : tooltip,
+      tooltip: options.open ? null : tooltip,
       highlight: determineHighlight(),
       secondary,
 
@@ -90,7 +90,7 @@ export default ({
         separators: enrichedSeparators,
         popper: {
           ...enrichedPopper,
-          hasArrow: open && enrichedPopper.hasArrow,
+          hasArrow: options.open && enrichedPopper.hasArrow,
         },
       } as StatusOptionsProps,
 

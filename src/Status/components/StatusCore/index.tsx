@@ -76,6 +76,7 @@ const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ po
 
 const STooltip = styled('div')(() => ({
   fontSize: '13px',
+  lineHeight: '1',
   display: 'flex',
   flexWrap: 'nowrap',
   gap: '8px',

@@ -65,7 +65,7 @@ export default ({
   const determineTypography: JSX.Element = <Typography
     style={{
       userSelect: 'none',
-      height: '24px',
+      lineHeight: '1',
       display: 'flex',
       alignItems: 'center',
     }}
