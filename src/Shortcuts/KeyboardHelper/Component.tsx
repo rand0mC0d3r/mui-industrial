@@ -64,8 +64,7 @@ export default ({
             }}
             value={shortcutObject?.char}
             onChange={e => e.target.value.length > 0 &&
-              handleKeyboardUpdate(shortcutId,
-                { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
+              handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
           />
         </StyledContainer>
       </ClickAwayListener>

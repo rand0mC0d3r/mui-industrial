@@ -76,7 +76,7 @@ export default ({
 
   const determineTooltip = (element : JSX.Element) : JSX.Element => {
     return (hasTooltip || hasOverride)
-      ? <Tooltip title={tooltip} placement="right" arrow>
+      ? <Tooltip title={<span style={{ userSelect: 'none' }}>{tooltip}</span>} placement="right" arrow>
       <span>{element}</span>
     </Tooltip>
       : element;
