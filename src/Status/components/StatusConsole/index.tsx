@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { MouseEvent, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { domConsoleId, Highlight, SettingsObject, StatusConsoleJSXProps, StatusObject, StatusType } from '../../../index.types';
@@ -18,9 +20,9 @@ export default ({
   children,
 } : StatusConsoleJSXProps): JSX.Element => {
   const { status, updateConsoleActiveId } = useContext(DataProvider) as DataContextInterface;
-  const { handleStatusTypeUpdate, handleStatusConsoleTitleUpdate } = useContext(DataProvider) as DataContextInterface;
+  const { handleStatusTypeUpdate } = useContext(DataProvider) as DataContextInterface;
   const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject;
-  const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
+  const [statusObject, setStatusObject] = useState<StatusObject | undefined>(undefined);
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
 
   const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId)
@@ -30,7 +32,11 @@ export default ({
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (onClick) onClick(event);
     if (!statusObject) return;
-    if (!isConsoleOpen || consoleActiveId !== id) updateConsoleActiveId({ id: statusObject?.uniqueId });
+    if (!isConsoleOpen || consoleActiveId !== id) {
+      updateConsoleActiveId({ id: statusObject?.uniqueId });
+    } else {
+      updateConsoleActiveId({ id: undefined });
+    }
   };
 
   useEffect(() => {
@@ -38,16 +44,28 @@ export default ({
   }, [statusObject, consoleActiveId, isConsoleOpen]);
 
   useEffect(() => {
-    if (statusObject !== null) return;
-    const foundObject = status.find(({ uniqueId }) => uniqueId === id);
-    if (!foundObject) return;
-    setStatusObject(foundObject);
-    handleStatusTypeUpdate({ id, type: StatusType.CONSOLE });
-  }, [status, id, statusObject, handleStatusTypeUpdate]);
+    setStatusObject(status.find(({ uniqueId }) => uniqueId === id));
+  }, [status, id]);
 
   useEffect(() => {
-    if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title });
-  }, [statusObject, id, options?.title, handleStatusConsoleTitleUpdate]);
+    if (statusObject && statusObject.type !== StatusType.CONSOLE) {
+      handleStatusTypeUpdate({ id, type: StatusType.CONSOLE });
+    }
+  }, [statusObject, id, handleStatusTypeUpdate]);
+
+
+
+  // useEffect(() => {
+  //   if (statusObject !== null) return;
+  //   const foundObject = status.find(({ uniqueId }) => uniqueId === id);
+  //   if (!foundObject) return;
+  //   setStatusObject(foundObject);
+  //   handleStatusTypeUpdate({ id, type: StatusType.CONSOLE });
+  // }, [status, id, statusObject, handleStatusTypeUpdate]);
+
+  // useEffect(() => {
+  //   if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title });
+  // }, [statusObject, id, options?.title, handleStatusConsoleTitleUpdate]);
 
   return <>
     <StatusCore {...{

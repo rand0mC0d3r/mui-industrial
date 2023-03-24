@@ -26,8 +26,6 @@ export interface PopoverAction {
   disabled?: boolean,
 }
 
-export type AsType = 'simple' | 'panel' | 'console';
-
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 
 export type StatusConsoleJSXProps = {
