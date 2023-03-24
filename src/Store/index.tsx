@@ -228,6 +228,7 @@ const IndustrialProvider = ({
   const handleKeyboardRevert = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.map(p => (p.id === id && p.original) ? { ...p.original } : p)];
+
       log('[store] ⚙️ Updated keyboard', id, result);
       return result;
     });

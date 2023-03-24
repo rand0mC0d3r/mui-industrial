@@ -1,35 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
-import { Chip, ClickAwayListener, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
-import { useContext, useState } from 'react';
-// import { PlacementPosition, SettingsObject } from '../../../index.types';
 import HistoryIcon from '@mui/icons-material/History';
+import { Chip, ClickAwayListener, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { useContext } from 'react';
 import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 import { StyledContainer, StyledPopper } from './css';
 
 export default ({
+  idPopper,
+  anchorEl,
+  open,
+  handleClose,
   shortcutId,
   shortcutObject,
 } : {
+  idPopper?: string,
+  anchorEl: HTMLButtonElement | null,
+  open: boolean,
+  handleClose: () => void,
   shortcutId: string,
   shortcutObject: ShortcutObject
 }) : JSX.Element => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleKeyboardUpdate = useContext(DataProvider).handleKeyboardUpdate as DataContextInterface['handleKeyboardUpdate'];
   const handleKeyboardRevert = useContext(DataProvider).handleKeyboardRevert as DataContextInterface['handleKeyboardRevert'];
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   const renderChip = (label: string, diff: any, highlight?: boolean) => <Chip
     label={label}
@@ -41,23 +34,16 @@ export default ({
   />;
 
   return <>
-    <Tooltip title="Override tooltip">
-      <IconButton size="small" aria-describedby={id} onClick={handleClick}>
-        <ChangeCircleOutlinedIcon color={open ? 'primary' : 'action'} style={{ fontSize: '14px' }} />
-      </IconButton>
-    </Tooltip>
     <StyledPopper {...{
       elevation: 2,
       open,
       anchorEl,
       onClose: handleClose,
-      id: `mui-status-panel-popover-${id}`,
-    }}
-    >
+      id: `mui-status-panel-popover-${idPopper}`,
+    }}>
       <ClickAwayListener onClickAway={() => handleClose()}>
         <StyledContainer>
           <TextField
-            inputProps={{ maxlength: 1 }}
             size="small"
             variant='outlined'
             label="Key"
@@ -77,9 +63,10 @@ export default ({
               </InputAdornment>,
             }}
             value={shortcutObject?.char}
-            onChange={e => e.target.value.length > 0 && handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value } as ShortcutObject)}
+            onChange={e => e.target.value.length > 0 &&
+              handleKeyboardUpdate(shortcutId,
+                { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
           />
-
         </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>

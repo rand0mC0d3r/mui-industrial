@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Chip, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ShortcutObject } from '../../index.types';
@@ -35,6 +36,19 @@ export default ({
 }): JSX.Element => {
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
   const [shortcutObject, setShortcutObject] = useState<ShortcutObject | undefined>();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const idPopper = open ? 'simple-popover' : undefined;
+
 
   useEffect(() => {
     setShortcutObject(shortcuts.find(({ id }) => id === shortcutId));
@@ -70,8 +84,11 @@ export default ({
   ;
 
   const determineOverride = (element : JSX.Element) : JSX.Element => hasOverride
-    ? <StyledOverrideWrapper>
-        {shortcutObject && <Component {...{ shortcutId, shortcutObject }} />}
+    ? <StyledOverrideWrapper onContextMenu={(e: any) => {
+      e.preventDefault();
+      handleClick(e);
+    }}>
+        {shortcutObject && <Component {...{ idPopper, anchorEl, open, handleClose, shortcutId, shortcutObject }} />}
         {element}
       </StyledOverrideWrapper>
     : element
