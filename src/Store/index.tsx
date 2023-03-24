@@ -4,7 +4,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 import Wrapper from '../internal/Wrapper';
 
@@ -15,7 +15,8 @@ export const composeDomId = (component: string, detail: string[]) => {
   return `${domIdBase}-${component}-${id}`;
 };
 
-// const packageName = 'mui-industrial';
+const packageName = 'mui-industrial';
+const keyboardOverridesStorageKey = `${packageName}.keyboard.overrides`;
 const settingsStorageKey = 'mui-status.settings';
 const statusStorageKey = 'mui-status.status';
 
@@ -117,13 +118,17 @@ const IndustrialProvider = ({
     }
   };
 
-  const log = (...props: any) => {
+  const log = useCallback((...props: any) => {
     if (settings.debug) {
-      // console.clear();
-      // console.log.apply()
-      console.log(...props);
+      console.log(`[${packageName}]:`, ...props);
     }
-  };
+  }, [settings.debug]);
+
+  const logn = useCallback((...props: any) => {
+    if (settings.debug) {
+      console.log(`\n\n[${packageName}]:`, ...props);
+    }
+  }, [settings.debug]);
 
   const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
     setStatus((status: StatusObject[]) => {
@@ -178,6 +183,16 @@ const IndustrialProvider = ({
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
+    let override;
+    const possibleOverride = localStorage.getItem(keyboardOverridesStorageKey);
+    if (possibleOverride) {
+      try {
+        override = JSON.parse(possibleOverride);
+      } catch (e) {
+        log('Failed to parse keyboard overrides', e);
+      }
+    }
+
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [
         ...prevShortcuts.filter(p => p.id !== id),
@@ -198,7 +213,7 @@ const IndustrialProvider = ({
         } as ShortcutObject,
       ];
 
-      log('[store] ➕ Registed keyboard', id, result);
+      log('➕ Registed keyboard', id, result);
       return result;
     });
   };
@@ -212,7 +227,7 @@ const IndustrialProvider = ({
   const handleCallKeyboard = ({ id } : { id: string }) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (!!findShortcut && findShortcut?.onTrigger) {
-      log('[store] 💡 Triggered keyboard', findShortcut.id);
+      log('💡 Triggered keyboard', findShortcut.id);
       findShortcut?.onTrigger();
     }
   };
@@ -220,7 +235,8 @@ const IndustrialProvider = ({
   const handleKeyboardUpdate = (id: string, shortcutObject: ShortcutObject) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.map(p => p.id === id ? { ...shortcutObject, original:  p.original || p } : p)];
-      log('[store] ⚙️ Updated keyboard', id, result);
+      localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
+      log('⚙️ Updated keyboard', id, result);
       return result;
     });
   };
@@ -228,8 +244,8 @@ const IndustrialProvider = ({
   const handleKeyboardRevert = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.map(p => (p.id === id && p.original) ? { ...p.original } : p)];
-
-      log('[store] ⚙️ Updated keyboard', id, result);
+      localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
+      log('⚙️ Reverted keyboard to original settings', id, result);
       return result;
     });
   };
@@ -237,7 +253,7 @@ const IndustrialProvider = ({
   const handleKeyboardDeRegister = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => p.id !== id)];
-      log('[store] ➖ Destroyed keyboard', id, result);
+      log('➖ Destroyed keyboard', id, result);
       return result;
     });
   };
@@ -245,7 +261,7 @@ const IndustrialProvider = ({
   const handleKeyboardsDeRegister = (ids: string[]) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => !ids.some(id => id === p.id))];
-      log('[store] ➖ Destroyed keyboards', ids, result);
+      log('➖ Destroyed keyboards', ids, result);
       return result;
     });
   };
@@ -370,36 +386,26 @@ const IndustrialProvider = ({
 
   useEffect(() => {
     if (settings.debug) {
-
+      const t0 = performance.now();
       // console.clear();
-      // console.log('----------------------------------------------------------------------------');
-      console.log('%c🎛️ Debugging is enabled.', 'color: #ff8888; font-weight: bold; font-size: 1.2em');
-      console.time();
+      log('🎛️ Debugging is enabled');
 
       // console.log('%cSettings', 'color: #4caf50');
       // console.table({ ...settings });
 
-      // if (status.length > 0) {
-      //   console.log('%cStatus', 'color: #2196f3');
-      //   console.table({ ...status });
-      // }
+      logn('🗄️ Status', status.length);
+      log(status.length > 0 ? [ ...status ] : 'No statuses found.');
 
-      // if (snackbar.length > 0) {
-      //   console.log('%cSnackbar', 'color: #f44336');
-      //   console.table({ ...snackbar });
-      // }
+      logn('📟 Snackbar', snackbar.length);
+      log(snackbar.length > 0 ? [ ...snackbar ] : 'No snackbars found.');
 
-      console.log('%cShortcuts', 'color: #ff9800', shortcuts.length);
-      if (shortcuts.length > 0) {
-        console.log({ ...shortcuts });
-      } else {
-        console.log('🫙 No shortcuts found.');
-      }
+      logn('🫙 Shortcuts', shortcuts.length);
+      log(shortcuts.length > 0 ? [ ...shortcuts ] : 'No shortcuts found.');
 
-      console.timeEnd();
-      // console.log('=============================================================================');
+      const t1 = performance.now();
+      log(`Debug dump in ${t1 - t0} milliseconds.`);
     }
-  }, [settings, shortcuts, snackbar, status]);
+  }, [settings, shortcuts, snackbar, status, log, logn]);
 
   return <DataContext.Provider
     value={{
