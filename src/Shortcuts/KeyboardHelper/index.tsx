@@ -6,6 +6,17 @@ import DataProvider, { DataContextInterface } from '../../Store';
 import Component from './Component';
 import { StyledOverrideWrapper } from './css';
 
+const shortcutString = (shortcutObject?: ShortcutObject) => [
+  shortcutObject?.altKey && '⌥',
+  shortcutObject?.ctrlKey && '⌃',
+  shortcutObject?.metaKey && '⌘',
+  shortcutObject?.shiftKey && '⇧',
+  shortcutObject?.char,
+].filter(Boolean).join(' ') as string;
+
+const baseTooltip = (shortcutObject?: ShortcutObject) => `${shortcutObject && `${shortcutObject.label} -`} ${shortcutString(shortcutObject)}`;
+
+
 /**
  * Shortcut helper component
  *
@@ -22,7 +33,6 @@ import { StyledOverrideWrapper } from './css';
  *
  * @returns {JSX.Element} Shortcut
  */
-
 export default ({
   shortcutId,
   asChip = false,
@@ -37,6 +47,10 @@ export default ({
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
   const [shortcutObject, setShortcutObject] = useState<ShortcutObject | undefined>();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [tooltip, setTooltip] = useState<string>(baseTooltip);
+
+  const open = Boolean(anchorEl);
+  const idPopper = open ? 'simple-popover' : undefined;
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -46,23 +60,7 @@ export default ({
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const idPopper = open ? 'simple-popover' : undefined;
-
-
-  useEffect(() => {
-    setShortcutObject(shortcuts.find(({ id }) => id === shortcutId));
-  }, [shortcutId, shortcuts]);
-
-  const shortcutString = [
-    shortcutObject?.altKey && '⌥',
-    shortcutObject?.ctrlKey && '⌃',
-    shortcutObject?.metaKey && '⌘',
-    shortcutObject?.shiftKey && '⇧',
-    shortcutObject?.char,
-  ].filter(Boolean).join(' ') as string;
-
-  const determineChip: JSX.Element = <Chip style={{ userSelect: 'none' }} label={shortcutString} variant="outlined" size="small" />;
+  const determineChip: JSX.Element = <Chip style={{ userSelect: 'none' }} label={shortcutString(shortcutObject)} variant="outlined" size="small" />;
 
   const determineTypography: JSX.Element = <Typography
     style={{
@@ -73,26 +71,37 @@ export default ({
     }}
     variant="caption"
     color="inherit">
-      {shortcutString}
+      {shortcutString(shortcutObject)}
     </Typography>;
 
-  const determineTooltip = (element : JSX.Element) : JSX.Element => hasTooltip
-    ? <Tooltip title={`${shortcutObject && `${shortcutObject.label} -`} ${shortcutString}`} placement="right" arrow>
+  const determineTooltip = (element : JSX.Element) : JSX.Element => {
+    return (hasTooltip || hasOverride)
+      ? <Tooltip title={tooltip} placement="right" arrow>
       <span>{element}</span>
     </Tooltip>
-    : element
-  ;
+      : element;
+  };
 
-  const determineOverride = (element : JSX.Element) : JSX.Element => hasOverride
-    ? <StyledOverrideWrapper onContextMenu={(e: any) => {
-      e.preventDefault();
-      handleClick(e);
-    }}>
+  const determineOverride = (element : JSX.Element) : JSX.Element => {
+    return hasOverride
+      ? <StyledOverrideWrapper onContextMenu={(e: any) => {
+        e.preventDefault();
+        handleClick(e);
+      }}>
         {shortcutObject && <Component {...{ idPopper, anchorEl, open, handleClose, shortcutId, shortcutObject }} />}
         {element}
       </StyledOverrideWrapper>
-    : element
-  ;
+      : element;
+  };
+
+  useEffect(() => {
+    const filledBaseTooltip = baseTooltip(shortcutObject);
+    setTooltip(() => hasOverride ? `${filledBaseTooltip} - Right-Click to Override` : filledBaseTooltip);
+  }, [hasOverride, shortcutObject]);
+
+  useEffect(() => {
+    setShortcutObject(shortcuts.find(({ id }) => id === shortcutId));
+  }, [shortcutId, shortcuts]);
 
   return <>
     {shortcutId
