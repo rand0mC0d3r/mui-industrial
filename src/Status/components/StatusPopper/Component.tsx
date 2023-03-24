@@ -15,10 +15,11 @@ export default ({
   anchorEl,
   setAnchorEl,
   options,
+  open,
   secondary = false,
 } : any) : JSX.Element => {
   const { settings } : { settings: SettingsObject } = useContext(DataProvider);
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
 
   const determineHighlight = (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
 
@@ -30,7 +31,7 @@ export default ({
   return <>
     <StyledPopper {...{
       keepMounted: statusObject?.keepOpen,
-      open,
+      open: open && Boolean(anchorEl),
       anchorEl,
       onClose: enrichedPopper.onClose,
       elevation: enrichedPopper.elevation,
@@ -52,6 +53,7 @@ export default ({
             justifyContent="space-between"
             flexDirection="column"
             width={enrichedPopper.width}
+            height={enrichedPopper.height}
           >
             {options?.content}
           </StyledBox>

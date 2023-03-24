@@ -60,6 +60,7 @@ export default ({
 
   useEffect(() => {
     if (!options.open) {
+
       if (!statusObject?.keepOpen) {
         setAnchorEl(null);
       }
@@ -74,7 +75,9 @@ export default ({
   return <>
     <StatusCore {...{
       ref: popperReference,
-
+      onLoad: ref => {
+        setAnchorEl(ref.current);
+      },
       id,
 
       order,
@@ -100,6 +103,16 @@ export default ({
       {children}
     </StatusCore>
 
-    <Component {...{ id, enrichedPopper, highlight, statusObject, anchorEl, setAnchorEl, options, secondary }} />
+    <Component {...{
+      id,
+      enrichedPopper,
+      highlight,
+      statusObject,
+      open: options.open,
+      anchorEl,
+      setAnchorEl,
+      options,
+      secondary,
+    }} />
   </>;
 };

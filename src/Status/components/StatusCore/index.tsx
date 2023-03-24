@@ -75,7 +75,11 @@ const SArrowDown = styled(ArrowDropDownOutlinedIcon)<{ position: string }>(({ po
 }));
 
 const STooltip = styled('div')(() => ({
-  fontSize: '14px',
+  fontSize: '13px',
+  display: 'flex',
+  flexWrap: 'nowrap',
+  gap: '8px',
+  alignItems: 'center',
   maxHeight: '300px',
   overflow: 'scroll',
 }));
@@ -151,6 +155,7 @@ type StatusCoreProps = {
   children?: ReactNode,
   options?: StatusOptionsProps,
   secondary?: boolean,
+  onLoad?: (ref: any) => void,
 };
 
 export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
@@ -166,6 +171,7 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     children,
     options,
     secondary = false,
+    onLoad = () => { },
   } = props;
 
   const { status, handleStatusAnnouncement } = useContext(DataProvider);
@@ -230,6 +236,12 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
       //   callbackHandleStatusDestroy();
     };
   }, []);
+
+  useEffect(() => {
+    if (statusObject !== null && !!id && elementFound) {
+      onLoad(ref);
+    }
+  }, [statusObject, id, elementFound, ref, onLoad]);
 
   return <>
     {(statusObject !== null && !!id && elementFound)

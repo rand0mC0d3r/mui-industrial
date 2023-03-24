@@ -12,6 +12,7 @@ type StatusCoreProps = {
     children?: ReactNode;
     options?: StatusOptionsProps;
     secondary?: boolean;
+    onLoad?: (ref: any) => void;
 };
 export declare const StatusCore: import("react").ForwardRefExoticComponent<StatusCoreProps & import("react").RefAttributes<unknown>>;
 export default StatusCore;

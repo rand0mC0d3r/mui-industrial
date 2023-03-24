@@ -166,6 +166,12 @@ export declare enum PopperWidth {
     LG = "lg",
     XL = "xl"
 }
+export declare enum PopperHeight {
+    SM = "sm",
+    MD = "md",
+    LG = "lg",
+    XL = "xl"
+}
 export declare enum Severity {
     SUCCESS = "success",
     INFO = "info",
