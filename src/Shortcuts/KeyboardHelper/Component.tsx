@@ -74,7 +74,7 @@ export default ({
             id='consoleHeader'
             actions={[{
               icon: <HistoryIcon />,
-              title: 'Revert to original shortcut',
+              tooltip: 'Revert to original shortcut',
               onClick: () => handleKeyboardRevert(shortcutId),
             }]}/>
           </StyledContainer>

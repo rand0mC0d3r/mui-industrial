@@ -133,13 +133,15 @@ const IndustrialProvider = ({
     }
   }, [settings.debug]);
 
-  const handleStatusAnnouncement = ({ id, ownId, secondary, children } : { id: string, ownId: string, secondary: boolean, children: any }) => {
+  const handleStatusAnnouncement = ({ id, ownId, secondary, children, options } : {
+    id: string, ownId: string, secondary: boolean, children: any, options: any }) => {
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
       if (findError) {
         logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`);
         return status;
       }
+      log('➕ Registered status', id, ownId, secondary, children, options);
       // logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
 
       return [
@@ -148,6 +150,7 @@ const IndustrialProvider = ({
           index: status.length,
           uniqueId: id,
           ownId,
+          options,
           keepOpen: false,
           visible: true,
           secondary,
@@ -244,7 +247,7 @@ const IndustrialProvider = ({
 
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [ ...prevShortcuts.filter(p => p.id !== id), newShortcut];
-      log('➕ Registed keyboard', id, result);
+      log('➕ Registered keyboard', id, result);
       return result;
     });
   };
@@ -400,8 +403,8 @@ const IndustrialProvider = ({
   //   }
   // }, [storedStatus, storedSettings])
 
-  useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings]);
-  useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status]);
+  // useEffect(() => localStorage.setItem(settingsStorageKey, JSON.stringify(settings)), [settings]);
+  // useEffect(() => localStorage.setItem(statusStorageKey, JSON.stringify(status.map(s => ({ ...s, children: undefined })))), [status]);
 
   useEffect(() => {
     setSettings((settings: SettingsObject) => ({

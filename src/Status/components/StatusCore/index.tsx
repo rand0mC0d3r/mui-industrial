@@ -55,7 +55,7 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     options,
     secondary = false,
     onLoad = () => { },
-  } = props;
+  } = props satisfies StatusCoreProps;
 
   const { status, handleStatusAnnouncement } = useContext(DataProvider);
   const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject;
@@ -67,8 +67,9 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
 
   const callbackHandleStatusAnnouncement = useCallback(() => {
-    handleStatusAnnouncement({ id, ownId, secondary, children });
-  }, [id, secondary, ownId, children, handleStatusAnnouncement]);
+    console.log(options);
+    handleStatusAnnouncement({ id, ownId, secondary, children, options });
+  }, [id, secondary, ownId, options, children, handleStatusAnnouncement]);
 
   // const callbackHandleStatusDestroy = useCallback(() => { handleStatusDestroy({ id }); }, [id, handleStatusDestroy]);
 

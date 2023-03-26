@@ -61,7 +61,7 @@ export default ({
       tooltip,
       secondary,
       disabled,
-      options: { separators: options?.separators },
+      options,
       highlight: computeHightlight,
 
       onClick: handleOnClick,

@@ -2,11 +2,13 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { Resizable } from 're-resizable';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
 import DataProvider from '../../Store';
+import InternalActions from '../InternalActions';
+import InternalHeader from '../InternalHeader';
 import { StyledCloseIcon, StyledContainer, StyledEmptyWrapper, StyledResizable, StyledStatusConsole, StyledTab, StyledTabs, StyledWrapper } from './css';
 
 const kbdId = 'console';
@@ -91,18 +93,20 @@ export default (): JSX.Element => {
                     cursor: 'pointer',
                   }}>
                     <StyledTabs>
-                      {relevantConsoles.map(({ uniqueId, title, children }) => <StyledTab {...{
+                      {relevantConsoles.map(({ uniqueId, options, children }) => <StyledTab {...{
                         key: uniqueId,
                         variant: 'caption',
                         onClick: () => updateConsoleActiveId({ id: uniqueId }),
                         activated: isActivated(uniqueId).toString(),
                       }}
                       >
-                        {title  }
-                        {children || title || uniqueId}
+                        <Box display={'flex'} flexDirection='row' flexWrap={'nowrap'} style={{ gap: '8px' }}>
+                          {children  || uniqueId}
+                          <InternalActions actions={options.actions} fontSize="14px"/>
+                        </Box>
                       </StyledTab>)}
                     </StyledTabs>
-                    <Tooltip {...{ title: 'Close console section' }} arrow>
+                    <Tooltip {...{ title: 'Close console section' }} arrow placement={position === PlacementPosition.BOTTOM ? 'top' : 'bottom'}>
                       <IconButton onClick={() => updateConsoleActiveId({})} size="small">
                         <StyledCloseIcon style={{ fontSize: '16px' }} />
                       </IconButton>
@@ -114,12 +118,15 @@ export default (): JSX.Element => {
               : <StyledEmptyWrapper>
                 <Box display={'flex'} flexDirection="row" style={{ gap: '8px' }}>
                   {status.filter(({ type }) => type === relevantType).map(statusItem => <Button
-                  style={{ padding: '32px' }}
+                  style={{ padding: '24px', textTransform: 'unset' }}
                   variant="outlined"
                   color="inherit"
                   onClick={() => updateConsoleActiveId({ id: statusItem.uniqueId })}
                   key={statusItem.uniqueId}>
-                    {statusItem.children}
+                    <Box display={'flex'} flexDirection="column" style={{ gap: '8px' }}>
+                      {statusItem.children}
+                      <Typography variant="caption" color="textSecondary">{statusItem.options.title}</Typography>
+                    </Box>
                   </Button>)}
                 </Box>
               </StyledEmptyWrapper>}

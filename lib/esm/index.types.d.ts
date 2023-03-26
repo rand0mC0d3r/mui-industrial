@@ -22,7 +22,7 @@ export interface ThemeShape {
 }
 export interface PopoverAction {
     icon: any;
-    title: string;
+    tooltip: string;
     onClick: () => void;
     disabled?: boolean;
 }
@@ -63,6 +63,7 @@ export interface StatusObject {
     secondary: boolean;
     index: number;
     order: number;
+    options: StatusOptionsProps;
     keepOpen: boolean;
     uniqueId: string;
     ownId: string;

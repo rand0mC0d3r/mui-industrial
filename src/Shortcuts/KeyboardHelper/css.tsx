@@ -55,6 +55,6 @@ export const StyledKey: FC<{
   fontWeight: '500',
   fontSize: '14px',
   color: `${theme.palette.text.secondary}`,
-  backgroundColor: `${highlight === 'true' ? theme.palette.divider : theme.palette.background.default}`,
+  backgroundColor: `${highlight === 'true' ? theme.palette.divider : theme.palette.background.paper}`,
   textAlign: 'center',
 } ));
