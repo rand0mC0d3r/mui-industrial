@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Resizable } from 're-resizable';
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
@@ -108,11 +108,15 @@ export default (): JSX.Element => {
                 </StyledContainer>
               </>
               : <StyledEmptyWrapper>
-                <AppsOutageIcon />
-                {status.filter(({ type }) => type === relevantType).map(statusItem => <Fragment key={statusItem.uniqueId}>
+                <Box display={'flex'} flexDirection="row" style={{ gap: '8px' }}>
+                {status.filter(({ type }) => type === relevantType).map(statusItem => <Paper
+                style={{ padding: '32px' }}
+                elevation={3}
+                onClick={() => updateConsoleActiveId({ id: statusItem.uniqueId })}
+                key={statusItem.uniqueId}>
                   {statusItem.children}
-                </Fragment>)}
-                <Typography {...{ variant: 'caption', color: 'textSecondary' }}>Seems no consoles available. Select one from above</Typography>
+                </Paper>)}
+                </Box>
               </StyledEmptyWrapper>}
           </StyledResizable>
         </Resizable>

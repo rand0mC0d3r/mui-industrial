@@ -53,20 +53,6 @@ export default ({
     }
   }, [statusObject, id, handleStatusTypeUpdate]);
 
-
-
-  // useEffect(() => {
-  //   if (statusObject !== null) return;
-  //   const foundObject = status.find(({ uniqueId }) => uniqueId === id);
-  //   if (!foundObject) return;
-  //   setStatusObject(foundObject);
-  //   handleStatusTypeUpdate({ id, type: StatusType.CONSOLE });
-  // }, [status, id, statusObject, handleStatusTypeUpdate]);
-
-  // useEffect(() => {
-  //   if (statusObject) handleStatusConsoleTitleUpdate({ id, title: options?.title });
-  // }, [statusObject, id, options?.title, handleStatusConsoleTitleUpdate]);
-
   return <>
     <StatusCore {...{
       id,
