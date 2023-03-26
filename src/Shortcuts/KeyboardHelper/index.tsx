@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Chip, Tooltip, Typography } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ShortcutObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
 import Component from './Component';
-import { StyledOverrideWrapper } from './css';
+import { StyledKey, StyledListOfKeys, StyledOverrideWrapper } from './css';
 
 const shortcutString = (shortcutObject?: ShortcutObject) => [
   shortcutObject?.altKey && '⌥',
@@ -13,6 +13,18 @@ const shortcutString = (shortcutObject?: ShortcutObject) => [
   shortcutObject?.shiftKey && '⇧',
   shortcutObject?.char,
 ].filter(Boolean).join(' ') as string;
+
+const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
+  {[
+    shortcutObject?.altKey && '⌥',
+    shortcutObject?.ctrlKey && '⌃',
+    shortcutObject?.metaKey && '⌘',
+    shortcutObject?.shiftKey && '⇧',
+    shortcutObject?.char,
+  ]
+    .filter(Boolean)
+    .map(s => <StyledKey elevation={1} key={`char-${s}`}>{s}</StyledKey>)}
+</StyledListOfKeys>;
 
 const baseTooltip = (shortcutObject?: ShortcutObject) => `${shortcutObject && `${shortcutObject.label} -`} ${shortcutString(shortcutObject)}`;
 
@@ -38,11 +50,15 @@ export default ({
   asChip = false,
   hasTooltip = false,
   hasOverride = false,
+
+  style,
 } : {
   shortcutId: string,
   asChip?: boolean,
   hasTooltip?: boolean,
   hasOverride?: boolean,
+
+  style?: any,
 }): JSX.Element => {
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
   const [shortcutObject, setShortcutObject] = useState<ShortcutObject | undefined>();
@@ -60,10 +76,14 @@ export default ({
     setAnchorEl(null);
   };
 
-  const determineChip: JSX.Element = <Chip style={{ userSelect: 'none' }} label={shortcutString(shortcutObject)} variant="outlined" size="small" />;
+  const determineChip: JSX.Element = <div
+    style={{ userSelect: 'none', display: 'flex', alignItems: 'center', gap: '4px' }} >
+    {shortcutStringNg(shortcutObject)}
+  </div>;
 
   const determineTypography: JSX.Element = <Typography
     style={{
+      ...style,
       userSelect: 'none',
       lineHeight: '1',
       display: 'flex',
@@ -77,7 +97,7 @@ export default ({
   const determineTooltip = (element : JSX.Element) : JSX.Element => {
     return (hasTooltip || hasOverride)
       ? <Tooltip title={<span style={{ userSelect: 'none' }}>{tooltip}</span>} placement="right" arrow>
-      <span>{element}</span>
+      <span style={style}>{element}</span>
     </Tooltip>
       : element;
   };
