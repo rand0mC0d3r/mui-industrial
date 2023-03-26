@@ -5,7 +5,7 @@ import { PopperHeight, PopperWidth } from '../../../index.types';
 
 export const StyledBox: any = styled(Box)<{ width?: PopperWidth, height?: PopperHeight }>(({ theme, width, height }) => ({
   width: `${width ? `${theme.breakpoints.values[width] / 1.42}px` : 'auto'}`,
-  height: `${height ? `${theme.breakpoints.values[height] / 1.24}px` : 'auto'}`,
+  height: `${height ? `${theme.breakpoints.values[height] / 1.69}px` : 'auto'}`,
 }));
 
 export const StyledPopper: any = styled(Popper)(() => ({

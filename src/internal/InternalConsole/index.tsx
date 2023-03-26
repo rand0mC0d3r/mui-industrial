@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton, Paper, Tooltip } from '@mui/material';
+import { Box, Button, IconButton, Paper, Tooltip } from '@mui/material';
 import { Resizable } from 're-resizable';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
@@ -83,16 +83,23 @@ export default (): JSX.Element => {
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <>
                 <StyledContainer position={position.toString()}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginRight: '4px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginRight: '4px',
+                    cursor: 'pointer',
+                  }}>
                     <StyledTabs>
-                      {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
+                      {relevantConsoles.map(({ uniqueId, title, children }) => <StyledTab {...{
                         key: uniqueId,
                         variant: 'caption',
                         onClick: () => updateConsoleActiveId({ id: uniqueId }),
                         activated: isActivated(uniqueId).toString(),
                       }}
                       >
-                        {title || uniqueId}
+                        {title  }
+                        {children || title || uniqueId}
                       </StyledTab>)}
                     </StyledTabs>
                     <Tooltip {...{ title: 'Close console section' }} arrow>
@@ -106,13 +113,14 @@ export default (): JSX.Element => {
               </>
               : <StyledEmptyWrapper>
                 <Box display={'flex'} flexDirection="row" style={{ gap: '8px' }}>
-                {status.filter(({ type }) => type === relevantType).map(statusItem => <Paper
-                style={{ padding: '32px' }}
-                elevation={3}
-                onClick={() => updateConsoleActiveId({ id: statusItem.uniqueId })}
-                key={statusItem.uniqueId}>
-                  {statusItem.children}
-                </Paper>)}
+                  {status.filter(({ type }) => type === relevantType).map(statusItem => <Button
+                  style={{ padding: '32px' }}
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => updateConsoleActiveId({ id: statusItem.uniqueId })}
+                  key={statusItem.uniqueId}>
+                    {statusItem.children}
+                  </Button>)}
                 </Box>
               </StyledEmptyWrapper>}
           </StyledResizable>

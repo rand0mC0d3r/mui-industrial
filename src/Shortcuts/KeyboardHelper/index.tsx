@@ -13,7 +13,7 @@ const shortcutString = (shortcutObject?: ShortcutObject) => [
   shortcutObject?.metaKey && '⌘',
 
   shortcutObject?.char,
-  shortcutObject?.ascii && `(${shortcutObject.ascii})`,
+  shortcutObject?.ascii && `Ascii ${shortcutObject.ascii}`,
 ].filter(Boolean).join(' ') as string;
 
 const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
@@ -24,7 +24,7 @@ const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
     shortcutObject?.metaKey && '⌘',
 
     shortcutObject?.char,
-    shortcutObject?.ascii && `(${shortcutObject.ascii})`,
+    shortcutObject?.ascii && `Ascii (${shortcutObject.ascii})`,
   ]
     .filter(Boolean)
     .map(s => <StyledKey ascii={(s || '').includes('(').toString()} elevation={1} key={`char-${s}`}>{s}</StyledKey>)}

@@ -73,7 +73,6 @@ export default ({
 
   useEffect(() => {
     if (!options.open) {
-
       if (!statusObject?.keepOpen) {
         setAnchorEl(null);
       }

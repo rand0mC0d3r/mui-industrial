@@ -19,7 +19,6 @@ export default ({
   secondary = false,
 } : any) : JSX.Element => {
   const { settings } : { settings: SettingsObject } = useContext(DataProvider);
-  // const open = Boolean(anchorEl);
 
   const determineHighlight = (statusObject?.keepOpen || open) ? Highlight.PRIMARY : highlight;
 

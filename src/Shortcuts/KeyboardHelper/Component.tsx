@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import HistoryIcon from '@mui/icons-material/History';
-import { Box, ClickAwayListener, TextField, Tooltip } from '@mui/material';
+import { Box, ClickAwayListener, TextField } from '@mui/material';
 import { useContext } from 'react';
 import { ShortcutObject } from '../../index.types';
 import InternalHeader from '../../internal/InternalHeader';

@@ -46,12 +46,14 @@ export const StyledKey: FC<{
   ascii?: string,
   elevation: number
 }>(({ ascii, highlight, theme } : { ascii?: string, highlight?: string, theme: any }) => ({
-  minWidth: '22px',
+  minWidth: '16px',
+  padding: '0px 4px',
   lineHeight: '22px',
   userSelect: 'none',
   cursor: 'auto',
   fontFamily: ascii === 'true' ? 'monospace' : 'inherit',
   fontWeight: '500',
+  fontSize: '14px',
   color: `${theme.palette.text.secondary}`,
   backgroundColor: `${highlight === 'true' ? theme.palette.divider : theme.palette.background.default}`,
   textAlign: 'center',
