@@ -61,7 +61,6 @@ export const SArrowDown: any = styled(ArrowDropDownOutlinedIcon)<{ position: str
 
 export const STooltip: any = styled('div')(() => ({
   fontSize: '13px',
-  lineHeight: '1',
   display: 'flex',
   flexWrap: 'nowrap',
   gap: '8px',
