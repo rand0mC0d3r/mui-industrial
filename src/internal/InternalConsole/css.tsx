@@ -41,6 +41,15 @@ export const StyledEmptyWrapper: any = styled('div')(() => ({
   gap: '8px',
 }));
 
+export const StyledTabsAndActionWrapper: any = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingRight: '4px',
+  cursor: 'pointer',
+  borderBottom: `1px solid ${theme.palette.divider}`,
+}));
+
 export const StyledTabs: any = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',

@@ -8,8 +8,11 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
 import DataProvider from '../../Store';
 import InternalActions from '../InternalActions';
-import InternalHeader from '../InternalHeader';
-import { StyledCloseIcon, StyledContainer, StyledEmptyWrapper, StyledResizable, StyledStatusConsole, StyledTab, StyledTabs, StyledWrapper } from './css';
+import {
+  StyledCloseIcon, StyledContainer, StyledEmptyWrapper, StyledResizable,
+  StyledStatusConsole, StyledTab, StyledTabs, StyledTabsAndActionWrapper,
+  StyledWrapper,
+} from './css';
 
 const kbdId = 'console';
 const domId = domConsoleId;
@@ -85,13 +88,7 @@ export default (): JSX.Element => {
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <>
                 <StyledContainer position={position.toString()}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: '4px',
-                    cursor: 'pointer',
-                  }}>
+                  <StyledTabsAndActionWrapper>
                     <StyledTabs>
                       {relevantConsoles.map(({ uniqueId, options, children }) => <StyledTab {...{
                         key: uniqueId,
@@ -111,7 +108,7 @@ export default (): JSX.Element => {
                         <StyledCloseIcon style={{ fontSize: '16px' }} />
                       </IconButton>
                     </Tooltip>
-                  </div>
+                  </StyledTabsAndActionWrapper>
                   <StyledStatusConsole {...{ id: domId }} />
                 </StyledContainer>
               </>
