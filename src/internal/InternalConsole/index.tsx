@@ -2,12 +2,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import AppsOutageIcon from '@mui/icons-material/AppsOutage';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, IconButton, Paper, Tooltip, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, IconButton, Paper, Tooltip } from '@mui/material';
 import { Resizable } from 're-resizable';
-import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
 import DataProvider from '../../Store';
 import { StyledCloseIcon, StyledContainer, StyledEmptyWrapper, StyledResizable, StyledStatusConsole, StyledTab, StyledTabs, StyledWrapper } from './css';

@@ -25,19 +25,19 @@ export default ({
     setStatusObject(status.find(({ uniqueId }: StatusObject) => uniqueId === id) || null);
   }, [status, id]);
 
-  return <StyledActionsWrapper>
+  return <StyledActionsWrapper onContextMenu={(e: { preventDefault: () => void; }) => { e.preventDefault(); }}>
     <StyledTypography variant="subtitle2" color="textSecondary">{title}</StyledTypography>
     <StyledActions>
       {actions && actions
         .filter((_, i) => i < 3)
-        .map(action => <Tooltip key={action?.title} {...{ title: action?.title }}>
+        .map(action => <Tooltip arrow key={action?.title} {...{ title: action?.title }}>
           <span>
             <IconButton size="small" {...{ onClick: () => action?.onClick(), disabled: action?.disabled }}>
               {action?.icon}
             </IconButton>
           </span>
         </Tooltip>)}
-      {!noDefaults && settings.hasLock && <Tooltip title="Toggle keep-open">
+      {!noDefaults && settings.hasLock && <Tooltip title="Toggle keep-open" arrow>
         <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
           {statusObject?.keepOpen ? <LockOutlinedIcon color="primary" /> : <LockOpenOutlinedIcon />}
         </IconButton>

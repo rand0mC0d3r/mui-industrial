@@ -7,20 +7,22 @@ import Component from './Component';
 import { StyledKey, StyledListOfKeys, StyledOverrideWrapper } from './css';
 
 const shortcutString = (shortcutObject?: ShortcutObject) => [
-  shortcutObject?.altKey && '⌥',
-  shortcutObject?.ctrlKey && '⌃',
-  shortcutObject?.metaKey && '⌘',
   shortcutObject?.shiftKey && '⇧',
+  shortcutObject?.ctrlKey && '⌃',
+  shortcutObject?.altKey && '⌥',
+  shortcutObject?.metaKey && '⌘',
+
   shortcutObject?.char,
   shortcutObject?.ascii && `(${shortcutObject.ascii})`,
 ].filter(Boolean).join(' ') as string;
 
 const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
   {[
-    shortcutObject?.altKey && '⌥',
-    shortcutObject?.ctrlKey && '⌃',
-    shortcutObject?.metaKey && '⌘',
     shortcutObject?.shiftKey && '⇧',
+    shortcutObject?.ctrlKey && '⌃',
+    shortcutObject?.altKey && '⌥',
+    shortcutObject?.metaKey && '⌘',
+
     shortcutObject?.char,
     shortcutObject?.ascii && `(${shortcutObject.ascii})`,
   ]

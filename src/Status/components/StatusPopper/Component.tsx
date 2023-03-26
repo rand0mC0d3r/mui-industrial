@@ -59,7 +59,7 @@ export default ({
           </StyledBox>
           {enrichedPopper.hasToolbar && <InternalHeader {...{
             id,
-            actions: enrichedPopper.actions,
+            actions: options.actions,
             title: options?.title,
           }}
           />}

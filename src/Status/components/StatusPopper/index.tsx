@@ -43,8 +43,8 @@ export default ({
   const { status } : { status: StatusObject[] } = useContext(DataProvider);
   const popperReference = useRef();
 
-  const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } as StatusPopperProps;
-  const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } as StatusOptionsSeparatorProps;
+  const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } satisfies StatusPopperProps;
+  const enrichedSeparators = { ...defaultSeparatorOptions, ...options?.separators } satisfies StatusOptionsSeparatorProps;
 
   const handleOnClick = (event: MouseEvent<HTMLDivElement>) => {
     if (statusObject?.keepOpen) return;

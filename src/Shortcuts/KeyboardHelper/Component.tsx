@@ -40,49 +40,44 @@ export default ({
       id: `mui-status-panel-popover-${idPopper}`,
     }}>
       <ClickAwayListener onClickAway={() => handleClose()}>
-          <Tooltip open placement='right' arrow title="Select another key combination for this action">
-            <StyledContainer>
-              <Box display={'flex'} flexDirection="row" alignItems={'center'} style={{ gap: '4px' }}>
-                {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
-                {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
-                {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
-                {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
-                <TextField
-                  color="info"
-                  size="small"
-                  variant='outlined'
-                  label="Char"
-                  autoFocus
-                  onFocus={e => e.currentTarget.select()}
-                  value={shortcutObject?.char}
-                  onChange={e => e.target.value.length > 0 &&
-                    handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
-                />
-                <TextField
-                  color="info"
-                  size="small"
-                  variant='outlined'
-                  label="Ascii"
-                  type={'number'}
-                  autoFocus
-                  onFocus={e => e.currentTarget.select()}
-                  value={shortcutObject?.ascii}
-                  onChange={e => e.target.value.length > 0 &&
-                    handleKeyboardUpdate(shortcutId, { ...shortcutObject, ascii: Number(e.target.value) } as ShortcutObject)}
-                />
-              </Box>
-              <InternalHeader
-              noDefaults
-              title={shortcutObject.label}
-              id='consoleHeader'
-              actions={[{
-                icon: <HistoryIcon />,
-                title: 'Revert to original shortcut',
-                onClick: () => handleKeyboardRevert(shortcutId),
-
-              }]}/>
-            </StyledContainer>
-          </Tooltip>
+          <StyledContainer>
+            <Box display={'flex'} flexDirection="row" alignItems={'center'} style={{ gap: '8px' }}>
+              {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
+              {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
+              {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
+              {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
+              <TextField
+                color="info"
+                size="small"
+                variant='outlined'
+                label="Char"
+                autoFocus
+                onFocus={e => e.currentTarget.select()}
+                value={shortcutObject?.char || ''}
+                onChange={e => e.target.value.length > 0 &&
+                  handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
+              />
+              <TextField
+                color="info"
+                size="small"
+                variant='outlined'
+                label="Ascii"
+                type={'number'}
+                onFocus={e => e.currentTarget.select()}
+                value={shortcutObject?.ascii || ''}
+                onChange={e => handleKeyboardUpdate(shortcutId, { ...shortcutObject, ascii: Number(e.target.value) } as ShortcutObject)}
+              />
+            </Box>
+            <InternalHeader
+            noDefaults
+            title={shortcutObject.label}
+            id='consoleHeader'
+            actions={[{
+              icon: <HistoryIcon />,
+              title: 'Revert to original shortcut',
+              onClick: () => handleKeyboardRevert(shortcutId),
+            }]}/>
+          </StyledContainer>
       </ClickAwayListener>
     </StyledPopper>
   </>;

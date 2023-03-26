@@ -1,12 +1,14 @@
+import { lazy, Suspense } from 'react';
 import { StatusOptionsProps, StatusProps, StatusType } from '../index.types';
-import StatusConsole from './components/StatusConsole';
-import StatusCore from './components/StatusCore';
-import StatusPopper from './components/StatusPopper';
 import Template from './components/Template';
+
+const StatusConsole = lazy(() => import('./components/StatusConsole'));
+const StatusCore = lazy(() => import('./components/StatusCore'));
+const StatusPopper = lazy(() => import('./components/StatusPopper'));
 
 const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
-} as StatusOptionsProps;
+} satisfies StatusOptionsProps;
 
 /**
  * Generic status element, self announcing himself to the MUI Status Provider.
@@ -52,13 +54,13 @@ const defaultStatusOptionsProps = {
  * @returns (JSX.Element) Status element
  */
 const Status = ({ ...rest } : StatusProps) => {
-  const combinedOptions = { ...defaultStatusOptionsProps, ...rest.options };
-  const props = { ...rest, options: combinedOptions };
+  const options = { ...defaultStatusOptionsProps, ...rest.options } satisfies StatusOptionsProps;
+  const props = { ...rest, options };
 
   return <>
-    {combinedOptions.as === StatusType.SIMPLE && <StatusCore {...props} />}
-    {combinedOptions.as === StatusType.POPPER && <StatusPopper {...props} />}
-    {combinedOptions.as === StatusType.CONSOLE && <StatusConsole {...props} />}
+    {options.as === StatusType.SIMPLE && <Suspense fallback={<></>}><StatusCore {...props} /></Suspense>}
+    {options.as === StatusType.POPPER && <Suspense fallback={<></>}><StatusPopper {...props} /></Suspense>}
+    {options.as === StatusType.CONSOLE && <Suspense fallback={<></>}><StatusConsole {...props} /></Suspense>}
   </>;
 };
 
