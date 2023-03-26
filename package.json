@@ -1,6 +1,6 @@
 {
   "name": "mui-industrial",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "dependencies": {
     "re-resizable": "^6.9.9",
     "react-resizable": "^3.0.4",
@@ -10,19 +10,16 @@
     "@types/react-resizable": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
     "concurrently": "^7.6.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-import-resolver-webpack": "^0.13.2",
-    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-mui-unused-classes": "^1.0.3",
     "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "nodemon": "^2.0.20",
     "typescript": "^4.9.4"
   },
