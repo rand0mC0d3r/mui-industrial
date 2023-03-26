@@ -15,8 +15,8 @@ export default (): JSX.Element => {
   const { snackbar } = useContext(DataProvider);
 
   return <SWrapper>
-    {snackbar.map(({ uniqueId, severity, message, source, actions, code }) => (
-      <InternalAlert key={uniqueId} {...{ uniqueId, actions, severity, source, message, code }} />
+    {snackbar.map(({ id, severity, message, source, actions, code }) => (
+      <InternalAlert key={id} {...{ id, actions, severity, source, message, code }} />
     ))}
   </SWrapper>;
 };

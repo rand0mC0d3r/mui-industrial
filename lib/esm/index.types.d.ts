@@ -95,14 +95,22 @@ export interface IShortcutObject {
 export interface ShortcutObject extends IShortcutObject {
     original?: ShortcutObject;
 }
-export interface SnackbarObject {
-    uniqueId: string;
+export interface ISnackbarObject {
+    source?: string;
+    actions?: any;
+    message: string;
+    code?: string;
+    autoHideDuration?: number;
+    severity?: Severity;
+}
+export interface SnackbarObject extends ISnackbarObject {
+    id: string;
     open: boolean;
     source: string;
     actions: any;
     message: string;
-    code: string;
     autoHideDuration: number;
+    code: string;
     severity: Severity;
 }
 export interface StatusPopperProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlacementPosition, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
@@ -19,20 +19,13 @@ export interface DataContextInterface {
         id: string;
     }) => void;
     handleKeyboardRevert: (id: string) => void;
+    handleKeyboardGetLabel: (id: string) => string | undefined;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
-    handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration }: {
-        ownId: string;
-        actions: any;
-        source?: string;
-        severity: Severity;
-        message: any;
-        code?: string;
-        autoHideDuration: number;
-    }) => void;
+    handleSnackbarCleaning: any;
+    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
     handleStatusDestroy: any;
-    handleSnackbarDestroy: any;
     handleStatusTypeUpdate: ({ id, type }: {
         id: string;
         type: StatusType;

@@ -8,5 +8,6 @@ export const useRegisterShortcut = () => {
     handleKeyboardUpdate: useContext(DataProvider).handleKeyboardUpdate as DataContextInterface['handleKeyboardUpdate'],
     handleKeyboardDeRegister: useContext(DataProvider).handleKeyboardDeRegister as DataContextInterface['handleKeyboardDeRegister'],
     handleKeyboardsDeRegister: useContext(DataProvider).handleKeyboardsDeRegister as DataContextInterface['handleKeyboardsDeRegister'],
+    handleKeyboardGetLabel: useContext(DataProvider).handleKeyboardGetLabel as DataContextInterface['handleKeyboardGetLabel'],
   };
 };

@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import { Severity } from '../../index.types';
-declare const _default: ({ uniqueId, actions, source, severity, message, code, isRemoveFlag, }: {
-    uniqueId: string;
+declare const _default: ({ id, actions, source, severity, message, code, isRemoveFlag, }: {
+    id: string;
     actions?: any;
     source?: string | undefined;
     severity: Severity;

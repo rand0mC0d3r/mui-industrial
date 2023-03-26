@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { ISnackbarObject, PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 import Wrapper from '../internal/Wrapper';
 
 const domIdBase = 'mui-status';
@@ -58,18 +58,21 @@ export interface DataContextInterface {
 
   handleCallKeyboard: ({ id }: { id: string }) => void;
   handleKeyboardRevert: (id: string) => void;
+  handleKeyboardGetLabel: (id: string) => string | undefined;
 
   handleKeyboardDeRegister: (id: string) => void;
   handleKeyboardsDeRegister: (ids: string[]) => void;
   //////////////////////
 
   handleStatusAnnouncement: any;
+  handleSnackbarCleaning: any;
   // handleSnackbarAnnouncements: ([{ ownId, severity, actions, source, message, code, autoHideDuration }] :
   // [{ ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }]) => void;
-  handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
-  { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
+  // handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
+  // { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
+  handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration } : ISnackbarObject) => void;
   handleStatusDestroy: any;
-  handleSnackbarDestroy: any;
+  // handleSnackbarDestroy: any;
   handleStatusTypeUpdate: ({ id, type }: { id: string, type: StatusType }) => void;
   handleStatusConsoleTitleUpdate: ({ id, title }: { id: string, title?: string }) => void;
   handleStatusVisibilityToggle: any;
@@ -153,25 +156,53 @@ const IndustrialProvider = ({
       ];
     });
   };
-  const handleSnackbarAnnouncement = (
-    { ownId, severity, actions, source, message, code, autoHideDuration } :
-    { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number },
-  ) => {
-    console.log('registed snackbar', ownId);
+
+  // SNACKBARS
+  const handleSnackbarRegister = ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => {
+    const randomId = Math.random().toString(36).substring(7);
+    console.log('registed snackbar', randomId);
     setSnackbar((snackbar: SnackbarObject[]) => [
-      ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
+      ...snackbar.filter(snackbar => snackbar.id !== randomId),
       {
-        uniqueId: ownId,
+        id: randomId,
         open: true,
         severity,
         actions,
         source,
         message,
         code,
-        autoHideDuration,
+        autoHideDuration: autoHideDuration || 5000,
       } as SnackbarObject,
     ]);
   };
+
+  // const handleSnackbarDestroy = ({ id }: { uniqueId: string }) => {
+  //   // setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)]);
+  // };
+
+  const handleSnackbarCleaning = () => {
+    setSnackbar(() => []);
+  };
+
+  // const handleSnackbarAnnouncement = (
+  //   { ownId, severity, actions, source, message, code, autoHideDuration } :
+  //   { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number },
+  // ) => {
+  //   console.log('registed snackbar', ownId);
+  //   setSnackbar((snackbar: SnackbarObject[]) => [
+  //     ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
+  //     {
+  //       uniqueId: ownId,
+  //       open: true,
+  //       severity,
+  //       actions,
+  //       source,
+  //       message,
+  //       code,
+  //       autoHideDuration,
+  //     } as SnackbarObject,
+  //   ]);
+  // };
 
 
   function generateSignature(id?: string, label?: string, ascii?: number | null, char?: string | null): string {
@@ -258,6 +289,10 @@ const IndustrialProvider = ({
     });
   };
 
+  const handleKeyboardGetLabel = (id: string) => {
+    return shortcuts.find(shortcut => shortcut.id === id)?.label;
+  };
+
   const handleKeyboardsDeRegister = (ids: string[]) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => !ids.some(id => id === p.id))];
@@ -313,9 +348,9 @@ const IndustrialProvider = ({
     setStatus((status: StatusObject[]) => status.map(lo => (lo.uniqueId === id ? { ...lo, keepOpen: !lo.keepOpen } : lo)));
   };
 
-  const handleSnackbarDestroy = ({ uniqueId }: { uniqueId: string }) => {
-    setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)]);
-  };
+  // const handleSnackbarDestroy = ({ uniqueId }: { uniqueId: string }) => {
+  //   setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)]);
+  // };
 
   const triggerStatusBarAnnounced = () => {
     if (!settings.statusBarAnnounced) {
@@ -427,10 +462,14 @@ const IndustrialProvider = ({
       handleKeyboardUpdate,
       handleKeyboardRevert,
       handleCallKeyboard,
+      handleKeyboardGetLabel,
 
       // snackbar + crud,
       snackbar,
-      handleSnackbarDestroy,
+      handleSnackbarRegister,
+      handleSnackbarCleaning,
+      // handleSnackbarAnnouncement,
+      // handleSnackbarDestroy,
 
 
       // status state + crud
@@ -441,7 +480,7 @@ const IndustrialProvider = ({
       handleStatusConsoleTitleUpdate,
       handleStatusUpdate,
       handleStatusAnnouncement,
-      handleSnackbarAnnouncement,
+
       handleStatusDestroy,
 
       logDebug,

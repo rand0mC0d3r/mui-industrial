@@ -35,13 +35,9 @@ export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) 
 }));
 
 export const StyledKey: any = styled(Paper)(({ theme } : { theme: any }) => ({
-    minWidth: '22px',
-    lineHeight: '22px',
-    fontWeight: '500',
-    color: `${theme.palette.text.secondary}`,
-    // borderRadius: `${theme.shape.borderRadius}px`,
-    // background: `${theme.palette.divider}`,
-    // color: `${theme.palette.text.primary}`,
-    textAlign: 'center',
-  };
-));
+  minWidth: '22px',
+  lineHeight: '22px',
+  fontWeight: '500',
+  color: `${theme.palette.text.secondary}`,
+  textAlign: 'center',
+} ));

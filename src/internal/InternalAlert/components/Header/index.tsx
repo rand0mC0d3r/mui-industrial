@@ -51,7 +51,7 @@ const SMessage = styled(Typography)<{ ellipsis: string }>(({ ellipsis }) => ({
 
 export default ({
   code,
-  uniqueId,
+  id,
   actions,
   severity,
   message,
@@ -60,7 +60,7 @@ export default ({
   setIsExpanded,
 }: {
   code?: string,
-  uniqueId: string,
+  id: string,
   actions?: any,
   severity: any,
   message: string,
@@ -76,7 +76,7 @@ export default ({
   };
 
   const closeAlert = () => {
-    handleSnackbarDestroy({ uniqueId });
+    handleSnackbarDestroy({ id });
   };
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export default ({
       {!isExpanded && code && <Tooltip arrow title="It contains additional console details">
         <SubtitlesOutlinedIcon color="disabled" />
       </Tooltip>}
-      <SCustomAction id={composeDomId(componentId, [uniqueId, 'customAction'])} />
+      <SCustomAction id={composeDomId(componentId, [id, 'customAction'])} />
       {!actions && <Tooltip arrow title="Expand/Collapse alert">
         <IconButton color="inherit" size="small" onClick={toggleExpanded}>
           {!isExpanded

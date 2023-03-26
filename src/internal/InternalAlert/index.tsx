@@ -66,7 +66,7 @@ const SAlert = styled(Alert)<{ expanded: string, actions: string }>(({ expanded,
 }));
 
 export default ({
-  uniqueId,
+  id,
   actions,
   source,
   severity,
@@ -74,7 +74,7 @@ export default ({
   code,
   isRemoveFlag = false,
 }: {
-  uniqueId: string,
+  id: string,
   actions?: any,
   source?: string,
   severity: Severity,
@@ -97,7 +97,7 @@ export default ({
   return <SAlert
     expanded={isExpanded.toString()}
     actions={(actions?.length > 0).toString()}
-    key={uniqueId}
+    key={id}
     onDoubleClick={() => !actions && setIsExpanded(!isExpanded)}
     icon={
       <span style={{ lineHeight: '0px' }}>
@@ -110,7 +110,7 @@ export default ({
     {...{ severity }}
   >
     <SWrapper>
-      <Header {...{ uniqueId, code, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded }} />
+      <Header {...{ id, code, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded }} />
       {(isExpanded || actions) && getMessage()}
       {isExpanded && code && <SCode defaultValue={code} spellCheck="false" height={Math.min(10, code.split('\n').length)} />}
       {(isExpanded || actions) && <>

@@ -4,5 +4,4 @@ export declare const useRegisterShortcut: () => {
     handleKeyboardUpdate: (id: string, shortcutObject: import("../index.types").ShortcutObject) => void;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
-    handleKeyboardGetLabel: (id: string) => string | undefined;
 };

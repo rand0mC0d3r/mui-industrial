@@ -1,7 +1,7 @@
 /// <reference types="react" />
-declare const _default: ({ code, uniqueId, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded, }: {
+declare const _default: ({ code, id, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded, }: {
     code?: string | undefined;
-    uniqueId: string;
+    id: string;
     actions?: any;
     severity: any;
     message: string;
