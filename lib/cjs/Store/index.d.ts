@@ -1,20 +1,39 @@
 import React from 'react';
-import { SnackbarObject, StatusObject } from '../index.types';
+import { ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
     status: StatusObject[];
     snackbar: SnackbarObject[];
-    updateConsoleActiveId: any;
+    shortcuts: ShortcutObject[];
+    updateConsoleActiveId: ({ id }: {
+        id?: string;
+    }) => void;
     updateIsConsoleOpen: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
+    handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
+    handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
+    handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
+    handleCallKeyboard: ({ id }: {
+        id: string;
+    }) => void;
+    handleKeyboardRevert: (id: string) => void;
+    handleKeyboardGetLabel: (id: string) => string | undefined;
+    handleKeyboardDeRegister: (id: string) => void;
+    handleKeyboardsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
-    handleSnackbarAnnouncement: any;
+    handleSnackbarCleaning: any;
+    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
     handleStatusDestroy: any;
-    handleSnackbarDestroy: any;
-    handleStatusTypeUpdate: any;
-    handleStatusConsoleTypeUpdate: any;
+    handleStatusTypeUpdate: ({ id, type }: {
+        id: string;
+        type: StatusType;
+    }) => void;
+    handleStatusConsoleTitleUpdate: ({ id, title }: {
+        id: string;
+        title?: string;
+    }) => void;
     handleStatusVisibilityToggle: any;
     handleStatusKeepOpenToggle: ({ id }: {
         id: string;
@@ -23,19 +42,19 @@ export interface DataContextInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare function IndustrialProvider({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
-    expand?: boolean;
-    hasLock?: boolean;
-    position?: 'top' | 'bottom';
-    allowRightClick?: boolean;
-    hasBorder?: boolean;
-    fullWidth?: boolean;
-    justifyContent?: string;
-    debug?: boolean;
+declare const IndustrialProvider: ({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
+    expand?: boolean | undefined;
+    hasLock?: boolean | undefined;
+    position?: PlacementPosition | undefined;
+    allowRightClick?: boolean | undefined;
+    hasBorder?: boolean | undefined;
+    fullWidth?: boolean | undefined;
+    justifyContent?: string | undefined;
+    debug?: boolean | undefined;
     children?: React.ReactNode;
-    size?: 'small' | 'medium' | 'large';
-    variant?: 'default' | 'outlined';
+    size?: "small" | "medium" | "large" | undefined;
+    variant?: "default" | "outlined" | undefined;
     style: any;
-}): JSX.Element;
+}) => JSX.Element;
 export default DataContext;
 export { IndustrialProvider };

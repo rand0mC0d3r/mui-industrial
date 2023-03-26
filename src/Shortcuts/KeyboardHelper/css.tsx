@@ -36,14 +36,14 @@ export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) 
 }));
 
 export const StyledKey: FC<{
-  highlight: string,
-  onClick: any,
+  highlight?: string,
+  onClick?: any,
   elevation: number
 }> = styled(Paper)<{
-  highlight: string,
-  onClick: any,
+  highlight?: string,
+  onClick?: any,
   elevation: number
-}>(({ highlight, theme } : { highlight: string, theme: any }) => ({
+}>(({ highlight, theme } : { highlight?: string, theme: any }) => ({
   minWidth: '22px',
   lineHeight: '22px',
   userSelect: 'none',

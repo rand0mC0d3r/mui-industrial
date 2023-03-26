@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { ISnackbarObject, PlacementPosition, SettingsObject, Severity, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 import Wrapper from '../internal/Wrapper';
 
 const domIdBase = 'mui-status';

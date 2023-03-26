@@ -1,2 +1,3 @@
 /// <reference types="react" />
-export default function (): JSX.Element;
+declare const _default: () => JSX.Element;
+export default _default;

@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
+export declare const domConsoleId = "mui-status-console";
+export declare const domStatusBarId = "mui-status-statusBar";
+export declare const localStorageKeyHeight = "mui-industrial-console-height";
 export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;
@@ -24,36 +27,123 @@ export interface PopoverAction {
     disabled?: boolean;
 }
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
+export type StatusConsoleJSXProps = {
+    id: string;
+    order?: number;
+    disabled?: boolean;
+    options?: StatusOptionsProps;
+    secondary?: boolean;
+    tooltip?: ReactNode | string;
+    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
+    style?: CSSProperties;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+    children?: ReactNode;
+};
+export type StatusPopperJSXProps = {
+    id: string;
+    order?: number;
+    disabled?: boolean;
+    highlight?: Highlight;
+    options: StatusOptionsProps;
+    secondary?: boolean;
+    tooltip?: ReactNode | string;
+    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
+    style?: CSSProperties;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+    children?: ReactNode;
+};
+export type StatusProps = {
+    id: string;
+    order?: number;
+    disabled?: boolean;
+    highlight?: Highlight;
+    options?: StatusOptionsProps;
+    secondary?: boolean;
+    tooltip?: ReactNode | string;
+    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+    onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
+    style?: CSSProperties;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+    children?: JSX.Element;
+};
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
     secondary: boolean;
     index: number;
+    order: number;
     keepOpen: boolean;
     uniqueId: string;
     ownId: string;
     title?: string;
     children: React.ReactNode;
 }
-export interface SnackbarObject {
-    uniqueId: string;
+export interface IShortcutObject {
+    id: string;
+    label: string;
+    ascii?: number | null;
+    char: string | null;
+    altKey?: boolean;
+    ctrlKey?: boolean;
+    metaKey?: boolean;
+    shiftKey?: boolean;
+    insensitive?: boolean;
+    onTrigger: any;
+}
+export interface ShortcutObject extends IShortcutObject {
+    original?: ShortcutObject;
+}
+export interface ISnackbarObject {
+    source?: string;
+    actions?: any;
+    message: string;
+    code?: string;
+    autoHideDuration?: number;
+    severity?: Severity;
+}
+export interface SnackbarObject extends ISnackbarObject {
+    id: string;
     open: boolean;
     source: string;
     actions: any;
     message: string;
-    code: string;
     autoHideDuration: number;
-    severity: 'success' | 'info' | 'warning' | 'error';
+    code: string;
+    severity: Severity;
+}
+export interface StatusPopperProps {
+    elevation?: number;
+    width?: PopperWidth;
+    onClose?: any;
+    actions?: PopoverActions;
+    hasArrow?: boolean;
+    hasToolbar?: boolean;
+    hasDecoration?: boolean;
+}
+export interface StatusOptionsSeparatorProps {
+    end?: boolean;
+    start?: boolean;
+}
+export interface StatusOptionsProps {
+    as?: StatusType;
+    popper?: StatusPopperProps;
+    separators?: StatusOptionsSeparatorProps;
+    content?: ReactNode;
+    title?: string;
+    open?: boolean;
 }
 export interface SettingsObject {
     statusBarAnnounced: boolean;
     allowRightClick: boolean;
+    isHidden: boolean;
     justifyContent: string;
     variant: 'default' | 'outlined';
-    position: any;
+    position: PlacementPosition;
     expand: any;
-    upperBar: boolean;
     debug: boolean;
+    capsLock: boolean;
     hasLock: boolean;
     isConsoleOpen?: boolean;
     isConsoleFixed?: boolean;
@@ -63,14 +153,37 @@ export interface SettingsObject {
     hasBorder: boolean;
     fullWidth: boolean;
 }
+export declare enum Highlight {
+    DEFAULT = "default",
+    PRIMARY = "primary",
+    SECONDARY = "secondary"
+}
 export declare enum StatusType {
     SIMPLE = "simple",
-    PANEL = "panel",
+    POPPER = "popper",
     CONSOLE = "console"
 }
 export declare enum PlacementPosition {
-    Top = "top",
-    Bottom = "bottom"
+    TOP = "top",
+    BOTTOM = "bottom"
+}
+export declare enum PopperWidth {
+    SM = "sm",
+    MD = "md",
+    LG = "lg",
+    XL = "xl"
+}
+export declare enum PopperHeight {
+    SM = "sm",
+    MD = "md",
+    LG = "lg",
+    XL = "xl"
+}
+export declare enum Severity {
+    SUCCESS = "success",
+    INFO = "info",
+    WARNING = "warning",
+    ERROR = "error"
 }
 export declare const Direction: {
     Top: string;

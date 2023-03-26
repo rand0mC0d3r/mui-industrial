@@ -8,8 +8,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SubtitlesOutlinedIcon from '@mui/icons-material/SubtitlesOutlined';
 import { IconButton, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useContext, useEffect } from 'react';
-import DataProvider, { composeDomId } from '../../../../Store';
+import { useEffect } from 'react';
+import { composeDomId } from '../../../../Store';
 
 const componentId = 'snackBar';
 
@@ -68,7 +68,7 @@ export default ({
   isExpanded: boolean,
   setIsExpanded: any,
 }) : JSX.Element => {
-  const { handleSnackbarDestroy } = useContext(DataProvider);
+  // const { handleSnackbarDestroy } = useContext(DataProvider);
 
   const toggleExpanded = () => {
     if (actions?.length > 0) return;
@@ -76,7 +76,7 @@ export default ({
   };
 
   const closeAlert = () => {
-    handleSnackbarDestroy({ id });
+    // handleSnackbarDestroy({ id });
   };
 
   useEffect(() => {

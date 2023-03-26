@@ -1,11 +1,7 @@
-<<<<<<< Updated upstream
 import React, { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 export declare const domConsoleId = "mui-status-console";
 export declare const domStatusBarId = "mui-status-statusBar";
 export declare const localStorageKeyHeight = "mui-industrial-console-height";
-=======
-import React from 'react';
->>>>>>> Stashed changes
 export type StatusTypes = 'simple' | 'panel' | 'console';
 export interface ThemeShape {
     spacing(spacing: number): void;

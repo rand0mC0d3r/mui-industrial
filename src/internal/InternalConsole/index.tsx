@@ -82,7 +82,7 @@ const domIdWrapper = 'mui-status-console-wrapper';
 const relevantType = 'console';
 
 export default (): JSX.Element => {
-  const { status, updateConsoleActiveId, updateIsConsoleOpen } = useContext(DataProvider);
+  const { status, updateConsoleActiveId } = useContext(DataProvider);
   const { consoleActiveId, isConsoleOpen, position } = useContext(DataProvider).settings as SettingsObject;
 
   const isActivated = (uniqueId: string): boolean => uniqueId === consoleActiveId;
