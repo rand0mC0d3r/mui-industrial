@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import HistoryIcon from '@mui/icons-material/History';
-import { ClickAwayListener, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { Box, ClickAwayListener, InputAdornment, TextField, Tooltip } from '@mui/material';
 import { useContext } from 'react';
 import { ShortcutObject } from '../../index.types';
+import InternalHeader from '../../internal/InternalHeader';
 import DataProvider, { DataContextInterface } from '../../Store';
 import { StyledContainer, StyledKey, StyledPopper } from './css';
 
@@ -40,33 +40,49 @@ export default ({
       id: `mui-status-panel-popover-${idPopper}`,
     }}>
       <ClickAwayListener onClickAway={() => handleClose()}>
-        <Tooltip open placement='bottom' arrow title="Select another key combination for this action">
-          <StyledContainer>
-            <TextField
-              size="small"
-              variant='outlined'
-              label="Key"
-              autoFocus
-              onFocus={e => e.currentTarget.select()}
-              InputProps={{
-                startAdornment: <InputAdornment position="start" style={{ display: 'flex', gap: '4px' }}>
-                  {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
-                  {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
-                  {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
-                  {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
-                </InputAdornment>,
-                endAdornment: shortcutObject.original && <InputAdornment position="end">
-                  <Tooltip title="Revert to original shortcut">
-                    <HistoryIcon style={{ fontSize: '16px', cursor: 'pointer' }} color="action" onClick={() => handleKeyboardRevert(shortcutId)} />
-                  </Tooltip>
-                </InputAdornment>,
-              }}
-              value={shortcutObject?.char}
-              onChange={e => e.target.value.length > 0 &&
-                handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
-            />
-          </StyledContainer>
-        </Tooltip>
+          <Tooltip open placement='right' arrow title="Select another key combination for this action">
+            <StyledContainer>
+              <Box display={'flex'} flexDirection="row" alignItems={'center'} style={{ gap: '4px' }}>
+                {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
+                {renderChip('⌥', { altKey: !shortcutObject?.altKey }, shortcutObject?.altKey)}
+                {renderChip('⌘', { metaKey: !shortcutObject?.metaKey }, shortcutObject?.metaKey)}
+                {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
+                <TextField
+                  color="info"
+                  size="small"
+                  variant='outlined'
+                  label="Char"
+                  autoFocus
+                  onFocus={e => e.currentTarget.select()}
+                  value={shortcutObject?.char}
+                  onChange={e => e.target.value.length > 0 &&
+                    handleKeyboardUpdate(shortcutId, { ...shortcutObject, char: e.target.value.substring(0, 1).toUpperCase() } as ShortcutObject)}
+                />
+                <TextField
+                  color="info"
+                  size="small"
+                  variant='outlined'
+                  label="Ascii"
+                  type={'number'}
+                  autoFocus
+                  onFocus={e => e.currentTarget.select()}
+                  value={shortcutObject?.ascii}
+                  onChange={e => e.target.value.length > 0 &&
+                    handleKeyboardUpdate(shortcutId, { ...shortcutObject, ascii: Number(e.target.value) } as ShortcutObject)}
+                />
+              </Box>
+              <InternalHeader
+              noDefaults
+              title={shortcutObject.label}
+              id='consoleHeader'
+              actions={[{
+                icon: <HistoryIcon />,
+                title: 'Revert to original shortcut',
+                onClick: () => handleKeyboardRevert(shortcutId),
+
+              }]}/>
+            </StyledContainer>
+          </Tooltip>
       </ClickAwayListener>
     </StyledPopper>
   </>;

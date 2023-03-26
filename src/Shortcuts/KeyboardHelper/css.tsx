@@ -23,10 +23,10 @@ export const StyledListOfKeys: any = styled('div')(() => ({
 
 export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) => ({
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'stretch',
   position: 'relative',
-  flexDirection: 'row',
-  gap: '4px',
+  flexDirection: 'column',
+  gap: '8px',
   padding: '8px',
   width: '250px',
 
@@ -38,18 +38,21 @@ export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) 
 export const StyledKey: FC<{
   highlight?: string,
   onClick?: any,
+  ascii?: string,
   elevation: number
 }> = styled(Paper)<{
   highlight?: string,
   onClick?: any,
+  ascii?: string,
   elevation: number
-}>(({ highlight, theme } : { highlight?: string, theme: any }) => ({
+}>(({ ascii, highlight, theme } : { ascii?: string, highlight?: string, theme: any }) => ({
   minWidth: '22px',
   lineHeight: '22px',
   userSelect: 'none',
   cursor: 'auto',
+  fontFamily: ascii === 'true' ? 'monospace' : 'inherit',
   fontWeight: '500',
   color: `${theme.palette.text.secondary}`,
-  backgroundColor: `${highlight === 'true' ? theme.palette.primary.light : theme.palette.background.default}`,
+  backgroundColor: `${highlight === 'true' ? theme.palette.divider : theme.palette.background.default}`,
   textAlign: 'center',
 } ));

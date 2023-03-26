@@ -1,44 +1,21 @@
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { IconButton, Tooltip, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { IconButton, Tooltip } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { PopoverActions, StatusObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
-
-const StyledActionsWrapper = styled('div')(({ theme }) => ({
-  padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
-  borderTop: `1px solid ${theme.palette.divider}`,
-
-  display: 'flex',
-  justifyContent: 'space-between',
-  userSelect: 'none',
-  alignItems: 'center',
-}));
-
-const StyledActions = styled('div')(({ theme }) => ({
-  gap: `${theme.shape.borderRadius}px`,
-
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-}));
-
-const StyledTypography = styled(Typography)(() => ({
-  textOverflow: 'ellipsis',
-  maxWidth: '225px',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-}));
+import { StyledActions, StyledActionsWrapper, StyledTypography } from './css';
 
 export default ({
   id,
   title,
   actions,
+  noDefaults = false,
 } : {
   id: string,
   title?: string,
   actions?: PopoverActions,
+  noDefaults?: boolean,
 }): JSX.Element => {
   const { status, settings, handleStatusKeepOpenToggle } = useContext(DataProvider) as DataContextInterface;
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
@@ -60,7 +37,7 @@ export default ({
             </IconButton>
           </span>
         </Tooltip>)}
-      {settings.hasLock && <Tooltip title="Toggle keep-open">
+      {!noDefaults && settings.hasLock && <Tooltip title="Toggle keep-open">
         <IconButton size="small" onClick={() => handleStatusKeepOpenToggle({ id })}>
           {statusObject?.keepOpen ? <LockOutlinedIcon color="primary" /> : <LockOpenOutlinedIcon />}
         </IconButton>

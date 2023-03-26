@@ -4,85 +4,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppsOutageIcon from '@mui/icons-material/AppsOutage';
 import CloseIcon from '@mui/icons-material/Close';
-import { Tooltip, Typography } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Resizable } from 're-resizable';
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
-// import Keyboard from '../../Shortcuts/Keyboard';
 import DataProvider from '../../Store';
+import { StyledCloseIcon, StyledContainer, StyledEmptyWrapper, StyledResizable, StyledStatusConsole, StyledTab, StyledTabs, StyledWrapper } from './css';
 
-const StyledStatusConsole = styled('div')(() => ({
-  flex: '1 0 auto',
-  overflow: 'hidden',
-  display: 'flex',
-}));
-
-const StyledResizable = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: '1 1 auto',
-}));
-
-const StyledWrapper = styled('div')<{ bottom: string }>(({ theme, bottom }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  position: 'absolute',
-  borderTop: bottom === 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
-  borderBottom: bottom !== 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
-  backgroundColor: theme.palette.background.default,
-  bottom: bottom === 'true' ? '0px' : 'unset',
-  top: bottom !== 'true' ? '0px' : 'unset',
-  left: '0px',
-  alignItems: 'center',
-  right: '0px',
-  zIndex: 99,
-}));
-
-const StyledEmptyWrapper = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: '1 1 auto',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '8px',
-}));
-
-const StyledTabs = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: '0px',
-}));
-
-const StyledCloseIcon = styled(CloseIcon)(() => ({
-  fontSize: '20px',
-}));
-
-const StyledContainer = styled('div')<{ position: string }>(({ position }) => ({
-  flex: '1 1 auto',
-  display: 'flex !important',
-  flexDirection: position === PlacementPosition.BOTTOM ? 'column' : 'column-reverse',
-}));
-
-const StyledTab = styled(Typography)<{ activated?: string }>(({ theme, activated }) => ({
-  padding: '4px 12px',
-  cursor: 'pointer',
-  userSelect: 'none',
-  backgroundColor: activated === 'true' ? theme.palette.primary.main : 'transparent',
-  color: activated === 'true' ? theme.palette.background.default : theme.palette.text.secondary,
-
-  '&:hover': {
-    backgroundColor: activated === 'true' ? theme.palette.primary.dark : theme.palette.divider,
-    color: activated === 'true' ? theme.palette.background.default : theme.palette.text.primary,
-  },
-}));
-
+const kbdId = 'console';
 const domId = domConsoleId;
 const domIdWrapper = 'mui-status-console-wrapper';
 const relevantType = 'console';
 
 export default (): JSX.Element => {
-  const { status, updateConsoleActiveId } = useContext(DataProvider);
+  const {
+    status,
+    updateConsoleActiveId,
+    updateIsConsoleOpen,
+    handleKeyboardRegister,
+  } = useContext(DataProvider);
   const { consoleActiveId, isConsoleOpen, position } = useContext(DataProvider).settings as SettingsObject;
 
   const isActivated = (uniqueId: string): boolean => uniqueId === consoleActiveId;
@@ -114,8 +55,11 @@ export default (): JSX.Element => {
     }
   }, []);
 
+  useEffect(() => {
+    handleKeyboardRegister({ id: kbdId, ascii: 27, char: '', onTrigger: () => updateIsConsoleOpen(), label: 'Hide/Show console' });
+  });
+
   return <>
-    {/* <Keyboard id="mui-industrial-open-console" label="Open console" ascii={27} char="P" onTrigger={() => updateIsConsoleOpen()} /> */}
     {(isConsoleOpen) && <>
       {status.some(({ type }) => type === relevantType) && <StyledWrapper
         {...{ id: domIdWrapper }}
@@ -142,7 +86,7 @@ export default (): JSX.Element => {
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <>
                 <StyledContainer position={position.toString()}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginRight: '4px' }}>
                     <StyledTabs>
                       {relevantConsoles.map(({ uniqueId, title }) => <StyledTab {...{
                         key: uniqueId,
@@ -154,8 +98,10 @@ export default (): JSX.Element => {
                         {title || uniqueId}
                       </StyledTab>)}
                     </StyledTabs>
-                    <Tooltip {...{ title: 'Close console section' }}>
-                      <StyledCloseIcon {...{ onClick: () => updateConsoleActiveId({}) }} />
+                    <Tooltip {...{ title: 'Close console section' }} arrow>
+                      <IconButton onClick={() => updateConsoleActiveId({})} size="small">
+                        <StyledCloseIcon style={{ fontSize: '16px' }} />
+                      </IconButton>
                     </Tooltip>
                   </div>
                   <StyledStatusConsole {...{ id: domId }} />

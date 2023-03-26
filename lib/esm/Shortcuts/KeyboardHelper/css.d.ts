@@ -6,5 +6,6 @@ export declare const StyledContainer: any;
 export declare const StyledKey: FC<{
     highlight?: string;
     onClick?: any;
+    ascii?: string;
     elevation: number;
 }>;

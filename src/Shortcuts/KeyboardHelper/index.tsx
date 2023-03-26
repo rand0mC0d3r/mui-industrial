@@ -12,6 +12,7 @@ const shortcutString = (shortcutObject?: ShortcutObject) => [
   shortcutObject?.metaKey && '⌘',
   shortcutObject?.shiftKey && '⇧',
   shortcutObject?.char,
+  shortcutObject?.ascii && `(${shortcutObject.ascii})`,
 ].filter(Boolean).join(' ') as string;
 
 const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
@@ -21,9 +22,10 @@ const shortcutStringNg = (shortcutObject?: ShortcutObject) => <StyledListOfKeys>
     shortcutObject?.metaKey && '⌘',
     shortcutObject?.shiftKey && '⇧',
     shortcutObject?.char,
+    shortcutObject?.ascii && `(${shortcutObject.ascii})`,
   ]
     .filter(Boolean)
-    .map(s => <StyledKey elevation={1} key={`char-${s}`}>{s}</StyledKey>)}
+    .map(s => <StyledKey ascii={(s || '').includes('(').toString()} elevation={1} key={`char-${s}`}>{s}</StyledKey>)}
 </StyledListOfKeys>;
 
 const baseTooltip = (shortcutObject?: ShortcutObject) => `${shortcutObject && `${shortcutObject.label} -`} ${shortcutString(shortcutObject)}`;
