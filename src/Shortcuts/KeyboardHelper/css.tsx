@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { alpha, Paper, Popper } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const StyledPopper: any = styled(Popper)(() => ({
   zIndex: '101',
@@ -34,10 +35,21 @@ export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) 
   border: `1px solid ${theme.palette.primary.main}`,
 }));
 
-export const StyledKey: any = styled(Paper)(({ theme } : { theme: any }) => ({
+export const StyledKey: FC<{
+  highlight: string,
+  onClick: any,
+  elevation: number
+}> = styled(Paper)<{
+  highlight: string,
+  onClick: any,
+  elevation: number
+}>(({ highlight, theme } : { highlight: string, theme: any }) => ({
   minWidth: '22px',
   lineHeight: '22px',
+  userSelect: 'none',
+  cursor: 'auto',
   fontWeight: '500',
   color: `${theme.palette.text.secondary}`,
+  backgroundColor: `${highlight === 'true' ? theme.palette.primary.light : theme.palette.background.default}`,
   textAlign: 'center',
 } ));
