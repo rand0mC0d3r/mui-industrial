@@ -4,7 +4,7 @@ export declare const StyledOverrideWrapper: any;
 export declare const StyledListOfKeys: any;
 export declare const StyledContainer: any;
 export declare const StyledKey: FC<{
-    highlight: string;
-    onClick: any;
+    highlight?: string;
+    onClick?: any;
     elevation: number;
 }>;
