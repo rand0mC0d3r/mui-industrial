@@ -103,6 +103,17 @@ export interface SnackbarObject extends ISnackbarObject {
     code: string;
     severity: Severity;
 }
+export interface CommandObject {
+    id: string;
+    shortcutId?: string;
+    label: string;
+    icon?: any;
+    tooltip?: string;
+    onClick: any;
+    disabled?: boolean;
+    hidden?: boolean;
+    order?: number;
+}
 export interface StatusPopperProps {
     elevation?: number;
     width?: PopperWidth;

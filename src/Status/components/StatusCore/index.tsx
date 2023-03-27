@@ -67,7 +67,6 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
 
   const callbackHandleStatusAnnouncement = useCallback(() => {
-    console.log(options);
     handleStatusAnnouncement({ id, ownId, secondary, children, options });
   }, [id, secondary, ownId, options, children, handleStatusAnnouncement]);
 

@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import { CSSProperties, MouseEvent, ReactNode, useContext, useState } from 'react';
 import { PlacementPosition, SettingsObject, StatusObject, StatusType } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
+import InternalCommands from '../InternalCommands';
 import InternalConsole from '../InternalConsole';
 import InternalKeyboard from '../InternalKeyboard';
 import InternalNotifications from '../InternalNotifications';
@@ -119,6 +120,7 @@ export default ({
       <SChildren id="mui-status-children">
         {children}
         {status.some(({ type }) => type === StatusType.CONSOLE) && <InternalConsole />}
+        <InternalCommands />
       </SChildren>
       {status.some(({ visible }) => visible) && <SStatusContainer {...{ fullWidth, hasBorder, onContextMenu }}>
         <InternalStatus {...{ style }} />

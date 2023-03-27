@@ -1,9 +1,10 @@
 import React from 'react';
-import { ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
     status: StatusObject[];
+    commands: CommandObject[];
     snackbar: SnackbarObject[];
     shortcuts: ShortcutObject[];
     updateConsoleActiveId: ({ id }: {
@@ -22,6 +23,9 @@ export interface DataContextInterface {
     handleKeyboardGetLabel: (id: string) => string | undefined;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
+    handleCommandRegister: ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
+    handleCommandsRegister: ([{ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+    handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
     handleSnackbarCleaning: any;
     handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;

@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 import Wrapper from '../internal/Wrapper';
 
 const domIdBase = 'mui-status';
@@ -17,8 +17,8 @@ export const composeDomId = (component: string, detail: string[]) => {
 
 const packageName = 'mui-industrial';
 const keyboardOverridesStorageKey = `${packageName}.keyboard.overrides`;
-const settingsStorageKey = 'mui-status.settings';
-const statusStorageKey = 'mui-status.status';
+// const settingsStorageKey = 'mui-status.settings';
+// const statusStorageKey = 'mui-status.status';
 
 const initialSettings = {
   position: PlacementPosition.TOP,
@@ -44,6 +44,7 @@ const valOrDefault = (val: any, def: any) => {
 export interface DataContextInterface {
   settings: any;
   status: StatusObject[];
+  commands: CommandObject[];
   snackbar: SnackbarObject[];
   shortcuts: ShortcutObject[];
   updateConsoleActiveId: ({ id }: { id?: string }) => void;
@@ -62,6 +63,11 @@ export interface DataContextInterface {
 
   handleKeyboardDeRegister: (id: string) => void;
   handleKeyboardsDeRegister: (ids: string[]) => void;
+
+  // commands
+  handleCommandRegister: ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
+  handleCommandsRegister: ([{ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+  handleCommandsDeRegister: (ids: string[]) => void;
   //////////////////////
 
   handleStatusAnnouncement: any;
@@ -112,6 +118,7 @@ const IndustrialProvider = ({
 }) => {
   const [status, setStatus] = useState<StatusObject[]>([]);
   const [snackbar, setSnackbar] = useState<SnackbarObject[]>([]);
+  const [commands, setCommands] = useState<CommandObject[]>([]);
   const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([]);
   const [settings, setSettings] = useState<SettingsObject>(initialSettings);
 
@@ -212,6 +219,10 @@ const IndustrialProvider = ({
     return `${id}-${label}-${ascii || 'empty'}-${char || 'empty'}`;
   }
 
+  function generateSignatureNg(...args: any[]): string {
+    return args.join('-');
+  }
+
   // KEYBOARD SHORTCUTS
   const handleKeyboardRegister = ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
@@ -300,6 +311,37 @@ const IndustrialProvider = ({
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.filter(p => !ids.some(id => id === p.id))];
       log('➖ Destroyed keyboards', ids, result);
+      return result;
+    });
+  };
+
+  //////////////////////////
+  //////////////////////////
+  //////////////////////////
+  // COMMAND SHORTCUTS
+  const handleCommandRegister = ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => {
+    const c = commands.find(command => command.id === id);
+    if (c && generateSignatureNg(c.id, c.shortcutId, c.label, c.tooltip) === generateSignatureNg(id, shortcutId, label, tooltip)) return;
+
+    const newCommand =  { id, label, shortcutId, onClick, disabled, hidden, icon, order, tooltip } satisfies CommandObject;
+
+    setCommands((prevCommands: CommandObject[]) => {
+      const result = [ ...prevCommands.filter(p => p.id !== id), newCommand];
+      log('➕ Registered command', id, result);
+      return result;
+    });
+  };
+
+  const handleCommandsRegister = (commandObjects: CommandObject[]) => {
+    commandObjects.forEach((commandObject: CommandObject) => {
+      handleCommandRegister(commandObject);
+    });
+  };
+
+  const handleCommandsDeRegister = (ids: string[]) => {
+    setCommands((prevCommands: CommandObject[]) => {
+      const result = [...prevCommands.filter(p => !ids.some(id => id === p.id))];
+      log('➖ Destroyed commands', ids, result);
       return result;
     });
   };
@@ -422,28 +464,17 @@ const IndustrialProvider = ({
     }));
   }, [allowRightClick, fullWidth, variant, hasBorder, size, justifyContent, expand, position, debug, hasLock]);
 
-  useEffect(() => {
+  const dumpContext = useCallback((label: string, content: any[]) => {
     if (settings.debug) {
-      const t0 = performance.now();
-      // console.clear();
-      log('🎛️ Debugging is enabled');
-
-      // console.log('%cSettings', 'color: #4caf50');
-      // console.table({ ...settings });
-
-      logn('🗄️ Status', status.length);
-      log(status.length > 0 ? [ ...status ] : 'No statuses found.');
-
-      logn('📟 Snackbar', snackbar.length);
-      log(snackbar.length > 0 ? [ ...snackbar ] : 'No snackbars found.');
-
-      logn('🫙 Shortcuts', shortcuts.length);
-      log(shortcuts.length > 0 ? [ ...shortcuts ] : 'No shortcuts found.');
-
-      const t1 = performance.now();
-      log(`Debug dump in ${t1 - t0} milliseconds.`);
+      logn(label, content.length);
+      log(content.length > 0 ? [ ...content ] : 'No entries found.');
     }
-  }, [settings, shortcuts, snackbar, status, log, logn]);
+  }, [settings.debug, log, logn]);
+
+  useEffect(() => dumpContext('🗄️ Status', status), [status, dumpContext]);
+  useEffect(() => dumpContext('📟 Snackbar', snackbar), [snackbar, dumpContext]);
+  useEffect(() => dumpContext('🫙 Shortcuts', shortcuts), [shortcuts, dumpContext]);
+  useEffect(() => dumpContext('🎯 Commands', commands), [commands, dumpContext]);
 
   return <DataContext.Provider
     value={{
@@ -455,6 +486,12 @@ const IndustrialProvider = ({
 
       // status - wrapper
       triggerStatusBarAnnounced,
+
+      // commands,
+      commands,
+      handleCommandRegister,
+      handleCommandsRegister,
+      handleCommandsDeRegister,
 
       // keyboard
       shortcuts,
