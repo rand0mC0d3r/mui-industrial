@@ -7,6 +7,7 @@ import { cloneElement, useContext, useEffect, useState } from 'react';
 import KeyboardHelper from '../../Shortcuts/KeyboardHelper';
 import DataProvider from '../../Store';
 import InternalHeader from '../InternalHeader';
+import { StyledHighlight } from './css';
 
 const kbdId = 'commands';
 
@@ -72,14 +73,14 @@ export default (): JSX.Element => {
 
   const highlightString = (str: string, search: string) => {
     const parts = str.split(new RegExp(`(${search})`, 'gi'));
-    return <span>
-      {parts.map((part, i) => <span
+    return <Typography variant="subtitle2" color="textSecondary">
+      {parts.map((part, i) => <StyledHighlight
         key={i}
-        style={part.toLowerCase() === search.toLowerCase() ? { fontWeight: 700 } : {}}
+        highlight={part.toLowerCase() === search.toLowerCase() ? 'true' : 'false'}
       >
         {part}
-      </span>)}
-    </span>;
+      </StyledHighlight>)}
+    </Typography>;
   };
 
   useEffect(() => {
@@ -105,6 +106,7 @@ export default (): JSX.Element => {
         <Autocomplete
           disablePortal
           open
+          inputValue={inputValue}
           clearOnEscape
           onClose={(_, reason) => {
             if (reason === 'escape') {
@@ -133,7 +135,7 @@ export default (): JSX.Element => {
               <Box display="flex" style={{ gap: '8px' }} flexWrap="nowrap" alignItems="center">
                 {cloneElement(option.icon, { style: { fontSize: '16px' } })}
                 {/* <Typography variant="subtitle2" color="textSecondary">{option.label}</Typography> */}
-                <Typography variant="subtitle2" color="textSecondary">{highlightString(option.label, inputValue)}</Typography>
+                {highlightString(option.label, inputValue)}
               </Box>
               {option.shortcutId && <>
               <KeyboardHelper shortcutId={option.shortcutId} asChip />
@@ -142,7 +144,7 @@ export default (): JSX.Element => {
           </div>}
           id="combo-box-demo"
           options={commands}
-          renderInput={params => <TextField autoFocus {...params} fullWidth size="small" label="Commands" />}
+          renderInput={params => <TextField autoFocus {...params}  fullWidth size="small" label="Commands" />}
         />
       </Paper>
       </ClickAwayListener>
