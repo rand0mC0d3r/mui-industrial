@@ -65,8 +65,9 @@ export interface DataContextInterface {
   handleKeyboardsDeRegister: (ids: string[]) => void;
 
   // commands
-  handleCommandRegister: ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
-  handleCommandsRegister: ([{ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+  handleCommandRegister: ({ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
+  handleCommandsRegister: ([{ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+  handleCallCommand: (id: string) => void;
   handleCommandsDeRegister: (ids: string[]) => void;
   //////////////////////
 
@@ -319,11 +320,11 @@ const IndustrialProvider = ({
   //////////////////////////
   //////////////////////////
   // COMMAND SHORTCUTS
-  const handleCommandRegister = ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => {
+  const handleCommandRegister = ({ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }: CommandObject) => {
     const c = commands.find(command => command.id === id);
     if (c && generateSignatureNg(c.id, c.shortcutId, c.label, c.tooltip) === generateSignatureNg(id, shortcutId, label, tooltip)) return;
 
-    const newCommand =  { id, label, shortcutId, onClick, disabled, hidden, icon, order, tooltip } satisfies CommandObject;
+    const newCommand =  { id, label, shortcutId, onTrigger, disabled, hidden, icon, order, tooltip } satisfies CommandObject;
 
     setCommands((prevCommands: CommandObject[]) => {
       const result = [ ...prevCommands.filter(p => p.id !== id), newCommand];
@@ -336,6 +337,14 @@ const IndustrialProvider = ({
     commandObjects.forEach((commandObject: CommandObject) => {
       handleCommandRegister(commandObject);
     });
+  };
+
+  const handleCallCommand = (id: string) => {
+    const findCommand = commands.find((command: CommandObject) => command.id === id);
+    if (!!findCommand && findCommand?.onTrigger) {
+      log('💡 Triggered command', findCommand.id);
+      findCommand?.onTrigger();
+    }
   };
 
   const handleCommandsDeRegister = (ids: string[]) => {
@@ -491,6 +500,7 @@ const IndustrialProvider = ({
       commands,
       handleCommandRegister,
       handleCommandsRegister,
+      handleCallCommand,
       handleCommandsDeRegister,
 
       // keyboard

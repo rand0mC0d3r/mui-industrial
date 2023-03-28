@@ -52,7 +52,7 @@ export interface StatusProps {
     onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
     style?: CSSProperties;
     className?: HTMLAttributes<HTMLDivElement>['className'];
-    children?: JSX.Element;
+    children?: JSX.Element | JSX.Element[];
 }
 export interface StatusPopperJSXProps extends StatusProps {
     options: StatusOptionsProps;
@@ -109,7 +109,7 @@ export interface CommandObject {
     label: string;
     icon?: any;
     tooltip?: string;
-    onClick: any;
+    onTrigger?: any;
     disabled?: boolean;
     hidden?: boolean;
     order?: number;

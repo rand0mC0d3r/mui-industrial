@@ -2,8 +2,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Autocomplete, Box, ClickAwayListener, Menu, MenuItem, Paper, Popper, TextField, Typography } from '@mui/material';
-import { cloneElement, useContext, useEffect, useRef, useState } from 'react';
+import { Autocomplete, Box, ClickAwayListener, Paper, TextField, Typography } from '@mui/material';
+import { cloneElement, useContext, useEffect, useState } from 'react';
 import KeyboardHelper from '../../Shortcuts/KeyboardHelper';
 import DataProvider from '../../Store';
 import InternalHeader from '../InternalHeader';
@@ -66,17 +66,21 @@ const top100Films = [
 ];
 
 export default (): JSX.Element => {
-  const { handleKeyboardRegister, commands } = useContext(DataProvider);
+  const { handleKeyboardRegister, handleCallCommand, commands } = useContext(DataProvider);
   const [open, setOpen] = useState<boolean>(false);
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const containerRef = useRef<HTMLDivElement>(null);
+  const [inputValue, setInputValue] = useState('');
 
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(containerRef.current);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const highlightString = (str: string, search: string) => {
+    const parts = str.split(new RegExp(`(${search})`, 'gi'));
+    return <span>
+      {parts.map((part, i) => <span
+        key={i}
+        style={part.toLowerCase() === search.toLowerCase() ? { fontWeight: 700 } : {}}
+      >
+        {part}
+      </span>)}
+    </span>;
+  };
 
   useEffect(() => {
     handleKeyboardRegister({
@@ -87,7 +91,6 @@ export default (): JSX.Element => {
       }, label: 'Hide/Show quick commands',
     });
   });
-
 
   return <>
     {open && <div style={{
@@ -104,11 +107,13 @@ export default (): JSX.Element => {
           open
           clearOnEscape
           autoSelect
-          onChange={(e, v) => {
-            console.log(v);
+          onInputChange={(_, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          onChange={(_, v: any) => {
+            handleCallCommand(v.id);
             setOpen(false);
-          }
-          }
+          }}
           fullWidth
           openOnFocus
           style={{ position: 'relative' }}
@@ -122,7 +127,8 @@ export default (): JSX.Element => {
             <Box display="flex" justifyContent={'space-between'} style={{ width: '100%' }} alignItems="center">
               <Box display="flex" style={{ gap: '8px' }} flexWrap="nowrap" alignItems="center">
                 {cloneElement(option.icon, { style: { fontSize: '16px' } })}
-                <Typography variant="subtitle2" color="textSecondary">{option.label}</Typography>
+                {/* <Typography variant="subtitle2" color="textSecondary">{option.label}</Typography> */}
+                <Typography variant="subtitle2" color="textSecondary">{highlightString(option.label, inputValue)}</Typography>
               </Box>
               {option.shortcutId && <>
               <KeyboardHelper shortcutId={option.shortcutId} asChip />

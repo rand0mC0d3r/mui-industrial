@@ -1,3 +1,4 @@
+import { useConfig } from './hooks/useConfig';
 import { useRegisterCommand } from './hooks/useRegisterCommand';
 import { useRegisterShortcut } from './hooks/useRegisterShortcut';
 import { useRegisterSnackbar } from './hooks/useRegisterSnackbar';
@@ -8,4 +9,4 @@ import KeyboardHelper from './Shortcuts/KeyboardHelper';
 import SnackbarHelper from './Snackbars/SnackbarHelper';
 import Status from './Status';
 import { IndustrialProvider } from './Store';
-export { IndustrialProvider, Status, KeyboardHelper, SnackbarHelper, StatusOptionsProps, StatusType, Highlight, StatusPopperProps, useShortcuts, useSnackbars, useRegisterShortcut, useRegisterSnackbar, useRegisterCommand, };
+export { IndustrialProvider, Status, KeyboardHelper, SnackbarHelper, StatusOptionsProps, StatusType, Highlight, StatusPopperProps, useConfig, useShortcuts, useSnackbars, useRegisterShortcut, useRegisterSnackbar, useRegisterCommand, };

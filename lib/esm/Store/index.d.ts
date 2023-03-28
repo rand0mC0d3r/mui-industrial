@@ -23,8 +23,9 @@ export interface DataContextInterface {
     handleKeyboardGetLabel: (id: string) => string | undefined;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
-    handleCommandRegister: ({ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
-    handleCommandsRegister: ([{ id, shortcutId, label, onClick, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+    handleCommandRegister: ({ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
+    handleCommandsRegister: ([{ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+    handleCallCommand: (id: string) => void;
     handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
     handleSnackbarCleaning: any;

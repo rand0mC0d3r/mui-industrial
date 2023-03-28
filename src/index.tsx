@@ -1,3 +1,4 @@
+import { useConfig } from './hooks/useConfig';
 import { useRegisterCommand } from './hooks/useRegisterCommand';
 import { useRegisterShortcut } from './hooks/useRegisterShortcut';
 import { useRegisterSnackbar } from './hooks/useRegisterSnackbar';
@@ -23,6 +24,7 @@ export {
   StatusPopperProps,
 
   // hooks
+  useConfig,
   useShortcuts,
   useSnackbars,
   useRegisterShortcut,
