@@ -106,6 +106,11 @@ export default (): JSX.Element => {
           disablePortal
           open
           clearOnEscape
+          onClose={(_, reason) => {
+            if (reason === 'escape') {
+              setOpen(false);
+            }
+          }}
           autoSelect
           onInputChange={(_, newInputValue) => {
             setInputValue(newInputValue);
