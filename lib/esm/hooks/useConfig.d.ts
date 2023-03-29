@@ -1,11 +1,10 @@
-import { CommandObject, ShortcutObject } from '../index.types';
 export declare const useConfig: () => {
     config: ({ keyboards, commands }: {
-        keyboards: ShortcutObject[];
-        commands: CommandObject[];
+        keyboards?: unknown[] | undefined;
+        commands?: unknown[] | undefined;
     }) => void;
     configUnmount: ({ keyboards, commands }: {
-        keyboards: ShortcutObject[];
-        commands: CommandObject[];
+        keyboards?: unknown[] | undefined;
+        commands?: unknown[] | undefined;
     }) => void;
 };

@@ -7,6 +7,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { CommandObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 import Wrapper from '../internal/Wrapper';
+import { lognPackage, logPackage } from '../utils/logger';
 
 const domIdBase = 'mui-status';
 
@@ -131,13 +132,13 @@ const IndustrialProvider = ({
 
   const log = useCallback((...props: any) => {
     if (settings.debug) {
-      console.log(`[${packageName}]:`, ...props);
+      logPackage(...props);
     }
   }, [settings.debug]);
 
   const logn = useCallback((...props: any) => {
     if (settings.debug) {
-      console.log(`\n\n[${packageName}]:`, ...props);
+      lognPackage(...props);
     }
   }, [settings.debug]);
 
