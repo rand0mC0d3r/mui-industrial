@@ -43,7 +43,7 @@
     "lint": "npx eslint 'src/**'",
     "test": "react-scripts test",
     "----RELEASE------": "--------------------------------------------------------------",
-    "tag": "npm run build.lib && npm run terser && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish",
+    "tag": "npm run build.lib && git commit -am 'built next version' && npm version patch && git push && git push --tags && npm publish",
     "----TOOLS--------": "----------------------------------------------------------------------",
     "prelink": "concurrently --names 'Link' --prefix-colors 'blue' \"npx link\"",
     "link": "concurrently --names 'Linked' --prefix-colors 'magenta' \"npm run list\"",
