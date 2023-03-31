@@ -1,8 +1,11 @@
-# 📑 mui-industrial
+# 📑 mui-industrial - ![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial)
+
+---
+
 
 A zero-maintenance/batteries-included panel manager inspired by VSCode style/aspect that adds via Material-UI elements a self populating/managed and state keeping organization of generated children panels.
 
-A root level ContextAPI driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a self organizing manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
+A root level ```ContextAPI``` driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a ```self organizing``` manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
 
 ---
 ## Dependencies expected (peerDependencies)
@@ -38,9 +41,10 @@ yarn i @rand0mC0d3r/mui-industrial
 
 ## 📦 Usage
 
-Sample project
-[https://rand0mc0d3r.github.io/mui-status-helper/](https://rand0mc0d3r.github.io/mui-status-helper/)
+#### Sample project
 
-See example and implementation samples for various cases and modes
+[DEMO](https://rand0mc0d3r.github.io/mui-status-helper/)
 
-[https://github.com/rand0mC0d3r/mui-status-helper#readme](https://github.com/rand0mC0d3r/mui-status-helper#readme)
+#### See example and implementation samples for various cases and modes
+
+[Project documentation](https://github.com/rand0mC0d3r/mui-status-helper#readme)
