@@ -4,7 +4,7 @@ import DataProvider, { DataContextInterface } from '../../Store';
 
 export default (): JSX.Element => {
   const { shortcuts } : { shortcuts: ShortcutObject[] } = useContext(DataProvider) as DataContextInterface;
-  const { handleCallKeyboard } : { handleCallKeyboard: DataContextInterface['handleCallKeyboard'] } = useContext(DataProvider) as DataContextInterface;
+  const { handleKeyboardTrigger } : { handleKeyboardTrigger: DataContextInterface['handleKeyboardTrigger'] } = useContext(DataProvider) as DataContextInterface;
 
   const handleUserKeyPress = useCallback(event => {
     const { keyCode, shiftKey, metaKey, ctrlKey, altKey } = event;
@@ -19,8 +19,8 @@ export default (): JSX.Element => {
     if (!!result?.metaKey && !metaKey) return;
     if (!!result?.shiftKey && !shiftKey) return;
 
-    handleCallKeyboard({ id: result.id });
-  }, [shortcuts, handleCallKeyboard]);
+    handleKeyboardTrigger(result.id);
+  }, [shortcuts, handleKeyboardTrigger]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleUserKeyPress);

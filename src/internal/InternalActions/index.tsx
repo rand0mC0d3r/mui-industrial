@@ -11,7 +11,7 @@ export default ({
   placement?: 'top' | 'bottom-end' | 'bottom-start' | 'bottom' |
   'left-end' | 'left-start' | 'left' | 'right-end' |
   'right-start' | 'right' | 'top-end' | 'top-start',
-  fontSize: string
+  fontSize?: string
 }): JSX.Element => <>
   {actions && actions
     .filter((_, i) => i < 3)

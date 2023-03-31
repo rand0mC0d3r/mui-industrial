@@ -3,11 +3,11 @@
   "version": "0.0.56",
   "dependencies": {
     "re-resizable": "^6.9.9",
-    "react-resizable": "^3.0.4",
+    "react-resizable": "^3.0.5",
     "tss-react": "^4.5.0"
   },
   "devDependencies": {
-    "@types/react-resizable": "^3.0.3",
+    "@types/react-resizable": "^3.0.4",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "concurrently": "^7.6.0",
@@ -20,7 +20,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-mui-unused-classes": "^1.0.3",
     "eslint-plugin-react": "^7.31.11",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.22",
     "typescript": "^4.9.4"
   },
   "scripts": {
@@ -46,10 +46,6 @@
     "----TOOLS--------": "----------------------------------------------------------------------",
     "prelink": "concurrently --names 'Link' --prefix-colors 'blue' \"npx link\"",
     "link": "concurrently --names 'Linked' --prefix-colors 'magenta' \"npm run list\"",
-    "visualizer": "rollup -c --visualizer",
-    "rollup": "rollup -c rollup.run.config.js",
-    "postrollup": "cat stats.yml",
-    "rollup.mon": "nodemon -e js --watch rollup.run.config.js --exec \"rollup -c rollup.run.config.js && ls -al | grep bundle.js && cat stats.yml\"",
     "clean": "rm -rf node_modules && npm cache clean --force",
     "list": "npm list | grep '\\.\\/\\.\\.'"
   },

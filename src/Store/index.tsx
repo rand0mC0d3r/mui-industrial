@@ -58,7 +58,7 @@ export interface DataContextInterface {
   handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
   handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
 
-  handleCallKeyboard: ({ id }: { id: string }) => void;
+  handleKeyboardTrigger: (id: string) => void;
   handleKeyboardRevert: (id: string) => void;
   handleKeyboardGetLabel: (id: string) => string | undefined;
 
@@ -271,7 +271,7 @@ const IndustrialProvider = ({
     });
   };
 
-  const handleCallKeyboard = ({ id } : { id: string }) => {
+  const handleKeyboardTrigger = (id: string) => {
     const findShortcut = shortcuts.find(shortcut => shortcut.id === id);
     if (!!findShortcut && findShortcut?.onTrigger) {
       log('💡 Triggered keyboard', findShortcut.id);
@@ -512,7 +512,7 @@ const IndustrialProvider = ({
       handleKeyboardsDeRegister,
       handleKeyboardUpdate,
       handleKeyboardRevert,
-      handleCallKeyboard,
+      handleKeyboardTrigger,
       handleKeyboardGetLabel,
 
       // snackbar + crud,
