@@ -17,9 +17,11 @@ A root level ```ContextAPI``` driven provider that allows for the creation of st
 
 ### 💡 See it and learn it
 
-See it in action - **[Running project](https://rand0mc0d3r.github.io/mui-status-helper/)**
+A few links to get you going:
 
-Documentation and samples - **[Documentation](https://github.com/rand0mC0d3r/mui-status-helper#readme)**
+- See it in action - **[Running project](https://rand0mc0d3r.github.io/mui-status-helper/)**
+
+- Documentation and samples - **[Documentation](https://github.com/rand0mC0d3r/mui-status-helper#readme)**
 
 ---
 
