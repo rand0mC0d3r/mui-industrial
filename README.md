@@ -41,6 +41,9 @@ yarn i @rand0mC0d3r/mui-industrial
 
 ## 📦 Usage
 
+Sample project
+[https://rand0mc0d3r.github.io/mui-status-helper/](https://rand0mc0d3r.github.io/mui-status-helper/)
+
 See example and implementation samples for various cases and modes
 
 [https://github.com/rand0mC0d3r/mui-status-helper#readme](https://github.com/rand0mC0d3r/mui-status-helper#readme)
