@@ -1,8 +1,5 @@
 # 📑 mui-industrial
 
-<br />
-
-
 A zero-maintenance/batteries-included panel manager inspired by VSCode style/aspect that adds via Material-UI elements a self populating/managed and state keeping organization of generated children panels.
 
 A root level ContextAPI driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a self organizing manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
