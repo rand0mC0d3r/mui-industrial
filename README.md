@@ -1,6 +1,7 @@
 # 📑 mui-industrial
 
-![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial) ![](https://img.shields.io/npm/l/mui-industrial)
+![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial)
+![](https://img.shields.io/npm/l/mui-industrial)
 
 _**NOTE**: project is still in development and is not yet ready for production use without caution._
 
