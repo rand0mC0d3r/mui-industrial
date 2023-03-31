@@ -22,7 +22,7 @@ export interface ThemeShape {
 }
 export interface PopoverAction {
     icon: any;
-    title: string;
+    tooltip: string;
     onClick: () => void;
     disabled?: boolean;
 }
@@ -40,21 +40,7 @@ export type StatusConsoleJSXProps = {
     className?: HTMLAttributes<HTMLDivElement>['className'];
     children?: ReactNode;
 };
-export type StatusPopperJSXProps = {
-    id: string;
-    order?: number;
-    disabled?: boolean;
-    highlight?: Highlight;
-    options: StatusOptionsProps;
-    secondary?: boolean;
-    tooltip?: ReactNode | string;
-    onClick?: (event: MouseEvent<HTMLDivElement>) => void;
-    onContextMenu?: (event: MouseEvent<HTMLDivElement>) => void;
-    style?: CSSProperties;
-    className?: HTMLAttributes<HTMLDivElement>['className'];
-    children?: ReactNode;
-};
-export type StatusProps = {
+export interface StatusProps {
     id: string;
     order?: number;
     disabled?: boolean;
@@ -66,14 +52,18 @@ export type StatusProps = {
     onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
     style?: CSSProperties;
     className?: HTMLAttributes<HTMLDivElement>['className'];
-    children?: JSX.Element;
-};
+    children?: JSX.Element | JSX.Element[];
+}
+export interface StatusPopperJSXProps extends StatusProps {
+    options: StatusOptionsProps;
+}
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
     secondary: boolean;
     index: number;
     order: number;
+    options: StatusOptionsProps;
     keepOpen: boolean;
     uniqueId: string;
     ownId: string;
@@ -113,14 +103,25 @@ export interface SnackbarObject extends ISnackbarObject {
     code: string;
     severity: Severity;
 }
+export interface CommandObject {
+    id: string;
+    shortcutId?: string;
+    label: string;
+    icon?: any;
+    tooltip?: string;
+    onTrigger?: any;
+    disabled?: boolean;
+    hidden?: boolean;
+    order?: number;
+}
 export interface StatusPopperProps {
     elevation?: number;
     width?: PopperWidth;
+    height?: PopperHeight;
     onClose?: any;
-    actions?: PopoverActions;
     hasArrow?: boolean;
-    hasToolbar?: boolean;
     hasDecoration?: boolean;
+    hasToolbar?: boolean;
 }
 export interface StatusOptionsSeparatorProps {
     end?: boolean;
@@ -131,6 +132,8 @@ export interface StatusOptionsProps {
     popper?: StatusPopperProps;
     separators?: StatusOptionsSeparatorProps;
     content?: ReactNode;
+    actions?: PopoverActions;
+    hasToolbar?: boolean;
     title?: string;
     open?: boolean;
 }

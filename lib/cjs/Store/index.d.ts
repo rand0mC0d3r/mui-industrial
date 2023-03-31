@@ -1,9 +1,10 @@
 import React from 'react';
-import { ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export interface DataContextInterface {
     settings: any;
     status: StatusObject[];
+    commands: CommandObject[];
     snackbar: SnackbarObject[];
     shortcuts: ShortcutObject[];
     updateConsoleActiveId: ({ id }: {
@@ -15,13 +16,15 @@ export interface DataContextInterface {
     handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
     handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
     handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
-    handleCallKeyboard: ({ id }: {
-        id: string;
-    }) => void;
+    handleKeyboardTrigger: (id: string) => void;
     handleKeyboardRevert: (id: string) => void;
     handleKeyboardGetLabel: (id: string) => string | undefined;
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
+    handleCommandRegister: ({ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }: CommandObject) => void;
+    handleCommandsRegister: ([{ id, shortcutId, label, onTrigger, disabled, hidden, icon, order, tooltip }]: CommandObject[]) => void;
+    handleCallCommand: (id: string) => void;
+    handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
     handleSnackbarCleaning: any;
     handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;

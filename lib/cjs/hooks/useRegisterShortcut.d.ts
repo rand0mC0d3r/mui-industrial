@@ -5,4 +5,5 @@ export declare const useRegisterShortcut: () => {
     handleKeyboardDeRegister: (id: string) => void;
     handleKeyboardsDeRegister: (ids: string[]) => void;
     handleKeyboardGetLabel: (id: string) => string | undefined;
+    handleKeyboardTrigger: (id: string) => void;
 };
