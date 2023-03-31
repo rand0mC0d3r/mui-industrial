@@ -1,4 +1,6 @@
-# 📑 mui-industrial - ![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial)
+# 📑 mui-industrial
+
+![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial) ![](https://img.shields.io/npm/l/mui-industrial)
 
 _**NOTE**: project is still in development and is not yet ready for production use without caution._
 
@@ -9,13 +11,27 @@ A zero-maintenance/batteries-included panel manager inspired by VSCode style/asp
 
 A root level ```ContextAPI``` driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a ```self organizing``` manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
 
----
-
-## 👍 See it in action - [Running project](https://rand0mc0d3r.github.io/mui-status-helper/)
 
 ---
 
-## 📦 Documentation and samples - [Documentation](https://github.com/rand0mC0d3r/mui-status-helper#readme)
+### 💡 See it and learn it
+
+See it in action - **[Running project](https://rand0mc0d3r.github.io/mui-status-helper/)**
+
+Documentation and samples - **[Documentation](https://github.com/rand0mC0d3r/mui-status-helper#readme)**
+
+---
+
+## 📦 Features
+
+- **Zero Maintenance** - No need to worry about managing the state of the panels, the library will handle it for you.
+- **Batteries Included** - The library comes with a variety of pre-built components that can be used out of the box.
+- **Customizable** - The library is built on top of MUI and Emotion, so you can customize it to your liking.
+- **Easy to use** - The library is built to be easy to use and understand.
+- **TypeScript** - The library is written in TypeScript and comes with type definitions.
+- **React 17+** - The library is built on top of React 17+.
+- **MUI 5+** - The library is built on top of MUI 5+.
+
 
 ---
 
