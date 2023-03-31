@@ -4,7 +4,11 @@ import { useRegisterShortcut } from './hooks/useRegisterShortcut';
 import { useRegisterSnackbar } from './hooks/useRegisterSnackbar';
 import { useShortcuts } from './hooks/useShortcuts';
 import { useSnackbars } from './hooks/useSnackbars';
-import { Highlight, PopperHeight, PopperWidth, StatusOptionsProps, StatusPopperProps, StatusType } from './index.types';
+import {
+  Highlight, PlacementPosition, PopperHeight, PopperWidth,
+  StatusOptionsProps, StatusPopperProps,
+  StatusType,
+} from './index.types';
 import KeyboardHelper from './Shortcuts/KeyboardHelper';
 import SnackbarHelper from './Snackbars/SnackbarHelper';
 import Status from './Status';
@@ -26,8 +30,9 @@ export {
   PopperWidth,
   StatusType,
   Highlight,
+  PlacementPosition,
 
-  // hooks
+  //  hooks,
   useConfig,
   useShortcuts,
   useSnackbars,
