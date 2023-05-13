@@ -5,7 +5,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { CommandObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import {
+  CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject,
+  ShortcutObject, SidebarObject, SnackbarObject, StatusObject, StatusType,
+} from '../index.types';
 import Wrapper from '../internal/Wrapper';
 import { lognPackage, logPackage } from '../utils/logger';
 
@@ -16,7 +19,7 @@ export const composeDomId = (component: string, detail: string[]) => {
   return `${domIdBase}-${component}-${id}`;
 };
 
-const packageName = 'mui-industrial';
+export const packageName = 'mui-industrial';
 const keyboardOverridesStorageKey = `${packageName}.keyboard.overrides`;
 // const settingsStorageKey = 'mui-status.settings';
 // const statusStorageKey = 'mui-status.status';
@@ -31,6 +34,7 @@ const initialSettings = {
   hasLock: true,
   hasBorder: true,
   variant: 'default',
+  sidebarIndex: -1,
   isConsoleFixed: false,
   isConsoleOpen: false,
 } as SettingsObject;
@@ -43,15 +47,20 @@ const valOrDefault = (val: any, def: any) => {
 };
 
 export interface DataContextInterface {
-  settings: any;
+  settings: SettingsObject;
   status: StatusObject[];
+  sidebars: SidebarObject[];
   commands: CommandObject[];
   snackbar: SnackbarObject[];
   shortcuts: ShortcutObject[];
   updateConsoleActiveId: ({ id }: { id?: string }) => void;
   updateIsConsoleOpen: any;
+  updateSidebarIndex: any;
   updateIsConsoleClosed: any;
   handleStatusUpdate: any;
+
+  // sidebar
+  handleSidebarRegister: ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => void;
 
   // keyboard
   handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
@@ -118,6 +127,7 @@ const IndustrialProvider = ({
   variant?: 'default' | 'outlined',
   style: any,
 }) => {
+  const [sidebars, setSidebars] = useState<SidebarObject[]>([]);
   const [status, setStatus] = useState<StatusObject[]>([]);
   const [snackbar, setSnackbar] = useState<SnackbarObject[]>([]);
   const [commands, setCommands] = useState<CommandObject[]>([]);
@@ -167,6 +177,14 @@ const IndustrialProvider = ({
         } as StatusObject,
       ];
     });
+  };
+
+  // SIDEBAR
+  const handleSidebarRegister = ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => {
+    setSidebars((sidebars: SidebarObject[]) => [
+      ...sidebars.filter(sidebar => sidebar.id !== id),
+      { id, icon, order, secondary, tooltip, visible: true, title, options } as SidebarObject,
+    ]);
   };
 
   // SNACKBARS
@@ -421,6 +439,14 @@ const IndustrialProvider = ({
     }));
   };
 
+  const updateSidebarIndex = (id: string) => {
+    const findIndex = sidebars.findIndex(sidebar => sidebar.id === id);
+    setSettings((settings: SettingsObject) => ({
+      ...settings,
+      sidebarIndex: settings.sidebarIndex === findIndex ? -1 : findIndex,
+    }));
+  };
+
   const updateIsConsoleOpen = () => {
     setSettings((settings: SettingsObject) => ({
       ...settings,
@@ -485,6 +511,7 @@ const IndustrialProvider = ({
   useEffect(() => dumpContext('📟 Snackbar', snackbar), [snackbar, dumpContext]);
   useEffect(() => dumpContext('🫙 Shortcuts', shortcuts), [shortcuts, dumpContext]);
   useEffect(() => dumpContext('🎯 Commands', commands), [commands, dumpContext]);
+  useEffect(() => dumpContext('🎛️ Sidebar', sidebars), [sidebars, dumpContext]);
 
   return <DataContext.Provider
     value={{
@@ -493,6 +520,11 @@ const IndustrialProvider = ({
       updateConsoleActiveId,
       updateIsConsoleOpen,
       updateIsConsoleClosed,
+      updateSidebarIndex,
+
+      // sidebar,
+      sidebars,
+      handleSidebarRegister,
 
       // status - wrapper
       triggerStatusBarAnnounced,

@@ -57,6 +57,22 @@ export interface StatusProps {
 export interface StatusPopperJSXProps extends StatusProps {
     options: StatusOptionsProps;
 }
+export interface ISidebarObject {
+    secondary?: boolean;
+    order?: number;
+    id: string;
+    icon?: any;
+    tooltip?: string;
+    title?: string;
+    children: React.ReactNode;
+    options?: any;
+}
+export interface SidebarObjectProps extends ISidebarObject {
+    icon: any;
+}
+export interface SidebarObject extends ISidebarObject {
+    visible: boolean;
+}
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
@@ -152,6 +168,7 @@ export interface SettingsObject {
     isConsoleFixed?: boolean;
     consoleActiveId?: string;
     width: string;
+    sidebarIndex: number;
     size: 'small' | 'medium' | 'large';
     hasBorder: boolean;
     fullWidth: boolean;

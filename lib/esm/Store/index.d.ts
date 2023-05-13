@@ -1,9 +1,11 @@
 import React from 'react';
-import { CommandObject, ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SidebarObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
+export declare const packageName = "mui-industrial";
 export interface DataContextInterface {
-    settings: any;
+    settings: SettingsObject;
     status: StatusObject[];
+    sidebars: SidebarObject[];
     commands: CommandObject[];
     snackbar: SnackbarObject[];
     shortcuts: ShortcutObject[];
@@ -11,8 +13,10 @@ export interface DataContextInterface {
         id?: string;
     }) => void;
     updateIsConsoleOpen: any;
+    updateSidebarIndex: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
+    handleSidebarRegister: ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => void;
     handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
     handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
     handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;

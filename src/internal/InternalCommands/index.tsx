@@ -92,7 +92,14 @@ export default (): JSX.Element => {
               </div>}
             id="combo-box-demo"
             options={commands}
-            renderInput={params => <TextField autoFocus {...params} fullWidth size="small" label="Commands" />}
+            renderInput={params => <TextField
+              autoFocus
+              {...params}
+              onFocus={() => setInputValue('')}
+              fullWidth
+              size="small"
+              label="Commands"
+            />}
           />
         </Paper>
       </ClickAwayListener>
