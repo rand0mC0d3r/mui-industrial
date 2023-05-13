@@ -1,35 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
-import { Button, IconButton, Paper, Tooltip, Typography } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import { cloneElement, forwardRef, useCallback, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  ISidebarObject, SidebarObject,
+  ISidebarObject, SettingsObject, SidebarObject,
 } from '../../../index.types';
 import DataProvider, { composeDomId, packageName } from '../../../Store';
-
-const componentId = 'statusBar';
 
 export const StatusCore = forwardRef((props: ISidebarObject, ref: any) => {
   const {
     id,
     icon,
-    title,
     tooltip,
     children,
-    secondary,
+    additional,
   } = props satisfies ISidebarObject;
 
   const { handleSidebarRegister, sidebars, updateSidebarIndex } = useContext(DataProvider);
+  const { sidebarIndex } = useContext(DataProvider).settings as SettingsObject;
   const [ownId, setOwnId] = useState<string | null>();
   const [sidebarObject, setSidebarObject] = useState<SidebarObject | null>(null);
-  const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
+
+  const [elementFoundActions, setElementFoundActions] = useState<HTMLElement | null>(null);
+  const [elementFoundAdditional, setElementFoundAdditional] = useState<HTMLElement | null>(null);
   const [elementFoundPanel, setElementFoundPanel] = useState<HTMLElement | null>(null);
 
   const callbackHandleSidebarAnnouncement = useCallback(() => {
-    handleSidebarRegister({ id, children, secondary });
-  }, [id, children, secondary, handleSidebarRegister]);
+    handleSidebarRegister({ id, children, additional });
+  }, [id, children, additional, handleSidebarRegister]);
 
   useEffect(() => {
     if (id && ownId && sidebarObject === null && !sidebars.some(sidebar => id === sidebar.id)) {
@@ -46,8 +46,9 @@ export const StatusCore = forwardRef((props: ISidebarObject, ref: any) => {
 
   useEffect(() => {
     if (sidebarObject !== null) {
-      setElementFound(document.getElementById(composeDomId(packageName, ['sidebar'])) || null);
-      setElementFoundPanel(document.getElementById(composeDomId(packageName, ['sidebar', 'panel'])) || null);
+      setElementFoundActions(document.getElementById(composeDomId('sidebar', ['actions'])) || null);
+      setElementFoundAdditional(document.getElementById(composeDomId('sidebar', ['additional'])) || null);
+      setElementFoundPanel(document.getElementById(composeDomId('sidebar', ['panel'])) || null);
     }
   }, [sidebarObject]);
 
@@ -71,25 +72,37 @@ export const StatusCore = forwardRef((props: ISidebarObject, ref: any) => {
   //   }
   // }, [statusObject, id, elementFound, ref, onLoad]);
 
+  const renderAction = () => <Tooltip key={id} title={tooltip} arrow placement='right'>
+            <Button
+            ref={ref}
+            onClick={() => updateSidebarIndex(id)}
+            variant="text" style={{ minWidth: 'unset' }}>
+              {cloneElement(icon, {
+                style: { fontSize: '28px' },
+                color: id === sidebarIndex ? 'primary' : 'action',
+              })}
+            </Button>
+          </Tooltip>;
+
   return <>
-    {(sidebarObject !== null && !!id && elementFound)
+    {(sidebarObject !== null && !!id && sidebarObject.visible && children)
     && <>
-    {createPortal(
-      (sidebarObject.visible && children) && <Tooltip key={id} title={title} arrow placement='right'>
-          <Button
-          onClick={() => updateSidebarIndex(id)}
-          variant="text" style={{ minWidth: 'unset' }}>
-            {cloneElement(icon, {
-              style: { fontSize: '28px' },
-            //  color: index === selectedIndex ? 'primary' : 'action'
-            })}
-          </Button>
-        </Tooltip>,
-      elementFound,
-    )}
+      {(elementFoundActions) && createPortal(<Tooltip key={id} title={tooltip} arrow placement='right'>
+            <Button
+            ref={ref}
+            onClick={() => updateSidebarIndex(id)}
+            variant="text" style={{ minWidth: 'unset' }}>
+              {cloneElement(icon, {
+                style: { fontSize: '28px' },
+                color: id === sidebarIndex ? 'primary' : 'action',
+              })}
+            </Button>
+          </Tooltip>,
+      elementFoundActions,
+      )}
     {/* {createPortal(
       (sidebarObject.visible && children) && <div>{icon}</div>,
-      elementFound,
+      elementFoundPanel,
     )} */}
     </>}
   </>;

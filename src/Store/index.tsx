@@ -34,7 +34,6 @@ const initialSettings = {
   hasLock: true,
   hasBorder: true,
   variant: 'default',
-  sidebarIndex: -1,
   isConsoleFixed: false,
   isConsoleOpen: false,
 } as SettingsObject;
@@ -60,7 +59,7 @@ export interface DataContextInterface {
   handleStatusUpdate: any;
 
   // sidebar
-  handleSidebarRegister: ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => void;
+  handleSidebarRegister: ({ id, icon, order, additional, tooltip, title, options }: ISidebarObject) => void;
 
   // keyboard
   handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
@@ -180,10 +179,10 @@ const IndustrialProvider = ({
   };
 
   // SIDEBAR
-  const handleSidebarRegister = ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => {
+  const handleSidebarRegister = ({ id, icon, order, additional, tooltip, title, options }: ISidebarObject) => {
     setSidebars((sidebars: SidebarObject[]) => [
       ...sidebars.filter(sidebar => sidebar.id !== id),
-      { id, icon, order, secondary, tooltip, visible: true, title, options } as SidebarObject,
+      { id, icon, order, additional, tooltip, visible: true, title, options } as SidebarObject,
     ]);
   };
 
@@ -440,10 +439,9 @@ const IndustrialProvider = ({
   };
 
   const updateSidebarIndex = (id: string) => {
-    const findIndex = sidebars.findIndex(sidebar => sidebar.id === id);
     setSettings((settings: SettingsObject) => ({
       ...settings,
-      sidebarIndex: settings.sidebarIndex === findIndex ? -1 : findIndex,
+      sidebarIndex: settings.sidebarIndex !== id ? id : undefined,
     }));
   };
 

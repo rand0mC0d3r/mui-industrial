@@ -62,7 +62,7 @@ export interface StatusPopperJSXProps extends StatusProps {
 }
 
 export interface ISidebarObject {
-  secondary?: boolean;
+  additional?: boolean;
   order?: number;
   id: string;
   icon?: any;
@@ -180,7 +180,7 @@ export interface SettingsObject {
   isConsoleFixed?: boolean;
   consoleActiveId?: string;
   width: string;
-  sidebarIndex: number;
+  sidebarIndex?: string;
   size: 'small' | 'medium' | 'large';
   hasBorder: boolean;
   fullWidth: boolean;

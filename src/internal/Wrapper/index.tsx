@@ -22,7 +22,7 @@ export default ({
   children: ReactNode,
   style?: CSSProperties
 }): JSX.Element => {
-  const { status, shortcuts, commands, sidebars, settings } = useContext(DataProvider) as DataContextInterface;
+  const { status, shortcuts, commands, settings } = useContext(DataProvider) as DataContextInterface;
   const { position, fullWidth, hasBorder } = settings as SettingsObject;
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 

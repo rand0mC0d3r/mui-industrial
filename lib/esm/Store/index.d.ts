@@ -16,7 +16,7 @@ export interface DataContextInterface {
     updateSidebarIndex: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
-    handleSidebarRegister: ({ id, icon, order, secondary, tooltip, title, options }: ISidebarObject) => void;
+    handleSidebarRegister: ({ id, icon, order, additional, tooltip, title, options }: ISidebarObject) => void;
     handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
     handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
     handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
