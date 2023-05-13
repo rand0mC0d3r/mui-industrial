@@ -9,7 +9,8 @@ export const StyledActions: any = styled('div')(() => ({
 
 export const StyledPaper: any = styled(Paper)(() => ({
   border: '1px solid #ccc',
-  borderRadius: '4px',
+  borderTop: 'none',
+  borderBottom: 'none',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',

@@ -17,14 +17,11 @@ export default (): JSX.Element => {
     <Paper style={{ alignSelf: 'stretch', display: 'flex' }} elevation={1}>
       <StyledSidebar>
         <StyledActionsTall id={composeDomId('sidebar', ['actions'])}>
-          axxxx
         </StyledActionsTall>
         <StyledActions id={composeDomId('sidebar', ['additional'])}>
-          bxxxxx
         </StyledActions>
       </StyledSidebar>
       {sidebarIndex && <StyledPaper elevation={0} square id={composeDomId('sidebar', ['panel'])} >
-        cxxxx
       </StyledPaper>}
     </Paper>
   </>;
