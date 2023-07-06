@@ -10,7 +10,7 @@ import {
   StatusType,
 } from './index.types';
 import KeyboardHelper from './Shortcuts/KeyboardHelper';
-import Sidebar from './Sidebar';
+// import Sidebar from './Sidebar';
 import SnackbarHelper from './Snackbars/SnackbarHelper';
 import Status from './Status';
 import { IndustrialProvider } from './Store';
@@ -25,8 +25,7 @@ export {
   SnackbarHelper,
 
   // sidebar
-  Sidebar,
-
+  // Sidebar,
   StatusOptionsProps,
   StatusPopperProps,
 

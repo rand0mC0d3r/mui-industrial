@@ -73,16 +73,16 @@ export const StatusCore = forwardRef((props: ISidebarObject, ref: any) => {
   // }, [statusObject, id, elementFound, ref, onLoad]);
 
   const renderAction = <Tooltip key={id} title={tooltip} arrow placement='right'>
-            <Button
-            ref={ref}
-            onClick={() => updateSidebarIndex(id)}
-            variant="text" style={{ minWidth: 'unset' }}>
-              {cloneElement(icon, {
-                style: { fontSize: '28px' },
-                color: id === sidebarIndex ? 'primary' : 'action',
-              })}
-            </Button>
-          </Tooltip>;
+      <Button
+        ref={ref}
+        onClick={() => updateSidebarIndex(id)}
+        variant="text" style={{ minWidth: 'unset' }}>
+          {cloneElement(icon, {
+            style: { fontSize: '28px' },
+            color: id === sidebarIndex ? 'primary' : 'action',
+          })}
+      </Button>
+    </Tooltip>;
 
   return <>
     {(sidebarObject !== null && !!id && sidebarObject.visible && children)

@@ -8,7 +8,7 @@ import InternalConsole from '../InternalConsole';
 import InternalKeyboard from '../InternalKeyboard';
 import InternalNotifications from '../InternalNotifications';
 import InternalSettings from '../InternalSettings';
-import InternalSidebar from '../InternalSidebar';
+// import InternalSidebar from '../../_todo/InternalSidebar';
 import InternalStatus from '../InternalStatus';
 
 const InternalCommands = lazy(() => import('../InternalCommands'));
@@ -47,16 +47,16 @@ export default ({
     <InternalStatus {...{ style }} />
   </SStatusContainer>;
 
-  const renderSidebar = <>
-  {/* {sidebar.length > 0 && <Suspense fallback={<></>}> */}
-    <InternalSidebar />
-  {/* </Suspense>} */}
-  </>;
+  // const renderSidebar = <>
+  // {/* {sidebar.length > 0 && <Suspense fallback={<></>}> */}
+  //   <InternalSidebar />
+  // {/* </Suspense>} */}
+  // </>;
 
   return <>
     <SBox id="mui-status-wrapper" {...{ column: position }}>
       <SChildrenRow>
-        {renderSidebar}
+        {/* {renderSidebar} */}
         <SChildren id="mui-status-children">
           {children}
           {renderConsole}

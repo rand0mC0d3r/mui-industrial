@@ -12,10 +12,10 @@ const SWrapper = styled('div')(() => ({
 }));
 
 export default (): JSX.Element => {
-  const { snackbar } = useContext(DataProvider);
+  const { snackbars } = useContext(DataProvider);
 
   return <SWrapper>
-    {snackbar.map(({ id, severity, message, source, actions, code }) => (
+    {snackbars.map(({ id, severity, message, source, actions, code }) => (
       <InternalAlert key={id} {...{ id, actions, severity, source, message, code }} />
     ))}
   </SWrapper>;

@@ -59,6 +59,7 @@ export interface StatusPopperJSXProps extends StatusProps {
 }
 export interface ISidebarObject {
     additional?: boolean;
+    secondary?: boolean;
     order?: number;
     id: string;
     icon?: any;
@@ -110,14 +111,14 @@ export interface ISnackbarObject {
     severity?: Severity;
 }
 export interface SnackbarObject extends ISnackbarObject {
-    id: string;
-    open: boolean;
-    source: string;
     actions: any;
-    message: string;
     autoHideDuration: number;
     code: string;
+    id: string;
+    message: string;
+    open: boolean;
     severity: Severity;
+    source: string;
 }
 export interface CommandObject {
     id: string;

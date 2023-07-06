@@ -45,12 +45,18 @@ const valOrDefault = (val: any, def: any) => {
   return val;
 };
 
-export interface DataContextInterface {
+export interface SnackbarsInterface {
+  handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration = 5000 } : ISnackbarObject) => void;
+  handleSnackbarCleaning: () => void;
+}
+
+
+export interface DataContextInterface extends SnackbarsInterface {
   settings: SettingsObject;
   status: StatusObject[];
   sidebars: SidebarObject[];
   commands: CommandObject[];
-  snackbar: SnackbarObject[];
+  snackbars: SnackbarObject[];
   shortcuts: ShortcutObject[];
   updateConsoleActiveId: ({ id }: { id?: string }) => void;
   updateIsConsoleOpen: any;
@@ -81,12 +87,16 @@ export interface DataContextInterface {
   //////////////////////
 
   handleStatusAnnouncement: any;
-  handleSnackbarCleaning: any;
+  // handleSnackbarCleaning: any;
   // handleSnackbarAnnouncements: ([{ ownId, severity, actions, source, message, code, autoHideDuration }] :
   // [{ ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }]) => void;
   // handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
   // { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }) => void;
-  handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration } : ISnackbarObject) => void;
+
+
+  // handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration = 5000 } : ISnackbarObject) => void;
+  // SnackbarsInterface;
+
   handleStatusDestroy: any;
   // handleSnackbarDestroy: any;
   handleStatusTypeUpdate: ({ id, type }: { id: string, type: StatusType }) => void;
@@ -128,7 +138,7 @@ const IndustrialProvider = ({
 }) => {
   const [sidebars, setSidebars] = useState<SidebarObject[]>([]);
   const [status, setStatus] = useState<StatusObject[]>([]);
-  const [snackbar, setSnackbar] = useState<SnackbarObject[]>([]);
+  const [snackbars, setSnackbars] = useState<SnackbarObject[]>([]);
   const [commands, setCommands] = useState<CommandObject[]>([]);
   const [shortcuts, setShortcuts] = useState<ShortcutObject[]>([]);
   const [settings, setSettings] = useState<SettingsObject>(initialSettings);
@@ -187,20 +197,26 @@ const IndustrialProvider = ({
   };
 
   // SNACKBARS
-  const handleSnackbarRegister = ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => {
-    const randomId = Math.random().toString(36).substring(7);
-    console.log('registed snackbar', randomId);
-    setSnackbar((snackbar: SnackbarObject[]) => [
-      ...snackbar.filter(snackbar => snackbar.id !== randomId),
+  const handleSnackbarRegister = ({
+    actions,
+    autoHideDuration = 5000,
+    code,
+    message,
+    severity,
+    source,
+  }: ISnackbarObject) => {
+    const id = Math.random().toString(36).substring(7);
+    setSnackbars((snackbars: SnackbarObject[]) => [
+      ...snackbars,
       {
-        id: randomId,
+        actions,
+        autoHideDuration,
+        code,
+        id,
+        message,
         open: true,
         severity,
-        actions,
         source,
-        message,
-        code,
-        autoHideDuration: autoHideDuration || 5000,
       } as SnackbarObject,
     ]);
   };
@@ -210,7 +226,7 @@ const IndustrialProvider = ({
   // };
 
   const handleSnackbarCleaning = () => {
-    setSnackbar(() => []);
+    setSnackbars(() => []);
   };
 
   // const handleSnackbarAnnouncement = (
@@ -506,7 +522,7 @@ const IndustrialProvider = ({
   }, [settings.debug, log, logn]);
 
   useEffect(() => dumpContext('🗄️ Status', status), [status, dumpContext]);
-  useEffect(() => dumpContext('📟 Snackbar', snackbar), [snackbar, dumpContext]);
+  useEffect(() => dumpContext('📟 Snackbar', snackbars), [snackbars, dumpContext]);
   useEffect(() => dumpContext('🫙 Shortcuts', shortcuts), [shortcuts, dumpContext]);
   useEffect(() => dumpContext('🎯 Commands', commands), [commands, dumpContext]);
   useEffect(() => dumpContext('🎛️ Sidebar', sidebars), [sidebars, dumpContext]);
@@ -546,7 +562,7 @@ const IndustrialProvider = ({
       handleKeyboardGetLabel,
 
       // snackbar + crud,
-      snackbar,
+      snackbars,
       handleSnackbarRegister,
       handleSnackbarCleaning,
       // handleSnackbarAnnouncement,

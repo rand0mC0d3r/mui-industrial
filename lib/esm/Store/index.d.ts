@@ -2,12 +2,16 @@ import React from 'react';
 import { CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SidebarObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export declare const packageName = "mui-industrial";
-export interface DataContextInterface {
+export interface SnackbarsInterface {
+    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
+    handleSnackbarCleaning: () => void;
+}
+export interface DataContextInterface extends SnackbarsInterface {
     settings: SettingsObject;
     status: StatusObject[];
     sidebars: SidebarObject[];
     commands: CommandObject[];
-    snackbar: SnackbarObject[];
+    snackbars: SnackbarObject[];
     shortcuts: ShortcutObject[];
     updateConsoleActiveId: ({ id }: {
         id?: string;
@@ -30,8 +34,6 @@ export interface DataContextInterface {
     handleCallCommand: (id: string) => void;
     handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
-    handleSnackbarCleaning: any;
-    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
     handleStatusDestroy: any;
     handleStatusTypeUpdate: ({ id, type }: {
         id: string;

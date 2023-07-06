@@ -10,10 +10,11 @@ import {
 import DataProvider, { composeDomId } from '../../Store';
 import { StyledActions, StyledActionsTall, StyledPaper, StyledSidebar } from './css';
 
-export default (): JSX.Element => {
+export default ({ secondary } : { secondary: boolean }): JSX.Element => {
   const { sidebarIndex  } = useContext(DataProvider).settings as SettingsObject;
 
   return <>
+  {/* {secondary ? 'secondary' : 'primary'} */}
     <Paper style={{ alignSelf: 'stretch', display: 'flex' }} elevation={1}>
       <StyledSidebar>
         <StyledActionsTall id={composeDomId('sidebar', ['actions'])}>

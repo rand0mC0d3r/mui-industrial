@@ -3,6 +3,9 @@ import { SnackbarObject } from '../index.types';
 import DataProvider, { DataContextInterface } from '../Store';
 
 export const useSnackbars = () => {
-  const { snackbar } : { snackbar: SnackbarObject[] } = useContext(DataProvider) as DataContextInterface;
-  return snackbar;
+  return {
+    handleSnackbarRegister: useContext(DataProvider).handleSnackbarRegister as DataContextInterface['handleSnackbarRegister'],
+    handleSnackbarCleaning: useContext(DataProvider).handleSnackbarCleaning as DataContextInterface['handleSnackbarCleaning'],
+    snackbars: useContext(DataProvider).snackbars as SnackbarObject[],
+  };
 };

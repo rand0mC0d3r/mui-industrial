@@ -3,14 +3,14 @@
 ![](https://img.shields.io/npm/v/mui-industrial)  ![](https://img.shields.io/bundlephobia/min/mui-industrial) ![](https://img.shields.io/node/v/mui-industrial)
 ![](https://img.shields.io/npm/l/mui-industrial)
 
-_**NOTE**: project is still in development and is not yet ready for production use without caution._
+_**NOTE**: Project is still in development and is not yet ready for production use. Use without caution._
 
 ---
 
 
-A zero-maintenance/batteries-included panel manager inspired by VSCode style/aspect that adds via Material-UI elements a self populating/managed and state keeping organization of generated children panels.
+A zero-maintenance/batteries-included panel manager inspired by VSCode style/aspect that adds via Material-UI (5) elements a self populating/managed and state keeping organization of generated children status bar elements, panels, shortcuts and more.
 
-A root level ```ContextAPI``` driven provider that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a ```self organizing``` manager that can be placed on either side of the screen and can be configured to even feature consoles and other elements.
+A root level ```ContextAPI``` driven provider/wrapper that allows for the creation of status bars with a variety of elements that can be clicked or have a menu attached to them. The status bar is a ```self organizing``` manager that can be placed on either end of the screen and can be configured to even feature consoles and other elements.
 
 
 ---
@@ -50,6 +50,92 @@ npm install @rand0mC0d3r/mui-industrial --save
 ```
 yarn i @rand0mC0d3r/mui-industrial
 ```
+
+
+## Quick start for your project
+
+```
+import { IndustrialProvider } from 'mui-industrial'
+...
+
+
+function App() {
+  ...
+
+  return <>
+    ...
+    <IndustrialProvider>
+      ... your content
+      <Status ...>[] // status elements
+    </IndustrialProvider>
+    ...
+  </>
+}
+
+export default App
+
+```
+
+---
+
+### Industrial Provider
+
+The Industrial Provider is the root level component that will provide the context for the status bar and its elements.
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| **`position`** | `PlacementPosition` | `top` | The position of the status bar. |
+| **`children`** | `React.ReactNode` | `undefined` | The children of the provider. |
+|
+
+## Hooks
+
+### useRegisterSnackbar()
+
+There are 2 hooks provided for snackbar population/cleanup: ```handleSnackbarRegister``` and ```handleSnackbarCleaning```.
+
+```
+import { useRegisterSnackbar } from 'mui-industrial'
+
+
+export default function () {
+  const { handleSnackbarRegister, handleSnackbarCleaning } =  useRegisterSnackbar()
+
+  const generateInfoNotification = (message = 'Sample Info Notification') => {
+    handleSnackbarRegister({
+      message,
+      source: 'AutoFixer',
+      severity: Severity.INFO,
+    })
+  }
+
+  const cleanAllNotifications = () => {
+    handleSnackbarCleaning()
+  }
+
+  return <>
+    <button onClick={generateInfoNotification}>Create sample notification</button>
+    <button onClick={cleanAllNotifications}>Clear all notifications</button>
+  </>
+}
+
+```
+
+The ```handleSnackbarRegister``` allows you to create a snackbar that will be displayed on the screen.
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| **`severity`** | `SnackbarSeverity` | `info` | The severity of the snackbar. |
+| **`actions`** | `React.ReactNode` | `undefined` | The actions of the snackbar. |
+| **`source`** | `string` | `undefined` | The source of the snackbar. |
+| **`message`** | `string` | `undefined` | The message of the snackbar. |
+| **`code`** | `string` | `undefined` | The code of the snackbar. |
+| **`autoHideDuration`** | `number` | `undefined` | The auto hide duration of the snackbar. |
+
+ <!-- ({ severity, actions, source, message, code, autoHideDuration } -->
+
+
+The ```handleSnackbarCleaning``` allows you to clean all the snackbar messages from the screen.
 
 
 ---
