@@ -1,26 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SnackbarObject } from 'index.types';
 import { useContext, useEffect, useState } from 'react';
-import { SnackbarObject } from '../../index.types';
 import InternalAlert from '../../internal/InternalAlert';
 import DataProvider, { DataContextInterface } from '../../Store';
-
 
 export default ({
   snackbarId,
 } : {
   snackbarId: string,
 }): JSX.Element => {
-  const { snackbar } : { snackbar: SnackbarObject[] } = useContext(DataProvider) as DataContextInterface;
+  const { snackbars } : { snackbars: SnackbarObject[] } = useContext(DataProvider) as DataContextInterface;
   const [snackbarObject, setSnackbarObject] = useState<SnackbarObject | undefined>();
 
   useEffect(() => {
-    setSnackbarObject(snackbar.find(({ id }) => id === snackbarId));
-  }, [snackbarId, snackbar]);
+    setSnackbarObject(snackbars.find(({ id }) => id === snackbarId));
+  }, [snackbarId, snackbars]);
 
   return <>
     {snackbarId
     && snackbarObject
     && <InternalAlert
+      autoHideDuration={snackbarObject.autoHideDuration}
+      actions={snackbarObject.actions}
       severity={snackbarObject.severity}
       code={snackbarObject.code}
       id={snackbarObject.id}

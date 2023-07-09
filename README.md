@@ -90,16 +90,16 @@ The Industrial Provider is the root level component that will provide the contex
 
 ## Hooks
 
-### useRegisterSnackbar()
+### useSnackbars()
 
-There are 2 hooks provided for snackbar population/cleanup: ```handleSnackbarRegister``` and ```handleSnackbarCleaning```.
+There are 2 hooks provided for snackbar population/cleanup: ```handleSnackbarRegister``` and ```handleSnackbarCleaning``` and a data store partition holding the snackbar current messages: ```snackbars```.
 
 ```
-import { useRegisterSnackbar } from 'mui-industrial'
+import { useSnackbars } from 'mui-industrial'
 
 
 export default function () {
-  const { handleSnackbarRegister, handleSnackbarCleaning } =  useRegisterSnackbar()
+  const { snackbars, handleSnackbarRegister, handleSnackbarCleaning } =  useRegisterSnackbar()
 
   const generateInfoNotification = (message = 'Sample Info Notification') => {
     handleSnackbarRegister({
@@ -114,6 +114,7 @@ export default function () {
   }
 
   return <>
+    {snackbars.map(({ id }) => <> ... </>)}
     <button onClick={generateInfoNotification}>Create sample notification</button>
     <button onClick={cleanAllNotifications}>Clear all notifications</button>
   </>
@@ -131,9 +132,6 @@ The ```handleSnackbarRegister``` allows you to create a snackbar that will be di
 | **`message`** | `string` | `undefined` | The message of the snackbar. |
 | **`code`** | `string` | `undefined` | The code of the snackbar. |
 | **`autoHideDuration`** | `number` | `undefined` | The auto hide duration of the snackbar. |
-
- <!-- ({ severity, actions, source, message, code, autoHideDuration } -->
-
 
 The ```handleSnackbarCleaning``` allows you to clean all the snackbar messages from the screen.
 

@@ -6,6 +6,7 @@ export const useSnackbars = () => {
   return {
     handleSnackbarRegister: useContext(DataProvider).handleSnackbarRegister as DataContextInterface['handleSnackbarRegister'],
     handleSnackbarCleaning: useContext(DataProvider).handleSnackbarCleaning as DataContextInterface['handleSnackbarCleaning'],
-    snackbars: useContext(DataProvider).snackbars as SnackbarObject[],
+    snackbars: (useContext(DataProvider).snackbars as SnackbarObject[])
+      .map(snackbar => ({ id: snackbar.id })),
   };
 };

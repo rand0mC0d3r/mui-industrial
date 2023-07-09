@@ -1,7 +1,7 @@
 import { useConfig } from './hooks/useConfig';
 import { useRegisterCommand } from './hooks/useRegisterCommand';
 import { useRegisterShortcut } from './hooks/useRegisterShortcut';
-import { useRegisterSnackbar } from './hooks/useRegisterSnackbar';
+// import { useRegisterSnackbar } from './hooks/useRegisterSnackbar';
 import { useShortcuts } from './hooks/useShortcuts';
 import { useSnackbars } from './hooks/useSnackbars';
 import {
@@ -41,6 +41,6 @@ export {
   useShortcuts,
   useSnackbars,
   useRegisterShortcut,
-  useRegisterSnackbar,
+  // useRe,gisterSnackbar,
   useRegisterCommand,
 };

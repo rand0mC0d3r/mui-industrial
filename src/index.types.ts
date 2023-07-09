@@ -110,24 +110,33 @@ export interface IShortcutObject {
 export interface ShortcutObject extends IShortcutObject {
   original?: ShortcutObject
 }
+
+
+
+
+
 export interface ISnackbarObject {
-  source?: string;
+  id?: string;
   actions?: any;
-  message: string;
-  code?: string;
   autoHideDuration?: number;
-  severity?: Severity,
-}
-export interface SnackbarObject extends ISnackbarObject {
-  actions: any;
-  autoHideDuration: number;
-  code: string;
-  id: string;
+  code?: string;
   message: string;
-  open: boolean;
-  severity: Severity,
-  source: string;
+  severity?: Severity,
+  source?: string;
 }
+
+export interface SnackbarProps extends ISnackbarObject {
+  id: string;
+  severity: Severity,
+}
+
+export interface SnackbarObject extends SnackbarProps {
+  open: boolean;
+}
+
+
+
+
 
 export interface CommandObject {
   id: string;
@@ -235,3 +244,18 @@ export const Direction = {
   BottomRight: 'bottomRight',
   Left: 'left',
 };
+
+
+export interface SnackbarsInterface {
+  handleSnackbarRegister: ({
+    actions,
+    autoHideDuration,
+    code,
+    message,
+    severity,
+    source,
+  } : ISnackbarObject) => void;
+  handleSnackbarHide: ({ id }: { id : string }) => void;
+  handleSnackbarDelete: ({ id }: { id : string }) => void;
+  handleSnackbarCleaning: () => void;
+}

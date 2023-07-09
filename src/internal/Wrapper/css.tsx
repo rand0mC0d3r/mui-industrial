@@ -24,8 +24,11 @@ export const SNotifications: any = styled('div')<{ column?: string }>(({ column 
   right: '16px',
   zIndex: 112,
 
-  bottom: column !== PlacementPosition.TOP ? 'unset' : '32px',
-  top: column !== PlacementPosition.TOP ? '32px' : 'unset',
+  height: 'calc(50vh)',
+  overflow: 'scroll',
+
+  bottom: column !== PlacementPosition.TOP ? 'unset' : '16px',
+  top: column !== PlacementPosition.TOP ? '16px' : 'unset',
   flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column',
 }));
 

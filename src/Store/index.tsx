@@ -7,7 +7,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import {
   CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject,
-  ShortcutObject, SidebarObject, SnackbarObject, StatusObject, StatusType,
+  ShortcutObject, SidebarObject, SnackbarObject, SnackbarsInterface, StatusObject, StatusType,
 } from '../index.types';
 import Wrapper from '../internal/Wrapper';
 import { lognPackage, logPackage } from '../utils/logger';
@@ -45,10 +45,6 @@ const valOrDefault = (val: any, def: any) => {
   return val;
 };
 
-export interface SnackbarsInterface {
-  handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration = 5000 } : ISnackbarObject) => void;
-  handleSnackbarCleaning: () => void;
-}
 
 
 export interface DataContextInterface extends SnackbarsInterface {
@@ -196,23 +192,26 @@ const IndustrialProvider = ({
     ]);
   };
 
+  //////////////////////////
+  //////////////////////////
+  //////////////////////////
   // SNACKBARS
   const handleSnackbarRegister = ({
     actions,
-    autoHideDuration = 5000,
+    autoHideDuration,
     code,
+    id,
     message,
     severity,
     source,
   }: ISnackbarObject) => {
-    const id = Math.random().toString(36).substring(7);
     setSnackbars((snackbars: SnackbarObject[]) => [
-      ...snackbars,
+      ...snackbars.filter(snackbar => snackbar.id !== id),
       {
         actions,
         autoHideDuration,
         code,
-        id,
+        id: id || Math.random().toString(36).substring(7),
         message,
         open: true,
         severity,
@@ -221,35 +220,24 @@ const IndustrialProvider = ({
     ]);
   };
 
-  // const handleSnackbarDestroy = ({ id }: { uniqueId: string }) => {
-  //   // setSnackbar((snackbar: SnackbarObject[]) => [...snackbar.filter(lo => lo.uniqueId !== uniqueId)]);
-  // };
+  const handleSnackbarDelete = ({ id }: { id: string }) => {
+    setSnackbars((snackbars: SnackbarObject[]) => [...snackbars.filter(sb => sb.id !== id)]);
+  };
+
+  const handleSnackbarHide = ({ id }: { id: string }) => {
+    console.log('hiding', id);
+    setSnackbars((snackbars: SnackbarObject[]) => [...snackbars.map(sb => sb.id !== id ? sb : { ...sb, open: false })]);
+  };
 
   const handleSnackbarCleaning = () => {
     setSnackbars(() => []);
   };
 
-  // const handleSnackbarAnnouncement = (
-  //   { ownId, severity, actions, source, message, code, autoHideDuration } :
-  //   { ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number },
-  // ) => {
-  //   console.log('registed snackbar', ownId);
-  //   setSnackbar((snackbar: SnackbarObject[]) => [
-  //     ...snackbar.filter(({ uniqueId }) => uniqueId !== ownId),
-  //     {
-  //       uniqueId: ownId,
-  //       open: true,
-  //       severity,
-  //       actions,
-  //       source,
-  //       message,
-  //       code,
-  //       autoHideDuration,
-  //     } as SnackbarObject,
-  //   ]);
-  // };
 
-
+  //////////////////////////
+  //////////////////////////
+  //////////////////////////
+  // KEYBOARD SHORTCUTS
   function generateSignature(id?: string, label?: string, ascii?: number | null, char?: string | null): string {
     return `${id}-${label}-${ascii || 'empty'}-${char || 'empty'}`;
   }
@@ -258,7 +246,7 @@ const IndustrialProvider = ({
     return args.join('-');
   }
 
-  // KEYBOARD SHORTCUTS
+
   const handleKeyboardRegister = ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => {
     const s = shortcuts.find(shortcut => shortcut.id === id);
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
@@ -563,6 +551,8 @@ const IndustrialProvider = ({
 
       // snackbar + crud,
       snackbars,
+      handleSnackbarDelete,
+      handleSnackbarHide,
       handleSnackbarRegister,
       handleSnackbarCleaning,
       // handleSnackbarAnnouncement,

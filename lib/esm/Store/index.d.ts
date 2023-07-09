@@ -1,11 +1,7 @@
 import React from 'react';
-import { CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject, ShortcutObject, SidebarObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISidebarObject, PlacementPosition, SettingsObject, ShortcutObject, SidebarObject, SnackbarObject, SnackbarsInterface, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
 export declare const packageName = "mui-industrial";
-export interface SnackbarsInterface {
-    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
-    handleSnackbarCleaning: () => void;
-}
 export interface DataContextInterface extends SnackbarsInterface {
     settings: SettingsObject;
     status: StatusObject[];
