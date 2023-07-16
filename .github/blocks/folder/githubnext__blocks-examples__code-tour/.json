@@ -1,0 +1,27 @@
+{
+  "tours": [
+    {
+      "name": "test",
+      "steps": [
+        {
+          "name": "New step",
+          "description": "",
+          "path": ".eslintrc.json",
+          "query": ""
+        },
+        {
+          "name": "New step",
+          "description": "",
+          "path": "src/index.types.ts",
+          "query": ""
+        },
+        {
+          "name": "New step",
+          "description": "",
+          "path": ".eslintrc.json",
+          "query": ""
+        }
+      ]
+    }
+  ]
+}
