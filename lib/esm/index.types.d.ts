@@ -25,6 +25,7 @@ export interface PopoverAction {
     tooltip: string;
     onClick: () => void;
     disabled?: boolean;
+    preserveColor?: boolean;
 }
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export type StatusConsoleJSXProps = {

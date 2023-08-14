@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ClickAwayListener } from '@mui/material';
 import { useContext } from 'react';
+import InternalHeader from '../../../Api/InternalHeader';
 import { Highlight, PlacementPosition, SettingsObject } from '../../../index.types';
-import InternalHeader from '../../../internal/InternalHeader';
 import DataProvider from '../../../Store';
 import { StyledBox, StyledContainer, StyledPopper } from './css';
 
@@ -57,7 +57,11 @@ export default ({
             {options?.content}
           </StyledBox>
           {enrichedPopper.hasToolbar && <InternalHeader {...{
+            sx: {
+              p: 1,
+            },
             id,
+            topBorder: true,
             actions: options.actions,
             title: options?.title,
           }}

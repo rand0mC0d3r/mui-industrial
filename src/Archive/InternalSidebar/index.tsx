@@ -14,7 +14,7 @@ export default ({ secondary } : { secondary: boolean }): JSX.Element => {
   const { sidebarIndex  } = useContext(DataProvider).settings as SettingsObject;
 
   return <>
-  {/* {secondary ? 'secondary' : 'primary'} */}
+  {secondary ? 'seconda.ry' : 'primary'}
     <Paper style={{ alignSelf: 'stretch', display: 'flex' }} elevation={1}>
       <StyledSidebar>
         <StyledActionsTall id={composeDomId('sidebar', ['actions'])}>

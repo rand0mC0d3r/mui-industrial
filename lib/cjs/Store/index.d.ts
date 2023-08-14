@@ -1,18 +1,22 @@
 import React from 'react';
-import { CommandObject, ISnackbarObject, PlacementPosition, ShortcutObject, SnackbarObject, StatusObject, StatusType } from '../index.types';
+import { CommandObject, ISidebarObject, PlacementPosition, SettingsObject, ShortcutObject, SidebarObject, SnackbarObject, SnackbarsInterface, StatusObject, StatusType } from '../index.types';
 export declare const composeDomId: (component: string, detail: string[]) => string;
-export interface DataContextInterface {
-    settings: any;
+export declare const packageName = "mui-industrial";
+export interface DataContextInterface extends SnackbarsInterface {
+    settings: SettingsObject;
     status: StatusObject[];
+    sidebars: SidebarObject[];
     commands: CommandObject[];
-    snackbar: SnackbarObject[];
+    snackbars: SnackbarObject[];
     shortcuts: ShortcutObject[];
     updateConsoleActiveId: ({ id }: {
         id?: string;
     }) => void;
     updateIsConsoleOpen: any;
+    updateSidebarIndex: any;
     updateIsConsoleClosed: any;
     handleStatusUpdate: any;
+    handleSidebarRegister: ({ id, icon, order, additional, tooltip, title, options }: ISidebarObject) => void;
     handleKeyboardRegister: ({ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }: ShortcutObject) => void;
     handleKeyboardsRegister: ([{ id, label, ascii, char, altKey, ctrlKey, metaKey, shiftKey, onTrigger, insensitive }]: ShortcutObject[]) => void;
     handleKeyboardUpdate: (id: string, shortcutObject: ShortcutObject) => void;
@@ -26,8 +30,6 @@ export interface DataContextInterface {
     handleCallCommand: (id: string) => void;
     handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
-    handleSnackbarCleaning: any;
-    handleSnackbarRegister: ({ severity, actions, source, message, code, autoHideDuration }: ISnackbarObject) => void;
     handleStatusDestroy: any;
     handleStatusTypeUpdate: ({ id, type }: {
         id: string;

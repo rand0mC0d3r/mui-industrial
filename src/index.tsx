@@ -41,6 +41,6 @@ export {
   useShortcuts,
   useSnackbars,
   useRegisterShortcut,
-  // useRe,gisterSnackbar,
+  // useRegisterSnackbar,
   useRegisterCommand,
 };

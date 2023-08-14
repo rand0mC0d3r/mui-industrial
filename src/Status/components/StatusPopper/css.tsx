@@ -9,6 +9,7 @@ export const StyledBox: any = styled(Box)<{ width?: PopperWidth, height?: Popper
 
   maxHeight: 'calc(75vh)',
   overflow: 'scroll',
+  borderBottom: `1px dotted ${theme.palette.divider}`,
 }));
 
 export const StyledPopper: any = styled(Popper)(() => ({

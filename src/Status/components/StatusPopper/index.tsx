@@ -10,7 +10,7 @@ import StatusCore from '../StatusCore';
 import Component from './Component';
 
 const defaultPopperOptions = {
-  elevation: 2,
+  elevation: 4,
   hasToolbar: true,
   onClose: () => {},
   open: false,

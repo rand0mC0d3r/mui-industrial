@@ -2,10 +2,10 @@
 import HistoryIcon from '@mui/icons-material/History';
 import { Box, ClickAwayListener, TextField } from '@mui/material';
 import { useContext } from 'react';
+import InternalHeader from '../../Api/InternalHeader';
 import { ShortcutObject } from '../../index.types';
-import InternalHeader from '../../internal/InternalHeader';
 import DataProvider, { DataContextInterface } from '../../Store';
-import { StyledContainer, StyledKey, StyledPopper } from './css';
+import { StyledKey, StyledPopper } from './css';
 
 export default ({
   idPopper,
@@ -40,7 +40,19 @@ export default ({
       id: `mui-status-panel-popover-${idPopper}`,
     }}>
       <ClickAwayListener onClickAway={() => handleClose()}>
-          <StyledContainer>
+          <Box
+            display={'flex'}
+            flexDirection='column'
+            gap={2}
+            sx={{
+              p: 2,
+              width: '285px',
+              borderRadius: 2,
+              border: 1,
+              borderColor: 'primary.main',
+              backgroundColor: 'background.paper',
+            }}
+           >
             <Box display={'flex'} flexDirection="row" alignItems={'center'} style={{ gap: '8px' }}>
               {renderChip('⇧', { shiftKey: !shortcutObject?.shiftKey }, shortcutObject?.shiftKey)}
               {renderChip('⌃', { ctrlKey: !shortcutObject?.ctrlKey }, shortcutObject?.ctrlKey)}
@@ -69,15 +81,24 @@ export default ({
               />
             </Box>
             <InternalHeader
-            noDefaults
-            title={shortcutObject.label}
-            id='consoleHeader'
-            actions={[{
-              icon: <HistoryIcon />,
-              tooltip: 'Revert to original shortcut',
-              onClick: () => handleKeyboardRevert(shortcutId),
-            }]}/>
-          </StyledContainer>
+              sx={{
+                px: 1,
+                py: 0.5,
+                borderRadius: 2,
+                border: 1,
+                borderColor: 'grey.200',
+                backgroundColor: 'grey.50',
+              }}
+              noDefaults
+              title={shortcutObject.label}
+              id='consoleHeader'
+              actions={[{
+                icon: <HistoryIcon />,
+                tooltip: 'Revert to original shortcut',
+                onClick: () => handleKeyboardRevert(shortcutId),
+              }]}
+            />
+          </Box>
       </ClickAwayListener>
     </StyledPopper>
   </>;

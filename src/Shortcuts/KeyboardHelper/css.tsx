@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { alpha, Paper, Popper } from '@mui/material';
+import { Paper, Popper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { FC } from 'react';
 
@@ -21,19 +21,19 @@ export const StyledListOfKeys: any = styled('div')(() => ({
   flexWrap: 'nowrap',
 }));
 
-export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) => ({
-  display: 'flex',
-  alignItems: 'stretch',
-  position: 'relative',
-  flexDirection: 'column',
-  gap: '8px',
-  padding: '8px',
-  width: '285px',
+// export const StyledContainer: any = styled('div')(({ theme } : { theme: any, }) => ({
+//   display: 'flex',
+//   alignItems: 'stretch',
+//   position: 'relative',
+//   flexDirection: 'column',
+//   gap: '8px',
+//   padding: '8px',
+//   width: '285px',
 
-  backgroundColor: `${alpha(theme.palette.background.default, 0.95)}`,
-  borderRadius: `${theme.shape.borderRadius * 2}px`,
-  border: `1px solid ${theme.palette.primary.main}`,
-}));
+//   backgroundColor: `${alpha(theme.palette.background.default, 0.95)}`,
+//   borderRadius: `${theme.shape.borderRadius * 2}px`,
+//   border: `1px solid ${theme.palette.primary.main}`,
+// }));
 
 export const StyledKey: FC<{
   highlight?: string,

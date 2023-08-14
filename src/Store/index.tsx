@@ -5,11 +5,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { createContext, useCallback, useEffect, useState } from 'react';
+import Wrapper from '../Api/Wrapper';
 import {
   CommandObject, ISidebarObject, ISnackbarObject, PlacementPosition, SettingsObject,
   ShortcutObject, SidebarObject, SnackbarObject, SnackbarsInterface, StatusObject, StatusType,
 } from '../index.types';
-import Wrapper from '../internal/Wrapper';
 import { lognPackage, logPackage } from '../utils/logger';
 
 const domIdBase = 'mui-status';

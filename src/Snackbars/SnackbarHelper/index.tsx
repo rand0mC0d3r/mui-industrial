@@ -1,6 +1,6 @@
 import { SnackbarObject } from 'index.types';
 import { useContext, useEffect, useState } from 'react';
-import InternalAlert from '../../internal/InternalAlert';
+import InternalAlert from '../../Api/InternalAlert';
 import DataProvider, { DataContextInterface } from '../../Store';
 
 export default ({

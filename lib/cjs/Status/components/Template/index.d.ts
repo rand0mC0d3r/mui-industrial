@@ -8,7 +8,7 @@ declare const _default: ({ icon, text, badge, image, mask, reverse, reverseIcon,
     reverse?: boolean | undefined;
     reverseIcon?: boolean | undefined;
     children?: JSX.Element | undefined;
-    childrenOrder?: 2 | 1 | -1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
+    childrenOrder?: 1 | 2 | 3 | 10 | -1 | 12 | 8 | 7 | 4 | 5 | 6 | 9 | 11 | undefined;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     style?: CSSProperties | undefined;
 }) => JSX.Element;

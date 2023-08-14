@@ -25,6 +25,7 @@ export interface PopoverAction {
     tooltip: string;
     onClick: () => void;
     disabled?: boolean;
+    preserveColor?: boolean;
 }
 export type PopoverActions = [PopoverAction, PopoverAction?, PopoverAction?];
 export type StatusConsoleJSXProps = {
@@ -57,6 +58,23 @@ export interface StatusProps {
 export interface StatusPopperJSXProps extends StatusProps {
     options: StatusOptionsProps;
 }
+export interface ISidebarObject {
+    additional?: boolean;
+    secondary?: boolean;
+    order?: number;
+    id: string;
+    icon?: any;
+    tooltip?: string;
+    title?: string;
+    children: React.ReactNode;
+    options?: any;
+}
+export interface SidebarObjectProps extends ISidebarObject {
+    icon: any;
+}
+export interface SidebarObject extends ISidebarObject {
+    visible: boolean;
+}
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
@@ -86,22 +104,20 @@ export interface ShortcutObject extends IShortcutObject {
     original?: ShortcutObject;
 }
 export interface ISnackbarObject {
-    source?: string;
+    id?: string;
     actions?: any;
-    message: string;
-    code?: string;
     autoHideDuration?: number;
-    severity?: Severity;
-}
-export interface SnackbarObject extends ISnackbarObject {
-    id: string;
-    open: boolean;
-    source: string;
-    actions: any;
+    code?: string;
     message: string;
-    autoHideDuration: number;
-    code: string;
+    severity?: Severity;
+    source?: string;
+}
+export interface SnackbarProps extends ISnackbarObject {
+    id: string;
     severity: Severity;
+}
+export interface SnackbarObject extends SnackbarProps {
+    open: boolean;
 }
 export interface CommandObject {
     id: string;
@@ -152,6 +168,7 @@ export interface SettingsObject {
     isConsoleFixed?: boolean;
     consoleActiveId?: string;
     width: string;
+    sidebarIndex?: string;
     size: 'small' | 'medium' | 'large';
     hasBorder: boolean;
     fullWidth: boolean;
@@ -198,3 +215,13 @@ export declare const Direction: {
     BottomRight: string;
     Left: string;
 };
+export interface SnackbarsInterface {
+    handleSnackbarRegister: ({ actions, autoHideDuration, code, message, severity, source, }: ISnackbarObject) => void;
+    handleSnackbarHide: ({ id }: {
+        id: string;
+    }) => void;
+    handleSnackbarDelete: ({ id }: {
+        id: string;
+    }) => void;
+    handleSnackbarCleaning: () => void;
+}
