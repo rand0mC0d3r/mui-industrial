@@ -82,8 +82,8 @@ export default ({
     setAnchorEl(popperReference.current);
   }, [statusObject, options]);
 
-  const determineHighlight = () => (statusObject?.keepOpen || options.open !== undefined ? options.open : false)
-    ? Highlight.PRIMARY
+  const determineHighlight = (statusObject?.keepOpen || options.open !== undefined ? options.open : false)
+    ? highlight !== Highlight.DEFAULT ? highlight : Highlight.PRIMARY
     : highlight;
 
   return <>
@@ -97,7 +97,7 @@ export default ({
       order,
       disabled,
       tooltip: options.open ? null : tooltip,
-      highlight: determineHighlight(),
+      highlight: determineHighlight,
       secondary,
 
       options: {

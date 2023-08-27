@@ -1,10 +1,10 @@
-import { SidebarObjectProps } from '../../index.types';
-import SidebarCore from './components/SidebarCore';
+// import { SidebarObjectProps } from '../../index.types';
+// import SidebarCore from './components/SidebarCore';
 
-const Sidebar = (props : SidebarObjectProps) => {
-  return <>
-    <SidebarCore {...props} />
-  </>;
-};
+// const Sidebar = (props : SidebarObjectProps) => {
+//   return <>
+//     <SidebarCore {...props} />
+//   </>;
+// };
 
-export default Sidebar;
+// export default Sidebar;

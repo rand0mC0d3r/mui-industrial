@@ -1,6 +1,8 @@
-import { Stack, SvgIcon, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { FC } from 'react';
+
+const iconSize = '16px';
 
 export const StyledStack: FC<{ reverse: string }> = styled(Stack)<{ reverse: string }>(({ theme, reverse }) => ({
   gap: `${theme.spacing(0.5)}`,
@@ -8,6 +10,7 @@ export const StyledStack: FC<{ reverse: string }> = styled(Stack)<{ reverse: str
 
   display: 'flex',
   alignItems: 'center',
+  padding: '2px 0px',
   justifyContent: 'center',
   flexWrap: 'nowrap',
   userSelect: 'none',
@@ -15,13 +18,26 @@ export const StyledStack: FC<{ reverse: string }> = styled(Stack)<{ reverse: str
   shapeRendering: 'geometricPrecision',
 }));
 
-export const StyledIcon: FC<{ reverse: string }> = styled(SvgIcon)<{ reverse: string }>(({ reverse }) => ({
-  transform: reverse === 'true' ? 'scaleX(-1)' : 'scaleX(1)',
-
+export const StyledIcon: FC = styled('div')(() => ({
   display: 'flex',
   order: 0,
-  width: '17px',
+  width: iconSize,
   flex: '0 0 auto',
+
+  '& svg': {
+    width: iconSize,
+    height: iconSize,
+  },
+
+  '& img': {
+    width: iconSize,
+    height: iconSize,
+  },
+
+  '& .MuiAvatar-root': {
+    width: iconSize,
+    height: iconSize,
+  },
 }));
 
 export const StyledText: FC = styled(Typography)(() => ({
@@ -29,8 +45,8 @@ export const StyledText: FC = styled(Typography)(() => ({
   order: 4,
   whiteSpace: 'nowrap',
   userSelect: 'none',
-  fontSize: '15px',
-  lineHeight: '0px',
+  fontSize: '14px',
+  lineHeight: '14px',
 }));
 
 export const StyledBadge: FC = styled(Typography)(({ theme }) => ({
@@ -41,8 +57,8 @@ export const StyledBadge: FC = styled(Typography)(({ theme }) => ({
 
   display: 'flex',
   order: 3,
-  padding: '0px 6px',
-  lineHeight: 'inherit',
+  padding: '2px 6px',
+  lineHeight: '10px',
   fontSize: '12px',
 }));
 

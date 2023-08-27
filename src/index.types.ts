@@ -90,7 +90,6 @@ export interface StatusObject {
   uniqueId: string;
   ownId: string;
   title?: string;
-  children: React.ReactNode;
 }
 
 export interface IShortcutObject {
@@ -111,10 +110,6 @@ export interface IShortcutObject {
 export interface ShortcutObject extends IShortcutObject {
   original?: ShortcutObject
 }
-
-
-
-
 
 export interface ISnackbarObject {
   id?: string;

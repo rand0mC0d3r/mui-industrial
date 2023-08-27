@@ -6,6 +6,7 @@ import { useShortcuts } from './hooks/useShortcuts';
 import { useSnackbars } from './hooks/useSnackbars';
 import {
   Highlight, PlacementPosition, PopperHeight, PopperWidth,
+  ShortcutObject,
   StatusOptionsProps, StatusPopperProps,
   StatusType,
 } from './index.types';
@@ -24,7 +25,7 @@ export {
   KeyboardHelper,
   SnackbarHelper,
 
-  // sidebar
+
   // Sidebar,
   StatusOptionsProps,
   StatusPopperProps,
@@ -35,6 +36,7 @@ export {
   StatusType,
   Highlight,
   PlacementPosition,
+  ShortcutObject,
 
   //  hooks,
   useConfig,

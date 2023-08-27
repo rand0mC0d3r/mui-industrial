@@ -38,7 +38,7 @@ const defaultStatusOptionsProps = {
  * @param id - (string) Unique identifier for the status element.
  * @param order - (number) Order to be displayed in the console.
  * @param disabled - (boolean) If needs to be disabled the status element.
- * @param highlight - (string) If needs to be applied a highlight style to the status element.
+ * @param highlight - (Highlight) If needs to be applied a highlight style to the status element.
  * @param options - (StatusOptionsProps) Options to be applied to the status element.
  * @param secondary - (boolean) If needs to be applied a secondary style to the status element.
  * @param tooltip - (string) Tooltip to be displayed on hover.

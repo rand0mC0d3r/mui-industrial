@@ -22,9 +22,9 @@ const defaultSeparatorOptions = {
   end: false,
 } satisfies StatusOptionsSeparatorProps;
 
-const defaultPopperOptions = {
-  hasArrow: false,
-} satisfies StatusPopperProps;
+// const defaultPopperOptions = {
+//   hasArrow: false,
+// } satisfies StatusPopperProps;
 
 type StatusCoreProps = {
   id: string,
@@ -57,18 +57,22 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     onLoad = () => { },
   } = props satisfies StatusCoreProps;
 
-  const { status, handleStatusAnnouncement } = useContext(DataProvider);
+  const { status, handleStatusAnnouncement, handleStatusUpdate } = useContext(DataProvider);
   const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject;
   const [ownId, setOwnId] = useState<string | null>();
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
 
   const combinedSeparators = { ...defaultSeparatorOptions, ...options?.separators };
-  const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
+  // const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
 
   const callbackHandleStatusAnnouncement = useCallback(() => {
-    handleStatusAnnouncement({ id, ownId, secondary, children, options });
-  }, [id, secondary, ownId, options, children, handleStatusAnnouncement]);
+    handleStatusAnnouncement({ id, ownId, order, secondary, options });
+  }, [id, secondary, order, ownId, options, handleStatusAnnouncement]);
+
+  // const callbackHandleStatusAnnouncement = useCallback(() => {
+  //   handleStatusAnnouncement({ id, ownId, order, secondary, options });
+  // }, [id, secondary, order, ownId, options, handleStatusAnnouncement]);
 
   // const callbackHandleStatusDestroy = useCallback(() => { handleStatusDestroy({ id }); }, [id, handleStatusDestroy]);
 
@@ -92,6 +96,12 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
       callbackHandleStatusAnnouncement();
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement]);
+
+  // useEffect(() => {
+  //   if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
+  //     callbackHandleStatusAnnouncement();
+  //   }
+  // }, [id, ownId, secondary, order, statusObject, status, callbackHandleStatusAnnouncement]);
 
   useEffect(() => {
     const statusObjectFound = status.find(({ uniqueId }) => uniqueId === id);
@@ -146,11 +156,11 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
         isdisabled: disabled.toString(),
       }}
       >
-        {combinedPopper.hasArrow && <>
+        {/* {combinedPopper.hasArrow && <>
           {position === PlacementPosition.BOTTOM
             ? <SArrowUp color="primary" />
             : <SArrowDown position={position.toString()} color="primary" />}
-        </>}
+        </>} */}
         {tooltip
           ? <Tooltip title={<STooltip>{tooltip}</STooltip>} arrow>
             <SSpan>{children}</SSpan>

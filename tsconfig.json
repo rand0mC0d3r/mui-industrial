@@ -30,7 +30,8 @@
     "generateCpuProfile": "profile.cpuprofile"
   },
   "include": [
-    "src"
+    "src",
+    "src/Archive"
   ],
   "exclude": [
     "node_modules",

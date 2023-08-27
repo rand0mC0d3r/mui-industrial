@@ -20,7 +20,7 @@ export const composeDomId = (component: string, detail: string[]) => {
 };
 
 export const packageName = 'mui-industrial';
-const keyboardOverridesStorageKey = `${packageName}.keyboard.overrides`;
+// const keyboardOverridesStorageKey = `${packageName}.keyboard.overrides`;
 // const settingsStorageKey = 'mui-status.settings';
 // const statusStorageKey = 'mui-status.status';
 
@@ -157,15 +157,15 @@ const IndustrialProvider = ({
     }
   }, [settings.debug]);
 
-  const handleStatusAnnouncement = ({ id, ownId, secondary, children, options } : {
-    id: string, ownId: string, secondary: boolean, children: any, options: any }) => {
+  const handleStatusAnnouncement = ({ id, ownId, order, secondary, options } : {
+    id: string, ownId: string, order: number, secondary: boolean, options: any }) => {
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
       if (findError) {
         logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`);
         return status;
       }
-      log('➕ Registered status', id, ownId, secondary, children, options);
+      log('➕ Registered status', id, ownId, secondary, options);
       // logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
 
       return [
@@ -175,10 +175,10 @@ const IndustrialProvider = ({
           uniqueId: id,
           ownId,
           options,
+          order,
           keepOpen: false,
           visible: true,
           secondary,
-          children,
         } as StatusObject,
       ];
     });
@@ -252,32 +252,32 @@ const IndustrialProvider = ({
     if (s && generateSignature(s.id, s.label, s.ascii, s.char) === generateSignature(id, label, ascii, char)) return;
 
 
-    let newShortcut =  {
+    const newShortcut =  {
       id, label, char, ascii,
       onTrigger,
       altKey, ctrlKey, metaKey, shiftKey,
       insensitive,
     } as ShortcutObject;
 
-    let override;
-    const possibleOverrides = localStorage.getItem(keyboardOverridesStorageKey);
-    if (possibleOverrides) {
-      try {
-        override = JSON.parse(possibleOverrides)
-          .filter((o: any) => o.id === id)
-          .filter((o: any) => JSON.stringify(o.original) === JSON.stringify(newShortcut))
-          .find((o: any) => o);
-        if (override) {
-          newShortcut = {
-            ...override,
-            onTrigger,
-            original: newShortcut,
-          };
-        }
-      } catch (e) {
-        log('❌ Failed to parse keyboard overrides', e);
-      }
-    }
+    // let override;
+    // const possibleOverrides = localStorage.getItem(keyboardOverridesStorageKey);
+    // if (possibleOverrides) {
+    //   try {
+    //     override = JSON.parse(possibleOverrides)
+    //       .filter((o: any) => o.id === id)
+    //       .filter((o: any) => JSON.stringify(o.original) === JSON.stringify(newShortcut))
+    //       .find((o: any) => o);
+    //     if (override) {
+    //       newShortcut = {
+    //         ...override,
+    //         onTrigger,
+    //         original: newShortcut,
+    //       };
+    //     }
+    //   } catch (e) {
+    //     log('❌ Failed to parse keyboard overrides', e);
+    //   }
+    // }
 
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [ ...prevShortcuts.filter(p => p.id !== id), newShortcut];
@@ -303,7 +303,7 @@ const IndustrialProvider = ({
   const handleKeyboardUpdate = (id: string, shortcutObject: ShortcutObject) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.map(p => p.id === id ? { ...shortcutObject, original:  p.original || p } : p)];
-      localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
+      // localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
       log('⚙️ Updated keyboard', id, result);
       return result;
     });
@@ -312,7 +312,7 @@ const IndustrialProvider = ({
   const handleKeyboardRevert = (id: string) => {
     setShortcuts((prevShortcuts: ShortcutObject[]) => {
       const result = [...prevShortcuts.map(p => (p.id === id && p.original) ? { ...p.original } : p)];
-      localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
+      // localStorage.setItem(keyboardOverridesStorageKey, JSON.stringify(result));
       log('⚙️ Reverted keyboard to original settings', id, result);
       return result;
     });
@@ -381,7 +381,8 @@ const IndustrialProvider = ({
   //////////////////////////
   //////////////////////////
 
-  const handleStatusUpdate = ({ id, ownId, children }: { id: string, ownId: string, children: React.ReactNode }) => {
+  const handleStatusUpdate = ({ id, ownId, ...rest }: { id: string, ownId: string }) => {
+    // console.log('udpate', id, ownId, children);
     setStatus((status: StatusObject[]) => {
       const findError = status.find(({ uniqueId }) => uniqueId === id);
       if (findError?.ownId !== ownId) {
@@ -390,7 +391,7 @@ const IndustrialProvider = ({
         }
         return status;
       }
-      return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, children } : sItem);
+      return status.map(sItem => (sItem.uniqueId === id && sItem.ownId === ownId) ? { ...sItem, ...rest } : sItem);
     });
   };
 

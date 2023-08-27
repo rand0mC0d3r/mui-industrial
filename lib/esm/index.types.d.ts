@@ -86,7 +86,6 @@ export interface StatusObject {
     uniqueId: string;
     ownId: string;
     title?: string;
-    children: React.ReactNode;
 }
 export interface IShortcutObject {
     id: string;
