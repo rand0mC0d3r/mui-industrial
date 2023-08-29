@@ -9,8 +9,6 @@ import DataProvider from '../../../Store';
 import StatusCore from '../StatusCore';
 import Component from './Component';
 
-const kbdId = 'statusPopper';
-
 const defaultPopperOptions = {
   elevation: 4,
   hasToolbar: true,
@@ -43,7 +41,6 @@ export default ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState<boolean>(false);
   const { status } : { status: StatusObject[] } = useContext(DataProvider);
-  const { handleKeyboardRegister } = useContext(DataProvider);
   const popperReference = useRef();
 
   const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } satisfies StatusPopperProps;
