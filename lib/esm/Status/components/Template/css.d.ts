@@ -5,9 +5,6 @@ export declare const StyledStack: FC<{
 export declare const StyledIcon: FC;
 export declare const StyledText: FC;
 export declare const StyledBadge: FC;
-export declare const StyledImage: FC<{
-    mask: string;
-}>;
 export declare const StyledChildren: FC<{
     order: number;
 }>;

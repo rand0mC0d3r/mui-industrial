@@ -42,7 +42,7 @@ export const StyledIcon: FC = styled('div')(() => ({
 
 export const StyledText: FC = styled(Typography)(() => ({
   display: 'flex',
-  order: 4,
+  order: 2,
   whiteSpace: 'nowrap',
   userSelect: 'none',
   fontSize: '14px',
@@ -56,19 +56,10 @@ export const StyledBadge: FC = styled(Typography)(({ theme }) => ({
   border: `0.5px solid ${theme.palette.divider}`,
 
   display: 'flex',
-  order: 3,
+  order: 1,
   padding: '2px 6px',
   lineHeight: '10px',
   fontSize: '12px',
-}));
-
-export const StyledImage: FC<{ mask: string }> = styled('img')<{ mask: string }>(({ mask }) => ({
-  borderRadius: mask === 'true' ? '50%' : 'unset',
-
-  display: 'flex',
-  order: 2,
-  width: '18px',
-  height: '18px',
 }));
 
 export const StyledChildren: FC<{ order: number }> = styled('div')<{ order: number }>(({ theme, order }) => ({

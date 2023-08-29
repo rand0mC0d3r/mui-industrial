@@ -11,6 +11,7 @@ import {
   ShortcutObject, SidebarObject, SnackbarObject, SnackbarsInterface, StatusObject, StatusType,
 } from '../index.types';
 import { lognPackage, logPackage } from '../utils/logger';
+// import { logPackage } from '../utils/logger';
 
 const domIdBase = 'mui-status';
 
@@ -44,8 +45,6 @@ const valOrDefault = (val: any, def: any) => {
   }
   return val;
 };
-
-
 
 export interface DataContextInterface extends SnackbarsInterface {
   settings: SettingsObject;
@@ -157,30 +156,26 @@ const IndustrialProvider = ({
     }
   }, [settings.debug]);
 
-  const handleStatusAnnouncement = ({ id, ownId, order, secondary, options } : {
-    id: string, ownId: string, order: number, secondary: boolean, options: any }) => {
+  const handleStatusAnnouncement = ({ id, ownId, options } : { id: string, ownId: string, options: any }) => {
     setStatus((status: StatusObject[]) => {
       const findError = status.find(sItem => sItem.uniqueId === id && sItem.ownId !== ownId);
       if (findError) {
         logDebug(`mui-status: ❌ Status entry already registered with id: [${id}] & ownId: [${ownId}], but was proposed ownId [${findError.ownId}]`);
         return status;
       }
-      log('➕ Registered status', id, ownId, secondary, options);
-      // logDebug(`mui-status: 🆗 Status entry registered with id: [${id}] & ownId: [${ownId}]`);
 
-      return [
-        ...status.filter(({ uniqueId }) => uniqueId !== id),
-        {
-          index: status.length,
-          uniqueId: id,
-          ownId,
-          options,
-          order,
-          keepOpen: false,
-          visible: true,
-          secondary,
-        } as StatusObject,
-      ];
+      const newObject = {
+        index: status.length,
+        uniqueId: id,
+        ownId,
+        options,
+        keepOpen: false,
+        visible: true,
+      } as StatusObject;
+
+      log('➕ Registered status', id, ownId, options, newObject);
+
+      return [ ...status.filter(({ uniqueId }) => uniqueId !== id), newObject];
     });
   };
 
@@ -382,7 +377,7 @@ const IndustrialProvider = ({
   //////////////////////////
 
   const handleStatusUpdate = ({ id, ownId, ...rest }: { id: string, ownId: string }) => {
-    // console.log('udpate', id, ownId, children);
+    console.log('udpate', id, ownId, rest);
     setStatus((status: StatusObject[]) => {
       const findError = status.find(({ uniqueId }) => uniqueId === id);
       if (findError?.ownId !== ownId) {

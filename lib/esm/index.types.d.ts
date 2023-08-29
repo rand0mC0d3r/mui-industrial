@@ -78,9 +78,7 @@ export interface SidebarObject extends ISidebarObject {
 export interface StatusObject {
     visible: boolean;
     type: StatusTypes;
-    secondary: boolean;
     index: number;
-    order: number;
     options: StatusOptionsProps;
     keepOpen: boolean;
     uniqueId: string;
@@ -131,8 +129,8 @@ export interface CommandObject {
 }
 export interface StatusPopperProps {
     elevation?: number;
-    width?: PopperWidth;
-    height?: PopperHeight;
+    width?: PopperWidth | 'auto';
+    height?: PopperHeight | 'auto';
     onClose?: any;
     hasArrow?: boolean;
     hasDecoration?: boolean;
@@ -190,13 +188,15 @@ export declare enum PopperWidth {
     SM = "sm",
     MD = "md",
     LG = "lg",
-    XL = "xl"
+    XL = "xl",
+    AUTO = "auto"
 }
 export declare enum PopperHeight {
     SM = "sm",
     MD = "md",
     LG = "lg",
-    XL = "xl"
+    XL = "xl",
+    AUTO = "auto"
 }
 export declare enum Severity {
     SUCCESS = "success",

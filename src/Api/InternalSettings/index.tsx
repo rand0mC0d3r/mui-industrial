@@ -5,7 +5,7 @@ import { Popover, Tooltip } from '@mui/material';
 import { useContext } from 'react';
 import { PlacementPosition, SettingsObject, StatusObject } from '../../index.types';
 import DataProvider, { DataContextInterface } from '../../Store';
-import { SElement, SElementItem, StyledTypographyNoChildren } from './css';
+import { SElement, SElementItem } from './css';
 
 export default ({ anchorEl, setAnchorEl } : { anchorEl: HTMLDivElement | null, setAnchorEl: any }): JSX.Element => {
   const { status, settings, handleStatusVisibilityToggle } = useContext(DataProvider) as DataContextInterface;
@@ -16,7 +16,7 @@ export default ({ anchorEl, setAnchorEl } : { anchorEl: HTMLDivElement | null, s
 
   const statusEntry = (statusItem: StatusObject) => <SElementItem onClick={() => handleStatusVisibilityToggle({ id: statusItem.uniqueId })}>
     {statusItem.visible ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
-    {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>}
+    {/* {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>} */}
   </SElementItem>;
 
   const entryWrapper = (statusItem: StatusObject) => <Tooltip {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}>
@@ -32,7 +32,9 @@ export default ({ anchorEl, setAnchorEl } : { anchorEl: HTMLDivElement | null, s
   >
     <SElement {...{ onContextMenu: (e: { preventDefault: () => void; }) => { e.preventDefault(); } }}>
       {[false, true].map((state: boolean) => <div key={state.toString()}>
-        {status.filter(({ secondary }) => secondary === state).map(statusItem => entryWrapper(statusItem))}
+        {status
+        // .filter(({ secondary }) => secondary === state)
+          .map(statusItem => entryWrapper(statusItem))}
       </div>)}
     </SElement>
   </Popover>;

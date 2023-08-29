@@ -9,11 +9,11 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  Highlight, PlacementPosition, SettingsObject, StatusObject, StatusOptionsProps,
-  StatusOptionsSeparatorProps, StatusPopperProps,
+  Highlight, SettingsObject, StatusObject, StatusOptionsProps,
+  StatusOptionsSeparatorProps,
 } from '../../../index.types';
 import DataProvider, { composeDomId } from '../../../Store';
-import { SArrowDown, SArrowUp, SDiv, SSpan, STooltip } from './css';
+import { SDiv, SSpan, STooltip } from './css';
 
 const componentId = 'statusBar';
 
@@ -57,8 +57,8 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
     onLoad = () => { },
   } = props satisfies StatusCoreProps;
 
-  const { status, handleStatusAnnouncement, handleStatusUpdate } = useContext(DataProvider);
-  const { allowRightClick, position } = useContext(DataProvider).settings as SettingsObject;
+  const { status, handleStatusAnnouncement } = useContext(DataProvider);
+  const { allowRightClick } = useContext(DataProvider).settings as SettingsObject;
   const [ownId, setOwnId] = useState<string | null>();
   const [statusObject, setStatusObject] = useState<StatusObject | null>(null);
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
@@ -67,12 +67,10 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   // const combinedPopper = { ...defaultPopperOptions, ...options?.popper };
 
   const callbackHandleStatusAnnouncement = useCallback(() => {
-    handleStatusAnnouncement({ id, ownId, order, secondary, options });
-  }, [id, secondary, order, ownId, options, handleStatusAnnouncement]);
+    handleStatusAnnouncement({ id, ownId, options });
+  }, [id, ownId, options, handleStatusAnnouncement]);
 
-  // const callbackHandleStatusAnnouncement = useCallback(() => {
-  //   handleStatusAnnouncement({ id, ownId, order, secondary, options });
-  // }, [id, secondary, order, ownId, options, handleStatusAnnouncement]);
+
 
   // const callbackHandleStatusDestroy = useCallback(() => { handleStatusDestroy({ id }); }, [id, handleStatusDestroy]);
 
@@ -93,15 +91,17 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
 
   useEffect(() => {
     if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
+      console.log('announce');
       callbackHandleStatusAnnouncement();
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement]);
 
   // useEffect(() => {
-  //   if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
-  //     callbackHandleStatusAnnouncement();
+  //   if (id && ownId && statusObject !== null) {
+  //     console.log('update');
+  //     // handleStatusUpdate({ id, ownId, order });
   //   }
-  // }, [id, ownId, secondary, order, statusObject, status, callbackHandleStatusAnnouncement]);
+  // }, [id, ownId, order, statusObject, handleStatusUpdate]);
 
   useEffect(() => {
     const statusObjectFound = status.find(({ uniqueId }) => uniqueId === id);

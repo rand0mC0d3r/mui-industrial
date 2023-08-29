@@ -90,7 +90,7 @@ export default (): JSX.Element => {
                 <StyledContainer position={position.toString()}>
                   <StyledTabsAndActionWrapper>
                     <StyledTabs>
-                      {relevantConsoles.map(({ uniqueId, options, children }) => <StyledTab {...{
+                      {relevantConsoles.map(({ uniqueId, options }) => <StyledTab {...{
                         key: uniqueId,
                         variant: 'caption',
                         onClick: () => updateConsoleActiveId({ id: uniqueId }),
@@ -98,7 +98,8 @@ export default (): JSX.Element => {
                       }}
                       >
                         <Box display={'flex'} flexDirection='row' flexWrap={'nowrap'} style={{ gap: '8px' }}>
-                          {children  || uniqueId}
+                          {/* {children  || uniqueId} */}
+                          // need to show the console
                           <InternalActions actions={options.actions} fontSize="14px"/>
                         </Box>
                       </StyledTab>)}
@@ -121,7 +122,8 @@ export default (): JSX.Element => {
                   onClick={() => updateConsoleActiveId({ id: statusItem.uniqueId })}
                   key={statusItem.uniqueId}>
                     <Box display={'flex'} flexDirection="column" style={{ gap: '8px' }}>
-                      {statusItem.children}
+                      {/* {statusItem.children} */}
+                      // need to show the console
                       <Typography variant="caption" color="textSecondary">{statusItem.options.title}</Typography>
                     </Box>
                   </Button>)}
