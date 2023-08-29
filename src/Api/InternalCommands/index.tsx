@@ -101,7 +101,7 @@ export default (): JSX.Element => {
               label="Commands"
             />}
           />
-        </Paper>
+        </SPaper>
       </ClickAwayListener>
     </div>}
   </>;
