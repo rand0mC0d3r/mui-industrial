@@ -24,7 +24,8 @@ export default (): JSX.Element => {
     status,
     updateConsoleActiveId,
     updateIsConsoleOpen,
-    handleKeyboardRegister,
+    handleKeyboardsRegister,
+    // handleKeyboardRegister,
   } = useContext(DataProvider);
   const { consoleActiveId, isConsoleOpen, position } = useContext(DataProvider).settings as SettingsObject;
 
@@ -58,7 +59,10 @@ export default (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    handleKeyboardRegister({ id: kbdId, ascii: 27, char: '', onTrigger: () => updateIsConsoleOpen(), label: 'Hide/Show console' });
+    handleKeyboardsRegister([
+      { id: kbdId, ascii: 192, char: '', onTrigger: () => updateIsConsoleOpen(), label: 'Hide/Show console' },
+      { id: `${kbdId}_DE`, ascii: 229, char: '', onTrigger: () => updateIsConsoleOpen(), label: 'Hide/Show console (DE)' },
+    ]);
   });
 
   return <>
