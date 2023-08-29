@@ -129,7 +129,7 @@ const IndustrialProvider = ({
   children?: React.ReactNode,
   size?: 'small' | 'medium' | 'large',
   variant?: 'default' | 'outlined',
-  style: any,
+  style?: any,
 }) => {
   const [sidebars, setSidebars] = useState<SidebarObject[]>([]);
   const [status, setStatus] = useState<StatusObject[]>([]);

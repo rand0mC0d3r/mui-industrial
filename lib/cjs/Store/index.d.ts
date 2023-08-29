@@ -59,7 +59,7 @@ declare const IndustrialProvider: ({ expand, hasLock, position, allowRightClick,
     children?: React.ReactNode;
     size?: "small" | "medium" | "large" | undefined;
     variant?: "default" | "outlined" | undefined;
-    style: any;
+    style?: any;
 }) => JSX.Element;
 export default DataContext;
 export { IndustrialProvider };

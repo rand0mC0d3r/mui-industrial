@@ -88,6 +88,32 @@ The Industrial Provider is the root level component that will provide the contex
 | **`children`** | `React.ReactNode` | `undefined` | The children of the provider. |
 |
 
+---
+### &lt;Status&gt; #component
+
+The status component is the primary component that will be used to create the status bar elements.
+It comes with a handy template that can be used to create a variety of elements.
+Also it comes in 3 flavors, as a simple status bar, as a status bar with a console and as a status bar with a popper.
+
+
+**DEMO** : https://codesandbox.io/s/purple-star-6xv735?file=/src/App.tsx
+
+#### &lt;Status&gt;.Template
+
+lorem ipsum dolor sit amet ...
+
+### as DEFAULT
+
+lorem ipsum dolor sit amet ...
+
+### as CONSOLE
+
+lorem ipsum dolor sit amet ...
+
+### as POPPER
+
+lorem ipsum dolor sit amet ...
+
 ## Hooks
 
 ### useSnackbars()
@@ -141,15 +167,12 @@ The ```handleSnackbarCleaning``` allows you to clean all the snackbar messages f
 
 The library is built on top of the following dependencies:
  - **React && ReactDOM 17.0+**
- - **MUI 5.0+**
- - **MUI Icons-Material 5.0+**
- - **MUI Styles 5.0+**
- - **Emotion React 11.0+**
- - **Emotion Styled 11.0+**
+ - **MUI 5.0+** && **MUI Icons-Material 5.0+**
+ - *inherited via MUI - MUI Styles 5.0+ & Emotion React 11.0+ & Emotion Styled 11.0+*
 
  and related @types
 
- ## Package dependencies
+ ## External package dependencies
 
   - **Re-Resizable 6.9.9+**
   - **React-Resizable 3.0.4**
