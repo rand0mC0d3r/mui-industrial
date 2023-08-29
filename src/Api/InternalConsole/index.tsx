@@ -84,10 +84,10 @@ export default (): JSX.Element => {
           maxHeight="950px"
           defaultSize={{ width, height: height || '350px' }}
         >
-          <StyledResizable>
+          <StyledResizable id='resizable'>
             {relevantConsoles.some(({ uniqueId }) => uniqueId === consoleActiveId)
               ? <>
-                <StyledContainer position={position.toString()}>
+                <StyledContainer id="consoleTabs" position={position.toString()}>
                   <StyledTabsAndActionWrapper>
                     <StyledTabs>
                       {relevantConsoles.map(({ uniqueId, options }) => <StyledTab {...{

@@ -7,7 +7,8 @@ import { PlacementPosition } from '../../index.types';
 
 export const StyledStatusConsole: any = styled('div')(() => ({
   flex: '1 0 auto',
-  overflow: 'hidden',
+  overflow: 'scroll',
+  height: '0px',
   display: 'flex',
 }));
 
