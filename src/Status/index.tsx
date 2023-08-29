@@ -5,6 +5,7 @@ import Template from './components/Template';
 const StatusConsole = lazy(() => import('./components/StatusConsole'));
 const StatusCore = lazy(() => import('./components/StatusCore'));
 const StatusPopper = lazy(() => import('./components/StatusPopper'));
+const StatusPopover = lazy(() => import('./components/StatusPopover'));
 
 const defaultStatusOptionsProps = {
   as: StatusType.SIMPLE,
@@ -60,6 +61,7 @@ const Status = ({ ...rest } : StatusProps) => {
   return <>
     {options.as === StatusType.SIMPLE && <Suspense fallback={<></>}><StatusCore {...props} /></Suspense>}
     {options.as === StatusType.POPPER && <Suspense fallback={<></>}><StatusPopper {...props} /></Suspense>}
+    {options.as === StatusType.POPOVER && <Suspense fallback={<></>}><StatusPopover {...props} /></Suspense>}
     {options.as === StatusType.CONSOLE && <Suspense fallback={<></>}><StatusConsole {...props} /></Suspense>}
   </>;
 };

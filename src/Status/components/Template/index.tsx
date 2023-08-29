@@ -47,7 +47,6 @@ export default ({
     {isIcon && <StyledIcon {...{ id: 'sh.icon' }}>{icon}</StyledIcon>}
     {isBadge && <StyledBadge {...{ id: 'sh.badge' }}>{String(badge)}</StyledBadge>}
     {isText && <StyledText {...{ id: 'sh.text', variant: 'caption' }}>{text}</StyledText>}
-    {/* {isChildren ? 'yes' : 'no'} */}
     {isChildren && <StyledChildren {...{ order: childrenOrder }}>{children}</StyledChildren>}
 
     {!isIcon && !isBadge && !isText && !isChildren && <Tooltip

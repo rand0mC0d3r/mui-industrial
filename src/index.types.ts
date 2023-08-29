@@ -199,6 +199,7 @@ export enum Highlight {
 export enum StatusType {
   SIMPLE = 'simple',
   POPPER = 'popper',
+  POPOVER = 'popover',
   CONSOLE = 'console',
 }
 

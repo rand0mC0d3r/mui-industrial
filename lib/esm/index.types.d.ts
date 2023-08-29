@@ -178,6 +178,7 @@ export declare enum Highlight {
 export declare enum StatusType {
     SIMPLE = "simple",
     POPPER = "popper",
+    POPOVER = "popover",
     CONSOLE = "console"
 }
 export declare enum PlacementPosition {
