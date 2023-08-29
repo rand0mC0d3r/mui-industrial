@@ -35,7 +35,7 @@ export default ({
   isExpanded: boolean,
   setIsExpanded: any,
 }) : JSX.Element => {
-  const { handleSnackbarHide } = useContext(DataProvider);
+  const { handleSnackbarHide, handleSnackbarDelete } = useContext(DataProvider);
 
   const toggleExpanded = () => {
     if (actions?.length > 0) return;
@@ -44,6 +44,10 @@ export default ({
 
   const closeAlert = () => {
     handleSnackbarHide({ id });
+  };
+
+  const deleteAlert = () => {
+    handleSnackbarDelete({ id });
   };
 
   useEffect(() => {
@@ -80,7 +84,7 @@ export default ({
         </IconButton>
         </Tooltip>}
       <Tooltip arrow title={isRemoveFlag ? 'Close alert' : 'Dismiss alert'}>
-        <IconButton color="inherit" onClick={closeAlert} size="small">
+        <IconButton color="inherit" onClick={() => isRemoveFlag ? deleteAlert() : closeAlert() } size="small">
           {isRemoveFlag ? <CloseIcon fontSize="small" /> : <ArrowForwardIcon fontSize="small" />}
         </IconButton>
       </Tooltip>

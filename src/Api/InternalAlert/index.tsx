@@ -20,6 +20,7 @@ export default ({
   id,
   message,
   severity,
+  isRemoveFlag = false,
   source,
 }: SnackbarProps) : JSX.Element => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,6 +47,7 @@ export default ({
   </Tooltip>;
 
   return <SAlert
+    onContextMenu={(e: any) => e.preventDefault()}
     key={id}
     expanded={isExpanded.toString()}
     actions={(actions?.length > 0).toString()}
@@ -59,9 +61,13 @@ export default ({
     {...{ severity }}
   >
     <SWrapper>
-      <Header {...{ id, code, actions, severity, message, isRemoveFlag: false, isExpanded, setIsExpanded }} />
+      <Header {...{ id, code, actions, severity, message, isRemoveFlag, isExpanded, setIsExpanded }} />
       {(isExpanded || actions) && getMessage()}
-      {isExpanded && code && <SCode defaultValue={code} height={Math.min(10, code.split('\n').length)} />}
+      {isExpanded && code && <SCode
+        onDoubleClick={(e: any) => e.preventDefault()}
+        defaultValue={code}
+        height={Math.min(10, code.split('\n').length)}
+      />}
       {(isExpanded || actions) && <>
         {(source || actions) && <Footer {...{ actions, severity, source }} />}
       </>}

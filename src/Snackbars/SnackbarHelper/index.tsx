@@ -19,12 +19,13 @@ export default ({
     {snackbarId
     && snackbarObject
     && <InternalAlert
-      autoHideDuration={snackbarObject.autoHideDuration}
-      actions={snackbarObject.actions}
-      severity={snackbarObject.severity}
-      code={snackbarObject.code}
-      id={snackbarObject.id}
-      message={snackbarObject.message}
+        isRemoveFlag={true}
+        autoHideDuration={snackbarObject.autoHideDuration}
+        actions={snackbarObject.actions}
+        severity={snackbarObject.severity}
+        code={snackbarObject.code}
+        id={snackbarObject.id}
+        message={snackbarObject.message}
     />}
   </>;
 };

@@ -9,12 +9,14 @@ type SMessageProps = {
 type SCodeProps = {
   height: number,
   defaultValue: string
+  onDoubleClick: any,
 };
 
 type SAlertProps = {
   expanded: string,
   actions: string,
-  onDoubleClick: () => void,
+  onDoubleClick: any,
+  onContextMenu: any,
   icon: JSX.Element,
   severity: any
 };
@@ -53,7 +55,7 @@ export const SMessage: React.ComponentType<SMessageProps> = styled(Typography)<S
   lineHeight: ellipsis === 'true' ? 'initial' : '1.65',
 }));
 
-export const SWrapper: React.ComponentType = styled('div')(() => ({
+export const SWrapper: React.ComponentType<any> = styled('div')(() => ({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
@@ -61,11 +63,13 @@ export const SWrapper: React.ComponentType = styled('div')(() => ({
   justifyContent: 'center',
 }));
 
-export const SAlert: React.ComponentType<SAlertProps> = styled(Alert)<SAlertProps>(({ expanded, actions }) => ({
+export const SAlert: React.ComponentType<SAlertProps> = styled(Alert)<SAlertProps>(({ expanded, actions, theme }) => ({
+  boxShadow: theme.shadows[2],
   '.MuiAlert-message': {
     minWidth: 'unset',
     width: '100%',
     display: 'flex',
+
 
     padding: expanded === 'true' ? '8px 0px' : '0px',
     flexDirection: (actions === 'true' || expanded === 'true') ? 'column' : 'row',

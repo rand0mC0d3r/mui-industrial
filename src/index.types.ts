@@ -123,6 +123,7 @@ export interface ISnackbarObject {
 export interface SnackbarProps extends ISnackbarObject {
   id: string;
   severity: Severity,
+  isRemoveFlag?: boolean;
 }
 
 export interface SnackbarObject extends SnackbarProps {

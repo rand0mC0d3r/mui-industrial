@@ -18,13 +18,14 @@ export const SBox: any = styled('div')<{ column?: string }>(({ column }) => ({
 }));
 
 export const SNotifications: any = styled('div')<{ column?: string }>(({ column }) => ({
-  gap: '0px',
+  gap: '8px',
   position: 'absolute',
   display: 'flex',
+  alignItems: 'flex-end',
   right: '16px',
   zIndex: 112,
 
-  height: 'calc(50vh)',
+  height: 'calc(95vh)',
   overflow: 'scroll',
 
   bottom: column !== PlacementPosition.TOP ? 'unset' : '16px',

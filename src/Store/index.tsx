@@ -82,7 +82,8 @@ export interface DataContextInterface extends SnackbarsInterface {
   //////////////////////
 
   handleStatusAnnouncement: any;
-  // handleSnackbarCleaning: any;
+  handleSnackbarCleaning: any;
+  handleSnackbarHideAll: any;
   // handleSnackbarAnnouncements: ([{ ownId, severity, actions, source, message, code, autoHideDuration }] :
   // [{ ownId: string, actions: any, source?: string, severity: Severity, message: any, code?: string, autoHideDuration: number }]) => void;
   // handleSnackbarAnnouncement: ({ ownId, severity, actions, source, message, code, autoHideDuration } :
@@ -226,6 +227,10 @@ const IndustrialProvider = ({
 
   const handleSnackbarCleaning = () => {
     setSnackbars(() => []);
+  };
+
+  const handleSnackbarHideAll = () => {
+    setSnackbars((snackbars: SnackbarObject[]) => [...snackbars.map(sb => ({ ...sb, open: false }))]);
   };
 
 
@@ -549,6 +554,7 @@ const IndustrialProvider = ({
       snackbars,
       handleSnackbarDelete,
       handleSnackbarHide,
+      handleSnackbarHideAll,
       handleSnackbarRegister,
       handleSnackbarCleaning,
       // handleSnackbarAnnouncement,

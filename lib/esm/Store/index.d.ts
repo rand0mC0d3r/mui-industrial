@@ -30,6 +30,8 @@ export interface DataContextInterface extends SnackbarsInterface {
     handleCallCommand: (id: string) => void;
     handleCommandsDeRegister: (ids: string[]) => void;
     handleStatusAnnouncement: any;
+    handleSnackbarCleaning: any;
+    handleSnackbarHideAll: any;
     handleStatusDestroy: any;
     handleStatusTypeUpdate: ({ id, type }: {
         id: string;
