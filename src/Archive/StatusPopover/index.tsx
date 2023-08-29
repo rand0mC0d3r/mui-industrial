@@ -3,10 +3,10 @@
 import { MouseEvent, useContext, useEffect, useRef, useState } from 'react';
 import {
   Highlight, StatusObject,
-  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperJSXProps, StatusPopperProps,
-} from '../../../index.types';
-import DataProvider from '../../../Store';
-import StatusCore from '../StatusCore';
+  StatusOptionsProps, StatusOptionsSeparatorProps, StatusPopperJSXProps, StatusPopperProps
+} from '../../index.types';
+import StatusCore from '../../Status/components/StatusCore';
+import DataProvider from '../../Store';
 import Component from './Component';
 
 const defaultPopperOptions = {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ClickAwayListener } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import InternalHeader from '../../../Api/InternalHeader';
 import { Highlight, PlacementPosition, SettingsObject } from '../../../index.types';
 import DataProvider from '../../../Store';
@@ -27,6 +27,14 @@ export default ({
     if (!statusObject?.keepOpen || !settings.hasLock) setAnchorEl(null);
   };
 
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!boxRef.current) return;
+    const element = boxRef.current as HTMLElement;
+    element.focus();
+  }, []);
+
   return <>
     <StyledPopper {...{
       keepMounted: statusObject?.keepOpen,
@@ -39,14 +47,20 @@ export default ({
     }}
     >
       <ClickAwayListener onClickAway={event => handleOnClose(event)}>
-        <StyledContainer {...{
-          elevation: enrichedPopper.elevation,
-          highlight: determineHighlight.toString(),
-          variant: settings.variant.toString(),
-          decoration: enrichedPopper.hasDecoration?.toString(),
-        }}
+        <StyledContainer
+         {...{
+           elevation: enrichedPopper.elevation,
+           highlight: determineHighlight.toString(),
+           variant: settings.variant.toString(),
+           decoration: enrichedPopper.hasDecoration?.toString(),
+         }}
         >
           <StyledBox
+            ref={boxRef}
+            tabIndex={0}
+            onKeyDown={(event: { key: string; }) => {
+              if (event.key === 'Escape') handleOnClose(event);
+            }}
             display="flex"
             alignItems="stretch"
             justifyContent="space-between"

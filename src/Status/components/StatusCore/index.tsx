@@ -91,7 +91,6 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
 
   useEffect(() => {
     if (id && ownId && statusObject === null && !status.some(({ uniqueId }) => uniqueId === id)) {
-      console.log('announce');
       callbackHandleStatusAnnouncement();
     }
   }, [id, ownId, statusObject, status, callbackHandleStatusAnnouncement]);

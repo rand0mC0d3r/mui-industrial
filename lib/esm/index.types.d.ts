@@ -1,5 +1,6 @@
 import React, { CSSProperties, HTMLAttributes, MouseEvent, ReactNode } from 'react';
 export declare const domConsoleId = "mui-status-console";
+export declare const domConsoleHeader = "mui-status-console-header";
 export declare const domStatusBarId = "mui-status-statusBar";
 export declare const localStorageKeyHeight = "mui-industrial-console-height";
 export type StatusTypes = 'simple' | 'panel' | 'console';
@@ -178,7 +179,6 @@ export declare enum Highlight {
 export declare enum StatusType {
     SIMPLE = "simple",
     POPPER = "popper",
-    POPOVER = "popover",
     CONSOLE = "console"
 }
 export declare enum PlacementPosition {

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { MouseEvent, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { domConsoleId, Highlight, SettingsObject, StatusConsoleJSXProps, StatusObject, StatusType } from '../../../index.types';
+import { domConsoleHeader, domConsoleId, Highlight, SettingsObject, StatusConsoleJSXProps, StatusObject, StatusType } from '../../../index.types';
 import DataProvider, { DataContextInterface } from '../../../Store';
 import StatusCore from '../StatusCore';
 
@@ -24,6 +24,7 @@ export default ({
   const { consoleActiveId, isConsoleOpen } = useContext(DataProvider).settings as SettingsObject;
   const [statusObject, setStatusObject] = useState<StatusObject | undefined>(undefined);
   const [elementFound, setElementFound] = useState<HTMLElement | null>(null);
+  const [elementHeaderFound, setElementHeaderFound] = useState<HTMLElement | null>(null);
 
   const computeHightlight = (statusObject && isConsoleOpen && statusObject?.uniqueId === consoleActiveId)
     ? Highlight.PRIMARY
@@ -41,7 +42,8 @@ export default ({
 
   useEffect(() => {
     setElementFound(document.getElementById(domConsoleId) || null);
-  }, [statusObject, consoleActiveId, isConsoleOpen]);
+    setElementHeaderFound(document.getElementById(`${domConsoleHeader}.${id}`) || null);
+  }, [statusObject, consoleActiveId, id, isConsoleOpen]);
 
   useEffect(() => {
     setStatusObject(status.find(({ uniqueId }) => uniqueId === id));
@@ -77,5 +79,9 @@ export default ({
     && options?.content
     && statusObject?.uniqueId === consoleActiveId
     && createPortal(options?.content, elementFound)}
+
+    {elementHeaderFound
+    && children
+    && createPortal(children, elementHeaderFound)}
   </>;
 };

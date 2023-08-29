@@ -9,6 +9,8 @@ import DataProvider from '../../../Store';
 import StatusCore from '../StatusCore';
 import Component from './Component';
 
+const kbdId = 'statusPopper';
+
 const defaultPopperOptions = {
   elevation: 4,
   hasToolbar: true,
@@ -41,6 +43,7 @@ export default ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState<boolean>(false);
   const { status } : { status: StatusObject[] } = useContext(DataProvider);
+  const { handleKeyboardRegister } = useContext(DataProvider);
   const popperReference = useRef();
 
   const enrichedPopper = { ...defaultPopperOptions, ...options?.popper } satisfies StatusPopperProps;
@@ -85,6 +88,22 @@ export default ({
   const determineHighlight = (statusObject?.keepOpen || options.open !== undefined ? options.open : false)
     ? highlight !== Highlight.DEFAULT ? highlight : Highlight.PRIMARY
     : highlight;
+
+  // useEffect(() => {
+  //   handleKeyboardRegister(
+  //     {
+  //       id: `${kbdId}${id}`,
+  //       ascii: 27,
+  //       char: '',
+  //       onTrigger: () => {
+  //         setOpen(p => !p);
+  //         console.log(id);
+  //       },
+  //       label: `Hide popper ${id}`,
+  //     },
+  //   );
+  // });
+
 
   return <>
     <StatusCore {...{

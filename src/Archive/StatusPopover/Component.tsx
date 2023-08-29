@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ClickAwayListener } from '@mui/material';
 import { useContext } from 'react';
-import InternalHeader from '../../../Api/InternalHeader';
-import { Highlight, PlacementPosition, SettingsObject } from '../../../index.types';
-import DataProvider from '../../../Store';
+import InternalHeader from '../../Api/InternalHeader';
+import { Highlight, PlacementPosition, SettingsObject } from '../../index.types';
+import DataProvider from '../../Store';
 import { StyledBox, StyledContainer, StyledPopover } from './css';
 
 export default ({

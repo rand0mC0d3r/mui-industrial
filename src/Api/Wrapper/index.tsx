@@ -22,7 +22,7 @@ export default ({
   children: ReactNode,
   style?: CSSProperties
 }): JSX.Element => {
-  const { status, shortcuts, commands, settings } = useContext(DataProvider) as DataContextInterface;
+  const { status, shortcuts, commands, settings, snackbars } = useContext(DataProvider) as DataContextInterface;
   const { position, fullWidth, hasBorder } = settings as SettingsObject;
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
@@ -39,7 +39,7 @@ export default ({
 
   const renderKeyboards = shortcuts.length > 0 && <InternalKeyboard />;
 
-  const renderNotifications = <SNotifications {...{ column: position }}>
+  const renderNotifications = snackbars.length > 0 && <SNotifications {...{ column: position }}>
     <InternalNotifications />
   </SNotifications>;
 

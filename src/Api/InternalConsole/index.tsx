@@ -5,7 +5,7 @@
 import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { Resizable } from 're-resizable';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
+import { domConsoleHeader, domConsoleId, localStorageKeyHeight, PlacementPosition, SettingsObject } from '../../index.types';
 import DataProvider from '../../Store';
 import InternalActions from '../InternalActions';
 import {
@@ -101,9 +101,14 @@ export default (): JSX.Element => {
                         activated: isActivated(uniqueId).toString(),
                       }}
                       >
-                        <Box display={'flex'} flexDirection='row' flexWrap={'nowrap'} style={{ gap: '8px' }}>
-                          {/* {children  || uniqueId} */}
-                          // need to show the console
+                        <Box
+                          id={`${domConsoleHeader}.${uniqueId}`}
+                          alignItems="center"
+                          display={'flex'}
+                          flexDirection='row-reverse'
+                          flexWrap={'nowrap'}
+                          style={{ gap: '8px', pointerEvents: 'none' }}
+                        >
                           <InternalActions actions={options.actions} fontSize="14px"/>
                         </Box>
                       </StyledTab>)}
@@ -127,7 +132,7 @@ export default (): JSX.Element => {
                   key={statusItem.uniqueId}>
                     <Box display={'flex'} flexDirection="column" style={{ gap: '8px' }}>
                       {/* {statusItem.children} */}
-                      // need to show the console
+                      {/* // need to show the console */}
                       <Typography variant="caption" color="textSecondary">{statusItem.options.title}</Typography>
                     </Box>
                   </Button>)}

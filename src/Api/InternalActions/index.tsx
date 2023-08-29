@@ -20,12 +20,13 @@ export default ({
       <span>
         <IconButton
           size="small"
+          color='inherit'
           disabled={action?.disabled}
           onClick={action?.onClick}
         >
           {cloneElement(action?.icon, {
             style: { fontSize },
-            ...action?.preserveColor ? {} : { color: action?.disabled ? 'disabled' : 'action' },
+            ...action?.preserveColor ? {} : { color: action?.disabled ? 'disabled' : 'inherit' },
           },
           )}
         </IconButton>
