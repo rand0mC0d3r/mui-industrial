@@ -7,7 +7,7 @@ import { cloneElement, useContext, useEffect, useState } from 'react';
 import KeyboardHelper from '../../Shortcuts/KeyboardHelper';
 import DataProvider from '../../Store';
 import InternalHeader from '../InternalHeader';
-import { StyledHighlight } from './css';
+import { SPaper, StyledHighlight } from './css';
 
 const kbdId = 'commands';
 
@@ -46,7 +46,7 @@ export default (): JSX.Element => {
       width: '100%',
     }}>
       <ClickAwayListener onClickAway={() => setOpen(false)}>
-        <Paper style={{ width: '60vw', maxWidth: '750px', padding: '12px', borderRadius: '8px' }} elevation={8}>
+        <SPaper elevation={8}>
           <Autocomplete
             disablePortal
             open
