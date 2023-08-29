@@ -96,7 +96,7 @@ It comes with a handy template that can be used to create a variety of elements.
 Also it comes in 3 flavors, as a simple status bar, as a status bar with a console and as a status bar with a popper.
 
 
-**DEMO** : https://codesandbox.io/s/purple-star-6xv735?file=/src/App.tsx
+**DEMO** : https://codesandbox.io/s/sample-mui-industrial-status-sample-6xv735?file=/src/App.tsx
 
 #### &lt;Status&gt;.Template
 

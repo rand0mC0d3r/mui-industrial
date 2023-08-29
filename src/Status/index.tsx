@@ -68,12 +68,14 @@ const Status = ({ ...rest } : StatusProps) => {
  * Predefined template to be displayed inside the status element.
  *
  * @example
- * <Status.Template text="..." badge={text|string} />
+ * <Status.Template text="..." badge={text|string} icon={<Avatar...} />
  *
  * @param icon - (JSX.Element) Icon to display for status element. Expects a Material UI SvgIcon component.
  * @param text - (string | number) Text to display for status element.
  * @param badge - (string | number) Badge to display relevant notifications.
+ *
  * @param reverse - (boolean) If needs to be applied a reverse of the default order of the elements.
+ *
  * @param className - (HTMLAttribute) Class name to be applied to the root element.
  * @param style - (CSSProperties) Style to be applied to the root element.
  *
