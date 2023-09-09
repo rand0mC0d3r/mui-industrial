@@ -115,6 +115,6 @@ export const SDiv: any = styled('div')<{
 
   '&:hover': (hasclick === 'true' && isdisabled === 'false') ? {
     backgroundColor: backgroundColorHover(theme, highlight),
-    color: `${theme.palette.text.primary}`,
+    color: `${theme.palette.primary.contrastText}`,
   } : {},
 }));

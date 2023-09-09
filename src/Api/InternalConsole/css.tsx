@@ -77,6 +77,6 @@ export const StyledTab: any = styled(Typography)<{ activated?: string }>(({ them
 
   '&:hover': {
     backgroundColor: activated === 'true' ? theme.palette.primary.dark : theme.palette.divider,
-    color: activated === 'true' ? theme.palette.background.default : theme.palette.text.primary,
+    color: activated === 'true' ? theme.palette.primary.contrastText : theme.palette.text.primary,
   },
 }));
