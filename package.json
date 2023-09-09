@@ -31,6 +31,7 @@
     "----DEVELOP------": "--------------------------------------------------------------",
     "prestart": "npm run link",
     "start": "npm run watch.component --silent",
+    "start:combo": "concurrently --names 'Component,Helper' --prefix-colors 'green,blue' \"npm run watch.component --silent\" \"cd ../mui-status-helper && npm run start\"",
     "----BUILD--------": "----------------------------------------------------------------",
     "prebuild.lib": "rm -rf ./lib && mkdir -p lib",
     "build.lib": "concurrently \"tsc\" \"tsc --module commonjs --outDir lib/cjs\"",
