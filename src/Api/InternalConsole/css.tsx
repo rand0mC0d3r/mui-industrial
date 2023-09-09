@@ -24,7 +24,7 @@ export const StyledWrapper : any = styled('div')<{ bottom: string }>(({ theme, b
   position: 'absolute',
   borderTop: bottom === 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
   borderBottom: bottom !== 'true' ? `1px solid ${theme.palette.divider}` : 'unset',
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.palette.background.paper,
   bottom: bottom === 'true' ? '0px' : 'unset',
   top: bottom !== 'true' ? '0px' : 'unset',
   left: '0px',
