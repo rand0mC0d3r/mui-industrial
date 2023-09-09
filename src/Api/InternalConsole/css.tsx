@@ -73,7 +73,7 @@ export const StyledTab: any = styled(Typography)<{ activated?: string }>(({ them
   userSelect: 'none',
   borderRight: `1px solid ${theme.palette.divider}`,
   backgroundColor: activated === 'true' ? theme.palette.primary.main : 'transparent',
-  color: activated === 'true' ? theme.palette.background.default : theme.palette.text.secondary,
+  color: activated === 'true' ? theme.palette.primary.contrastText : theme.palette.text.secondary,
 
   '&:hover': {
     backgroundColor: activated === 'true' ? theme.palette.primary.dark : theme.palette.divider,
