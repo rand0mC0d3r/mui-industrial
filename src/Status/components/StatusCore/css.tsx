@@ -100,7 +100,7 @@ export const SDiv: any = styled('div')<{
 
   cursor: (hasclick === 'true' && isdisabled === 'false') ? 'pointer' : '',
   backgroundColor: backgroundColor(theme, highlight),
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.text.primary,
 
   '& > div > *': {
     color: highlight !== 'default'
