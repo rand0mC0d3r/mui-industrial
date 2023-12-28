@@ -10,10 +10,10 @@ export const SBox: any = styled('div')<{ column?: string, slim?: boolean }>(({ c
   position: 'absolute',
   display: 'flex',
   top: slim ? column === PlacementPosition.TOP ? 'unset' : '0px' : '0px',
-  bottom: slim ? column === PlacementPosition.TOP ? '0px' : 'unset' : '0px',
+  bottom: slim ? column === PlacementPosition.BOTTOM ? '0px' : 'unset' : '0px',
   left: '0px',
   right: '0px',
-  zIndex: slim ? 2345 : 0,
+  zIndex: slim ? '2345' : '0',
 
   flexDirection: column === PlacementPosition.TOP ? 'column-reverse' : 'column',
 }));
