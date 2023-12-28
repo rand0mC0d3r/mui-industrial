@@ -9,7 +9,7 @@ export const SBox: any = styled('div')<{ column?: string, slim?: boolean }>(({ c
   gap: '0px',
   position: 'absolute',
   display: 'flex',
-  top: slim ? column === PlacementPosition.TOP ? 'unset' : '0px' : '0px',
+  top: slim ? column === PlacementPosition.TOP ? '0px' : 'unset' : '0px',
   bottom: slim ? column === PlacementPosition.BOTTOM ? '0px' : 'unset' : '0px',
   left: '0px',
   right: '0px',
