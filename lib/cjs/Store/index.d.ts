@@ -49,7 +49,8 @@ export interface DataContextInterface extends SnackbarsInterface {
     logDebug: any;
 }
 declare const DataContext: React.Context<DataContextInterface>;
-declare const IndustrialProvider: ({ expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
+declare const IndustrialProvider: ({ slim, expand, hasLock, position, allowRightClick, hasBorder, fullWidth, justifyContent, debug, children, style, size, variant, }: {
+    slim?: boolean | undefined;
     expand?: boolean | undefined;
     hasLock?: boolean | undefined;
     position?: PlacementPosition | undefined;
