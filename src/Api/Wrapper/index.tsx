@@ -16,9 +16,11 @@ const InternalCommands = lazy(() => import('../InternalCommands'));
 import { SBox, SChildren, SChildrenRow, SNotifications, SStatusContainer } from './css';
 
 export default ({
+  slim,
   children,
   style,
 } : {
+  slim?: boolean,
   children: ReactNode,
   style?: CSSProperties
 }): JSX.Element => {
@@ -54,15 +56,16 @@ export default ({
   // </>;
 
   return <>
-    <SBox id="mui-status-wrapper" {...{ column: position }}>
+    <SBox id="mui-status-wrapper" {...{ column: position, slim }}>
       <SChildrenRow>
         {/* {renderSidebar} */}
         <SChildren id="mui-status-children">
           {children}
-          {renderConsole}
-          {renderCommands}
+
         </SChildren>
       </SChildrenRow>
+      {renderConsole}
+      {renderCommands}
       {renderStatus}
       {renderNotifications}
       {renderKeyboards}

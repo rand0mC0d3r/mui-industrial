@@ -3,14 +3,14 @@ import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PlacementPosition } from '../../index.types';
 
-export const SBox: any = styled('div')<{ column?: string }>(({ column }) => ({
-  height: '100%',
-  width: '100%',
+export const SBox: any = styled('div')<{ column?: string, slim?: boolean }>(({ column, slim }) => ({
+  height: slim ? 'unset' : '100%',
+  width: slim ? 'unset' : '100%',
   gap: '0px',
   position: 'absolute',
   display: 'flex',
-  top: '0px',
-  bottom: '0px',
+  top: slim ? 'unset' : '0px',
+  bottom: slim ? 'unset' : '0px',
   left: '0px',
   right: '0px',
 

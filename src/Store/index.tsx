@@ -106,6 +106,7 @@ export interface DataContextInterface extends SnackbarsInterface {
 const DataContext = createContext({} as DataContextInterface);
 
 const IndustrialProvider = ({
+  slim,
   expand,
   hasLock,
   position = PlacementPosition.TOP,
@@ -119,6 +120,7 @@ const IndustrialProvider = ({
   size = 'small',
   variant = 'default',
 } : {
+  slim?: boolean,
   expand?: boolean,
   hasLock?: boolean,
   position?: PlacementPosition,
@@ -575,7 +577,7 @@ const IndustrialProvider = ({
       logDebug,
     }}
   >
-    <Wrapper {...{ children, style }} />
+    <Wrapper {...{ children, slim, style }} />
   </DataContext.Provider>;
 };
 
