@@ -19,7 +19,7 @@ export default ({ anchorEl, setAnchorEl } : { anchorEl: HTMLDivElement | null, s
     {/* {statusItem.children || <StyledTypographyNoChildren variant="caption" color="textSecondary">No content for child</StyledTypographyNoChildren>} */}
   </SElementItem>;
 
-  const entryWrapper = (statusItem: StatusObject) => <Tooltip {...{ key: statusItem.uniqueId, title: 'Toggle visibility of tile' }}>
+  const entryWrapper = (statusItem: StatusObject) => <Tooltip key={statusItem.uniqueId} {...{ title: 'Toggle visibility of tile' }}>
     {statusEntry(statusItem)}
   </Tooltip>;
 
