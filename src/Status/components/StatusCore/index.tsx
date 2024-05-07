@@ -138,10 +138,11 @@ export const StatusCore = forwardRef((props: StatusCoreProps, ref: any) => {
   return <>
     {(statusObject !== null && !!id && elementFound)
     && createPortal(
-      (statusObject.visible && children) && <SDiv {...{
+      (statusObject.visible && children) && <SDiv
+      key={`mui-status-${id}`}
+      {...{
         id,
         ref,
-        key: `mui-status-${id}`,
         onClick: handleOnClick,
         onContextMenu: handleOnContextMenu,
 
